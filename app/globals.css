@@ -2,20 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	@apply dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText;
 }
+
+@layer base {
+	.mainNavItem {
+		@apply hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-200;
+	}
+
+	.userMessage {
+		@apply bg-lightSecondary dark:bg-darkSecondary z-10 self-end after:absolute after:-bottom-1 after:-right-1 after:z-0 after:h-3 after:w-3 after:-rotate-[43deg] after:rounded-es-full after:bg-inherit;
+	}
+
+	.messageInput {
+		@apply placeholder:text-lightTextSecondary dark:bg-darkSecondary bg-lightSecondary dark:focus:ring-darkAccent dark:placeholder:text-darkTextSecondary focus:ring-lightAccent flex-1 rounded-lg px-2 py-2 ring-opacity-0 focus:outline-none focus:ring;
+	}
+
+	.pageContainer {
+		@apply h-full p-4 pt-10 md:p-10;
+	}
+
+	.spinner {
+		@apply border-t-lightPrimary dark:border-t-darkPrimary border-lightAccent/10 dark:border-darkAccent/10 h-24 w-24 rounded-full border-8;
+
+		animation: 1s spin linear infinite;
+	}
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+}
+
+/* ring-lightAccent dark:ring-darkAccent flex-1 rounded-md px-2 py-2 ring-[1px] ring-opacity-10 */
