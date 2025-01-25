@@ -3,28 +3,28 @@
 @tailwind utilities;
 
 body {
-	@apply dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText;
+	@apply bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText;
 }
 
 @layer base {
 	.mainNavItem {
-		@apply hover:text-lightAccent dark:hover:text-darkAccent cursor-pointer transition-all duration-200;
+		@apply cursor-pointer transition-all duration-200 hover:text-lightAccent dark:hover:text-darkAccent;
 	}
 
 	.userMessage {
-		@apply bg-lightSecondary dark:bg-darkSecondary z-10 self-end after:absolute after:-bottom-1 after:-right-1 after:z-0 after:h-3 after:w-3 after:-rotate-[43deg] after:rounded-es-full after:bg-inherit;
+		@apply z-10 self-end bg-lightSecondary after:absolute after:-bottom-1 after:-right-1 after:z-0 after:h-3 after:w-3 after:-rotate-[43deg] after:rounded-es-full after:bg-inherit dark:bg-darkSecondary;
 	}
 
 	.messageInput {
-		@apply placeholder:text-lightTextSecondary dark:bg-darkSecondary bg-lightSecondary dark:focus:ring-darkAccent dark:placeholder:text-darkTextSecondary focus:ring-lightAccent flex-1 rounded-lg px-2 py-2 ring-opacity-0 focus:outline-none focus:ring;
+		@apply flex-1 rounded-lg bg-lightSecondary px-2 py-2 ring-opacity-0 placeholder:text-lightTextSecondary focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:placeholder:text-darkTextSecondary dark:focus:ring-darkAccent;
 	}
 
 	.pageContainer {
-		@apply h-full p-4 pt-10 md:p-10;
+		@apply h-full max-h-full p-4 pt-10 md:p-10;
 	}
 
 	.spinner {
-		@apply border-t-lightPrimary dark:border-t-darkPrimary border-lightAccent/10 dark:border-darkAccent/10 h-24 w-24 rounded-full border-8;
+		@apply h-24 w-24 rounded-full border-8 border-lightAccent/10 border-t-lightPrimary dark:border-darkAccent/10 dark:border-t-darkPrimary;
 
 		animation: 1s spin linear infinite;
 	}

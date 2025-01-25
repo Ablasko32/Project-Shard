@@ -4,6 +4,7 @@ import Navigation from '@/app/_components/Navigation';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import Footer from '@/app/_components/Footer';
+import ReduxProvider from './_components/ReactRedux';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -24,20 +25,24 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${inter.className} h-[100dvh] max-h-[100dvh] overflow-auto overscroll-none antialiased`}
+				className={`${inter.className} overflow-auto overscroll-none antialiased`}
 			>
-				{/* Theme provider dark/light defaults to dark via class on body */}
-				<ThemeProvider
-					defaultTheme="dark"
-					attribute="class"
-					enableSystem={false}
-				>
-					<div className="divide-lightAccent dark:divide-darkPrimary grid h-[100dvh] max-h-[100dvh] grid-cols-1 grid-rows-[1fr,3%] !divide-opacity-10 md:grid-cols-[10%,1fr] md:divide-x-2">
-						<Navigation />
-						<main className="flex flex-col pt-6 md:pt-0">{children}</main>
-						<Footer />
-					</div>
-				</ThemeProvider>
+				<ReduxProvider>
+					{/* Theme provider dark/light defaults to dark via class on body */}
+					<ThemeProvider
+						defaultTheme="dark"
+						attribute="class"
+						enableSystem={false}
+					>
+						<div className="h-dvh max-h-dvh">
+							<div className="grid h-svh max-h-svh grid-cols-1 grid-rows-[1fr,3%] md:grid-cols-[10%,1fr]">
+								<Navigation />
+								<main className="flex flex-col pt-6 md:pt-0">{children}</main>
+								<Footer />
+							</div>
+						</div>
+					</ThemeProvider>
+				</ReduxProvider>
 			</body>
 		</html>
 	);

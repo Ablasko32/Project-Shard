@@ -2,18 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
+// hover:text-lightPrimary dark:hover:text-darkPrimary
 const mainNavClass: string =
-	'hover:text-lightPrimary dark:hover:text-darkPrimary w-1/3 cursor-pointer px-3 py-1 transition-all duration-200 ';
+	' w-1/3 cursor-pointer px-3 py-1 transition-all duration-200 text-center   ';
+
+// const activeNavClas: string =
+// 	'text-lightPrimary dark:text-darkPrimary disabled cursor-not-allowed';
 
 const activeNavClas: string =
-	'text-lightPrimary dark:text-darkPrimary disabled cursor-not-allowed';
+	'bg-lightPrimary dark:bg-darkPrimary dark:text-darkBg text-lightBg';
 
 export default function ModelsNavigation() {
 	const pathname = usePathname();
 
 	return (
-		<div className="border-lightPrimary dark:border-darkPrimary divide-lightPrimary dark:divide-darkPrimary flex items-center gap-2 divide-x !divide-opacity-30 rounded-md border px-2 text-sm font-semibold">
+		<div className="flex !w-[60%] max-w-52 items-center divide-x divide-lightPrimary !divide-opacity-30 overflow-hidden rounded-md border border-lightPrimary text-sm font-semibold dark:divide-darkPrimary dark:border-darkPrimary">
 			<Link
 				href="/models"
 				className={`${mainNavClass} ${pathname === '/models' ? activeNavClas : ''}`}

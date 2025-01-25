@@ -2,7 +2,6 @@ import Markdown from 'react-markdown';
 import { Message } from '../types/types';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-// import 'highlight.js/styles/stackoverflow-light.css';
 import 'highlight.js/styles/github-dark.css';
 
 function ChatMessage({ msg }: { msg: Message }) {
@@ -11,7 +10,7 @@ function ChatMessage({ msg }: { msg: Message }) {
 	return (
 		<>
 			<p
-				className={`${isUserMsg ? 'self-end' : ''} text-lightTextSecondary dark:text-darkTextSecondary capitalize`}
+				className={`${isUserMsg ? 'self-end' : ''} capitalize text-lightTextSecondary dark:text-darkTextSecondary`}
 			>
 				{msg.role === 'user' ? '' : 'AI'}
 			</p>
@@ -25,7 +24,7 @@ function ChatMessage({ msg }: { msg: Message }) {
 				{msg.content}
 			</Markdown>
 			<p
-				className={`text-lightTextSecondary dark:text-darkTextSecondary text-xs font-thin ${isUserMsg ? 'self-end' : ''}`}
+				className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
 			>
 				{msg.createdAt?.toLocaleTimeString()}
 			</p>

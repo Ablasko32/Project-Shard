@@ -51,8 +51,9 @@ function MobileNav() {
 					<motion.div
 						initial={{ x: -100 }}
 						animate={{ x: 0 }}
+						exit={{ x: -100 }}
 						ref={menuRef}
-						className="dark:bg-darkSecondary bg-lightSecondary border-r-lightAccent dark:border-r-darkAccent flex h-screen w-1/2 flex-col items-center justify-center border-r !border-opacity-20 p-4 md:hidden"
+						className="flex h-screen w-1/2 flex-col items-center justify-center border-r border-r-lightAccent !border-opacity-20 bg-lightSecondary p-4 dark:border-r-darkAccent dark:bg-darkSecondary md:hidden"
 					>
 						<div
 							onClick={() => setNavOpen(false)}
@@ -60,14 +61,16 @@ function MobileNav() {
 						>
 							<Logo />
 						</div>
-						<ul className="mb-auto flex flex-col gap-4">
+						<ul className="mb-auto flex flex-col items-center gap-4">
 							<li className="mainNavItem">
 								<Link href="/">Chat</Link>
 							</li>
 							<li className="mainNavItem">
 								<Link href="/models">Models</Link>
 							</li>
-							<li className="mainNavItem">Settings</li>
+							<li className="mainNavItem">
+								<Link href="/settings">Settings</Link>
+							</li>
 							<ThemeSwitch />
 						</ul>
 						<SocialIcons />
