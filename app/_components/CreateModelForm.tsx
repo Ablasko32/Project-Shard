@@ -3,14 +3,20 @@
 import CreateModelInput from '@/app/_components/CreateModelInput';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import TinySpinner from './TinySpinner';
 
 export interface CreateModel {
 	from: string;
 	model: string;
 	system?: string;
-	seed?: string;
-	temperature?: string;
-	mirostat_tau?: string;
+	seed?: string | number;
+	temperature?: string | number;
+	mirostat_tau?: string | number;
+	num_ctx?: string | number;
+	mirostat_eta?: string | number;
+	top_k?: string | number;
+	top_p?: string | number;
 }
 
 export default function CreateModelForm() {
@@ -20,30 +26,69 @@ export default function CreateModelForm() {
 		formState: { errors },
 	} = useForm<CreateModel>();
 
-	const onSubmit: SubmitHandler<CreateModel> = async data => {
-		console.log(data);
-		const result = await fetch('http://localhost:11434/api/create', {
-			headers: { 'Content-Type': 'application/json' },
-			method: 'POST',
-			body: JSON.stringify({
-				model: data.model.trim(),
-				from: data.from.trim(),
-				system: data.system ? data.system.trim() : '',
-				parameters: {
-					temperature: Number(data.temperature),
-					seed: Number(data.seed),
-					mirostat_tau: Number(data.mirostat_tau),
-				},
-			}),
-		});
-		if (!result.ok) {
-			throw new Error('Error creating model');
-		}
-		const responseBody = await result.text();
-		console.log(responseBody);
-		window.alert('MODEL CREATED');
+	const [isLoading, setLoading] = useState<boolean>(false);
 
-		console.log(result);
+	const onSubmit: SubmitHandler<CreateModel> = async data => {
+		// process data for unused values
+		const processedData: Record<string, string | number> = Object.entries(
+			data
+		).reduce(
+			(acc, [key, value]) => {
+				if (value && value.trim().length) {
+					if (
+						[
+							'temperature',
+							'seed',
+							'mirostat_tau',
+							'num_ctx',
+							'top_k',
+							'top_p',
+							'mirostat_eta',
+						].includes(key)
+					) {
+						acc[key] = parseFloat(value);
+						console.log('HERE', acc[key]);
+					} else {
+						acc[key] = value;
+					}
+				}
+				return acc;
+			},
+			{} as Record<string, string | number>
+		);
+
+		// console.log(processedData);
+
+		try {
+			const { model, from, system = null, ...rest } = processedData;
+			// console.log(rest);
+			setLoading(true);
+			const result = await fetch('http://localhost:11434/api/create', {
+				headers: { 'Content-Type': 'application/json' },
+				method: 'POST',
+				body: JSON.stringify({
+					model: model,
+					from: from,
+					system: system,
+					parameters: {
+						...rest,
+					},
+				}),
+			});
+			if (!result.ok) {
+				throw new Error('Error creating model');
+			}
+			const responseBody = await result.text();
+			console.log(responseBody);
+			window.alert('MODEL CREATED');
+
+			console.log(result);
+		} catch (err) {
+			console.error(err);
+			window.alert(err.message);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -114,15 +159,50 @@ export default function CreateModelForm() {
 				placeholder="mirostat tau"
 				name="mirostat tau"
 			/>
+			<CreateModelInput
+				register={register}
+				description="Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)"
+				id="mirostat_eta"
+				placeholder="mirostat eta"
+				name="mirostat eta"
+			/>
+			<CreateModelInput
+				register={register}
+				description="Sets the size of the context window used to generate the next token. (Default: 2048)"
+				id="num_ctx"
+				placeholder="Num ctx"
+				name="Num Ctx"
+			/>
+			<CreateModelInput
+				register={register}
+				description="Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)"
+				id="top_k"
+				placeholder="top_k"
+				name="top k"
+			/>
+			<CreateModelInput
+				register={register}
+				description="Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)"
+				id="top_p"
+				placeholder="top_p"
+				name="top p"
+			/>
 
+			{/* loading */}
+			{isLoading && (
+				<div className="flex justify-center">
+					<TinySpinner />
+				</div>
+			)}
 			<motion.button
+				disabled={isLoading}
 				whileHover={{ scale: 0.95 }}
 				whileTap={{ scale: 0.9 }}
 				transition={{ duration: 0.15 }}
 				type="submit"
-				className="mx-auto mb-4 mt-2 rounded-md bg-lightPrimary px-4 py-1 font-semibold text-lightBg dark:bg-darkPrimary dark:text-darkBg"
+				className="mx-auto mb-4 mt-2 rounded-md bg-lightPrimary px-4 py-1 font-semibold uppercase text-lightBg dark:bg-darkPrimary dark:text-darkBg"
 			>
-				CREATE
+				Create
 			</motion.button>
 		</form>
 	);
