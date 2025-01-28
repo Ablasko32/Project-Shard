@@ -1,5 +1,6 @@
-import TinySpinner from '@/app/_components/TinySpinner';
+import CreateModelForm from '@/app/_components/CreateModelForm';
 import { Metadata } from 'next';
+import { PiBrainLight } from 'react-icons/pi';
 
 export const metadata: Metadata = {
 	title: 'My Models-Create',
@@ -7,13 +8,23 @@ export const metadata: Metadata = {
 
 function page() {
 	return (
-		<div>
-			CREATE
-			<div>
-				<button>
-					<TinySpinner /> CLICK
-				</button>
+		<div className="flex w-full flex-col items-center justify-center gap-2 px-2">
+			{/* title */}
+			<div className="mb-2 flex flex-col items-center justify-center gap-1">
+				{' '}
+				<h2 className="flex items-center gap-1 text-lg font-bold capitalize lg:text-2xl">
+					{' '}
+					<PiBrainLight />
+					Create Your Model
+				</h2>
+				<p className="mx-4 text-center text-xs text-lightTextSecondary dark:text-darkTextSecondary lg:text-sm">
+					Choose a base model, configure it, and create your own personal
+					helper!
+				</p>
 			</div>
+
+			{/* create model form */}
+			<CreateModelForm />
 		</div>
 	);
 }
