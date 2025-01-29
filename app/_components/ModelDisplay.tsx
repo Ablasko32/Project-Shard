@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { switchModel } from '../models/modelSlice';
 import { useRouter } from 'next/navigation';
 import { deleteModel } from '../actions';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);
@@ -45,7 +47,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 				}
 
 				return (
-					<li className="p-2 lg:w-2/3 lg:self-center" key={idx}>
+					<li className="p-2 pr-3 lg:w-2/3 lg:self-center" key={idx}>
 						<div className="flex justify-between">
 							<div className="flex gap-3 font-light">
 								<p className="font-semibold">{el.name}</p>
@@ -125,12 +127,19 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 											transition: { duration: 0.1 },
 										}}
 										whileTap={{ scale: 0.85 }}
-										className="bg-lightError dark:bg-darkError flex items-center gap-1 rounded-lg px-2 py-1 text-xs uppercase text-lightBg dark:text-darkBg"
+										className="flex items-center gap-1 rounded-lg bg-lightError px-2 py-1 text-xs uppercase text-lightBg dark:bg-darkError dark:text-darkBg"
 									>
 										<CiTrash />
 										DELETE
 									</motion.button>
 								</div>
+								<Link
+									className="mt-2 flex items-center gap-1 text-sm underline"
+									href={`/models/${el.model}`}
+								>
+									Details
+									<FaArrowRight className="font-xs" />
+								</Link>
 							</motion.div>
 						)}
 					</li>

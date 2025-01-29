@@ -44,7 +44,7 @@ export default function PullModel() {
 		setAbortController(abortController);
 
 		try {
-			const response = await fetch('http://localhost:11434/api/pull', {
+			const response = await fetch('/api/proxy/api/pull', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/x-ndjson' },
 				body: JSON.stringify({

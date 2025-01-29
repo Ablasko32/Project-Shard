@@ -63,7 +63,7 @@ export default function CreateModelForm() {
 			const { model, from, system = null, ...rest } = processedData;
 			// console.log(rest);
 			setLoading(true);
-			const result = await fetch('http://localhost:11434/api/create', {
+			const result = await fetch('/api/proxy/api/create', {
 				headers: { 'Content-Type': 'application/json' },
 				method: 'POST',
 				body: JSON.stringify({

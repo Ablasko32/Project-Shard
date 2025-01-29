@@ -7,7 +7,7 @@ function layout({ children }: { children: React.ReactNode }) {
 				<h2 className="text-xl font-bold capitalize lg:text-3xl">My models</h2>
 				<ModelsNavigation />
 			</div>
-			<div className="h-full overflow-y-scroll pt-2">{children}</div>
+			<div className="h-[68rem] overflow-y-scroll pt-2">{children}</div>
 		</div>
 	);
 }

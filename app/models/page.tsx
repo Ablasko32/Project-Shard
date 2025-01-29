@@ -9,9 +9,14 @@ export const metadata: Metadata = {
 
 export async function page() {
 	// List of all models
-	const modelsList = await ollama.list();
+	let models;
+	try {
+		const modelsList = await ollama.list();
 
-	const models = modelsList.models;
+		models = modelsList.models;
+	} catch (err) {
+		throw new Error('Error fetching models');
+	}
 
 	return (
 		<div className="h-full max-h-full">
