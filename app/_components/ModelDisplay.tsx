@@ -100,7 +100,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 								initial={{ opacity: 0, height: 0 }}
 								animate={{ opacity: 1, height: 'auto' }}
 								transition={{ duration: 0.2, ease: easeInOut }}
-								className="mt-4 flex flex-col gap-1"
+								className="mt-4 flex w-72 flex-col gap-1 lg:w-full"
 							>
 								<p className="break-words text-xs text-lightTextSecondary dark:text-darkTextSecondary lg:text-sm">
 									{el.digest}
