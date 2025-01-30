@@ -25,7 +25,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${inter.className} overflow-auto overscroll-none antialiased`}
+				className={`${inter.className} h-dvh max-h-dvh overflow-hidden antialiased`}
 			>
 				<ReduxProvider>
 					{/* Theme provider dark/light defaults to dark via class on body */}
@@ -34,10 +34,12 @@ export default function RootLayout({
 						attribute="class"
 						enableSystem={false}
 					>
-						<div className="h-dvh max-h-dvh">
+						<div className="">
 							<div className="grid h-svh max-h-svh grid-cols-1 grid-rows-[1fr,3%] md:grid-cols-[10%,1fr]">
 								<Navigation />
-								<main className="flex flex-col pt-6 md:pt-0">{children}</main>
+								<main className="flex max-h-full flex-col pt-6 md:pt-0">
+									{children}
+								</main>
 								<Footer />
 							</div>
 						</div>
