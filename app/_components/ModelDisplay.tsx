@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { deleteModel } from '../actions';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);
@@ -24,7 +25,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	async function handleDeleteModel(modelName: string) {
 		if (!window.confirm('Are you sure')) return;
 		const result = await deleteModel(modelName);
-		console.log('deletin', result);
+		toast.success('Model deleted');
 	}
 
 	return (
@@ -41,7 +42,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 				function handleSelectModel(modelName: string): void {
 					// dispatch new name to store
 					dispatch(switchModel(modelName));
-					window.alert(`Model set to: ${modelName}`);
+					toast.success('Model switched');
 					// navigate back to chat
 					router.push('/');
 				}
@@ -89,7 +90,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 									whileTap={{ scale: 0.85 }}
 									className="rounded-full bg-lightPrimary p-2 text-lightBg transition-all duration-150 dark:bg-darkPrimary dark:text-darkBg"
 								>
-									<LuPlay />
+									<LuPlay className="stroke-[2px]" />
 								</motion.button>
 							</div>
 						</div>
@@ -127,7 +128,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 											transition: { duration: 0.1 },
 										}}
 										whileTap={{ scale: 0.85 }}
-										className="flex items-center gap-1 rounded-lg bg-lightError px-2 py-1 text-xs uppercase text-lightBg dark:bg-darkError dark:text-darkBg"
+										className="flex items-center gap-1 rounded-lg bg-lightError px-2 py-1 text-xs font-semibold uppercase text-lightBg dark:bg-darkError dark:text-darkBg"
 									>
 										<CiTrash />
 										DELETE

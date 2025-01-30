@@ -7,6 +7,8 @@ import Link from 'next/link';
 import ChatLoader from './_components/ChatLoader';
 import { useSelector } from 'react-redux';
 import { FormEvent } from 'react';
+import toast from 'react-hot-toast';
+import { GoAlert } from 'react-icons/go';
 
 export default function Home() {
 	const selectedAIModel: string = useSelector(store => store.model.model);
@@ -26,13 +28,15 @@ export default function Home() {
 
 	function handleMessageSubmit(e: FormEvent): void {
 		e.preventDefault();
-		if (selectedAIModel == 'Select a model')
-			return window.alert('Select a model irst');
+		if (selectedAIModel == 'Select a model') {
+			toast.error('Select a model first');
+			return;
+		}
 		handleSubmit();
 	}
 
 	// console.log(error);
-	if (error) return <p>Error</p>;
+	// if (error) return <p>Error</p>;
 
 	return (
 		<div className="pageContainer flex min-w-full flex-col">
@@ -44,8 +48,17 @@ export default function Home() {
 			</Link>
 			<div className="mt-8 flex h-full max-h-full flex-1 items-start justify-center overflow-y-scroll">
 				{/* Display messages or logo */}
+
 				<MessageDisplay messages={messages} />
 			</div>
+
+			{/* error */}
+			{error && (
+				<p className="mb-2 flex items-center justify-center gap-1 text-center text-xs text-lightError dark:text-darkError lg:text-sm">
+					<GoAlert />
+					Chat Error!
+				</p>
+			)}
 
 			<div className="relative flex items-end justify-center py-4">
 				<ChatLoader isVisible={isLoading} />

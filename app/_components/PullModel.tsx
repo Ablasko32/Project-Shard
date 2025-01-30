@@ -5,6 +5,7 @@ import ModelPullDescription from './ModelPullDescription';
 import TinySpinner from './TinySpinner';
 import { motion } from 'framer-motion';
 import { FaStopCircle } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 interface Progress {
 	total: number;
@@ -21,21 +22,8 @@ export default function PullModel() {
 	const [abortController, setAbortController] =
 		useState<AbortController | null>(null);
 
-	// async function handleModelPull(e: FormEvent) {
-	// 	e.preventDefault();
-	// 	if (!modelName || !modelName.length) return;
-	// 	setLoading(true);
-	// 	try {
-	// 		await pullModel(modelName);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	} finally {
-	// 		setLoading(false);
-	// 	}
-	// }
-
-	async function handleModelPullAxios(e) {
-		console.log('CLICK');
+	async function handleModelPull(e) {
+		// console.log('CLICK');
 		e.preventDefault();
 		if (!modelName || !modelName.length) return;
 
@@ -74,7 +62,7 @@ export default function PullModel() {
 					if (line.trim() === '') continue;
 					try {
 						const chunk = JSON.parse(line);
-						console.log(chunk);
+						// console.log(chunk);
 						setProgress(prev => {
 							if (!chunk.total || !chunk.completed) return prev;
 							if (chunk.completed === chunk.total) return prev;
@@ -90,7 +78,6 @@ export default function PullModel() {
 						// Process each chunk as needed
 					} catch (err) {
 						console.error('Error parsing chunk:', err);
-						window.alert(err);
 					}
 				}
 			}
@@ -98,13 +85,15 @@ export default function PullModel() {
 			if (buffer.trim() !== '') {
 				try {
 					const chunk = JSON.parse(buffer);
-					console.log(chunk);
+					toast.success('Model pulled successfully');
+					// console.log(chunk);
 					// Process the final chunk as needed
 				} catch (err) {
 					console.error('Error parsing final chunk:', err);
 				}
 			}
 		} catch (error) {
+			toast.error('Error pulling model');
 			console.error('Error pulling model:', error);
 		} finally {
 			setLoading(false);
@@ -114,7 +103,7 @@ export default function PullModel() {
 
 	function abortPull() {
 		abortController?.abort();
-		window.alert('ABORTED');
+		toast.success('Pull aborted');
 	}
 
 	const progressValue = (progress.completed / progress.total) * 100;
@@ -122,7 +111,7 @@ export default function PullModel() {
 	return (
 		<div className="flex flex-col items-center gap-6">
 			<form
-				onSubmit={handleModelPullAxios}
+				onSubmit={handleModelPull}
 				className="flex w-full flex-col gap-4 lg:w-[50%]"
 			>
 				<input

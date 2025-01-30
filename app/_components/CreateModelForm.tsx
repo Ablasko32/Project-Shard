@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import TinySpinner from './TinySpinner';
+import toast from 'react-hot-toast';
 
 export interface CreateModel {
 	from: string;
@@ -79,13 +80,13 @@ export default function CreateModelForm() {
 				throw new Error('Error creating model');
 			}
 			const responseBody = await result.text();
-			console.log(responseBody);
-			window.alert('MODEL CREATED');
+			// console.log(responseBody);
+			toast.success('Model created sucesfully');
 
-			console.log(result);
+			// console.log(result);
 		} catch (err) {
 			console.error(err);
-			window.alert(err.message);
+			toast.error('Error creating model');
 		} finally {
 			setLoading(false);
 		}
