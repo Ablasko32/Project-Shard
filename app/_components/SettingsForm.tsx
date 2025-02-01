@@ -1,6 +1,6 @@
 'use client';
 
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { SettingsData, updateSettings } from '../settings/settingSlice';
 import { RootState } from '../store';
@@ -16,7 +16,7 @@ export default function SettingsForm() {
 		defaultValues: { username, defaultSystemMessage },
 	});
 
-	function onSubmit(data: FieldValues) {
+	function onSubmit(data: SettingsData) {
 		if (!data.username && !data.defaultSystemMessage) return;
 		try {
 			dispatch(updateSettings(data));

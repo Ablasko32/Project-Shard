@@ -2,6 +2,10 @@ import { ollama } from '@/app/services/ollama';
 import { streamText } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 
+interface Body {
+	model: string;
+}
+
 // post messages from the front end
 export async function POST(request: NextRequest) {
 	try {
@@ -14,6 +18,7 @@ export async function POST(request: NextRequest) {
 		const aiResponse = streamText({
 			model: ollama(body.model),
 			messages: body.messages,
+			system: body.settingsSystemMessage,
 		});
 
 		return aiResponse.toDataStreamResponse();
