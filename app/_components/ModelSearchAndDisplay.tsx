@@ -7,7 +7,7 @@ export default function ModelSearchAndDisplay({ models }: { models: Model[] }) {
 	const [searchValue, setSearchValue] = useState<string>('');
 
 	const filteredModels = models.filter(model =>
-		model.name.startsWith(searchValue.toLowerCase())
+		model.name.startsWith(searchValue.toLowerCase().trim())
 	);
 
 	return (

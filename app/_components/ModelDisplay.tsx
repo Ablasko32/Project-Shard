@@ -2,16 +2,16 @@
 import { Model } from '../types/types';
 import { LuPlay } from 'react-icons/lu';
 import { useState } from 'react';
-import { CiTrash } from 'react-icons/ci';
 import { easeInOut, motion } from 'framer-motion';
-import { PiInfoLight } from 'react-icons/pi';
 import { useDispatch } from 'react-redux';
 import { switchModel } from '../models/modelSlice';
 import { useRouter } from 'next/navigation';
-import { deleteModel } from '../actions';
+import { revalidatePathAction } from '../actions';
 import Link from 'next/link';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaRegTrashAlt } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import Button from './Button';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);
@@ -22,15 +22,28 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 
 	const router = useRouter();
 
-	async function handleDeleteModel(modelName: string) {
-		if (!window.confirm('Are you sure')) return;
-		const result = await deleteModel(modelName);
-		toast.success('Model deleted');
+	// deletes model and revallidates path
+	async function handleDeleteModel(modelName: string): Promise<void> {
+		// asks user for confirmation then deletes model based on model name and throws a toast
+		if (!window.confirm('Do you want to delete model?')) return;
+
+		const result = await fetch('api/proxy/api/delete', {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ model: modelName }),
+		});
+		if (result.ok) {
+			revalidatePathAction('/models');
+			toast.success('Model deleted');
+		} else {
+			toast.error('Failed to delete model');
+		}
 	}
 
 	return (
 		<ul className="flex h-full flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 dark:divide-darkSecondary">
 			{modelsList.map((el, idx) => {
+				// opens model details on click
 				function handleOpen(): void {
 					if (idx === openIndex) {
 						setOpenIndex(null);
@@ -39,6 +52,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 					setOpenIndex(idx);
 				}
 
+				// selects model as current model in redux store
 				function handleSelectModel(modelName: string): void {
 					// dispatch new name to store
 					dispatch(switchModel(modelName));
@@ -67,27 +81,23 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 							{/* buttons */}
 							<div className="flex flex-1 justify-between">
 								{' '}
-								<motion.button
-									whileHover={{
-										scale: 0.95,
-										transition: { duration: 0.1 },
-									}}
-									whileTap={{ scale: 0.9 }}
+								<Button
+									type="secondary"
 									onClick={handleOpen}
-									className="flex items-center gap-1 rounded-xl bg-lightSecondary px-2 py-1 text-sm uppercase transition-all duration-150 hover:opacity-80 dark:bg-darkSecondary"
+									className="text-xs !font-medium"
 								>
-									<PiInfoLight />
-									<span className="text-xs">
-										{idx === openIndex ? 'Close' : 'info'}
-									</span>
-								</motion.button>
+									<IoInformationCircleOutline />
+
+									{idx === openIndex ? 'Close' : 'info'}
+								</Button>
+								{/* play button */}
 								<motion.button
 									onClick={() => handleSelectModel(el.name)}
 									whileHover={{
 										scale: 0.95,
 										transition: { duration: 0.1 },
 									}}
-									whileTap={{ scale: 0.85 }}
+									whileTap={{ scale: 0.9 }}
 									className="rounded-full bg-lightPrimary p-2 text-lightBg transition-all duration-150 dark:bg-darkPrimary dark:text-darkBg"
 								>
 									<LuPlay className="stroke-[2px]" />
@@ -121,26 +131,24 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 										</p>
 									</div>
 									{/* delete button */}
-									<motion.button
-										onClick={() => handleDeleteModel(el.name)}
-										whileHover={{
-											scale: 0.95,
-											transition: { duration: 0.1 },
-										}}
-										whileTap={{ scale: 0.85 }}
-										className="flex items-center gap-1 rounded-lg bg-lightError px-2 py-1 text-xs font-semibold uppercase text-lightBg dark:bg-darkError dark:text-darkBg"
-									>
-										<CiTrash />
-										DELETE
-									</motion.button>
+									<div className="flex flex-col gap-4 lg:flex-row">
+										{' '}
+										<Button
+											type="danger"
+											onClick={() => handleDeleteModel(el.name)}
+											className="text-xs"
+										>
+											<FaRegTrashAlt />
+											DELETE
+										</Button>
+										<Link href={`/models/${el.model}`}>
+											<Button className="text-xs" type="secondary">
+												<FaArrowRight />
+												Details
+											</Button>
+										</Link>
+									</div>
 								</div>
-								<Link
-									className="mt-2 flex items-center gap-1 text-sm underline"
-									href={`/models/${el.model}`}
-								>
-									Details
-									<FaArrowRight className="font-xs" />
-								</Link>
 							</motion.div>
 						)}
 					</li>

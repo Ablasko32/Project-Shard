@@ -17,7 +17,6 @@ export default async function page({
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				model: modelName,
-				verbose: true,
 			}),
 		});
 		if (!response.ok) {

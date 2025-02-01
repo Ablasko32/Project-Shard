@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { GoAlert } from 'react-icons/go';
+import Button from '@/app/_components/Button';
 
 export default function error({
 	error,
@@ -24,21 +25,15 @@ export default function error({
 				<p className="my-6 max-h-32 overflow-y-scroll text-center">
 					{error.message}
 				</p>
-				<div className="flex flex-row items-center gap-4 lg:gap-8">
-					<button
-						className="rounded-md bg-lightPrimary px-2 py-1 font-semibold text-lightBg dark:bg-darkPrimary dark:text-darkBg"
-						onClick={reset}
-					>
-						Try again?
-					</button>
-					{/* <p className="text-sm text-lightTextSecondary dark:text-darkTextSecondary lg:hidden">
-						or
-					</p> */}
-					<Link
-						className="rounded-md border border-lightPrimary px-2 py-1 font-semibold dark:border-lightPrimary"
-						href="/"
-					>
-						Go home?
+				<div className="flex flex-row items-center gap-4 lg:gap-6">
+					<Button className="text-sm" onClick={reset}>
+						Try again
+					</Button>
+
+					<Link href="/">
+						<Button className="text-sm" type="secondary">
+							Go home
+						</Button>
 					</Link>
 				</div>
 			</div>

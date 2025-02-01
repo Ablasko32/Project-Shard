@@ -19,8 +19,8 @@ export default function Button({
 	const styleTypes: { [key: string]: string } = {
 		primary:
 			'bg-lightPrimary text-lightBg dark:bg-darkPrimary dark:text-darkBg',
-		danger: 'bg-lightError dark:bg-darkError',
-		secondary: '',
+		danger: 'bg-lightError dark:bg-darkError text-lightBg dark:text-darkBg',
+		secondary: 'bg-lightSecondary dark:bg-darkSecondary',
 	};
 	return (
 		<motion.button
