@@ -19,7 +19,7 @@ export default async function page({
 	// console.log(responseData);
 
 	return (
-		<div className="mx-auto flex max-w-6xl flex-col gap-6">
+		<div className="mx-auto flex max-w-2xl flex-col gap-6 lg:max-w-6xl">
 			{/* back button */}
 			<Link href="/models">
 				<Button type="secondary" className="text-sm">
@@ -35,7 +35,7 @@ export default async function page({
 			</div>
 
 			{/* details */}
-			<div className="mx-auto flex min-w-full flex-col items-center gap-4">
+			<div className="mx-auto flex w-full flex-col items-center gap-4">
 				{/* modified */}
 				<ModelShowDetailComponent title="Modified">
 					{new Date(responseData.modified_at).toLocaleDateString()}
@@ -56,9 +56,11 @@ export default async function page({
 				)}
 
 				{/* system message */}
-				<ModelShowDetailComponent title="System Message">
-					{responseData.system}
-				</ModelShowDetailComponent>
+				{responseData.system && (
+					<ModelShowDetailComponent title="System Message">
+						{responseData.system}
+					</ModelShowDetailComponent>
+				)}
 
 				{/* parameters */}
 				{responseData.parameters && (

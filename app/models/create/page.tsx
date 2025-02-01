@@ -10,11 +10,11 @@ function page() {
 	return (
 		<div className="flex w-full flex-col items-center justify-center gap-2 px-2">
 			{/* title */}
-			<div className="mb-2 flex flex-col items-center justify-center gap-1">
-				{' '}
-				<h2 className="flex items-center gap-1 text-lg font-bold capitalize lg:text-2xl">
-					{' '}
-					<PiBrainLight />
+			<div className="mb-6 flex flex-col items-center justify-center gap-1">
+				<h2 className="flex flex-col items-center gap-1 text-xl font-bold capitalize lg:text-2xl">
+					<span className="text-2xl lg:text-3xl">
+						<PiBrainLight />
+					</span>
 					Create Your Model
 				</h2>
 				<p className="mx-4 text-center text-xs text-lightTextSecondary dark:text-darkTextSecondary lg:text-sm">

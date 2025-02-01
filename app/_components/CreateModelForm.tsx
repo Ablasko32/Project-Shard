@@ -2,10 +2,11 @@
 
 import CreateModelInput from '@/app/_components/CreateModelInput';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
-import TinySpinner from './TinySpinner';
+import TinySpinner from '@/app/_components/TinySpinner';
 import toast from 'react-hot-toast';
+import Button from '@/app/_components/Button';
+import { HiOutlineSparkles } from 'react-icons/hi';
 
 export interface CreateModel {
 	from: string;
@@ -93,7 +94,10 @@ export default function CreateModelForm() {
 	};
 
 	return (
-		<form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className="flex flex-col gap-8 pr-1 lg:gap-10"
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			<CreateModelInput
 				register={register}
 				description="Name of the model"
@@ -124,7 +128,7 @@ export default function CreateModelForm() {
 			/>
 
 			{/* params part */}
-			<div className="flex flex-col gap-1">
+			<div className="mb-6 mt-8 flex flex-col gap-1">
 				{' '}
 				<div className="mt-1 flex items-center gap-1">
 					<p className="h-0.5 flex-grow rounded-md bg-lightPrimary !opacity-20 dark:bg-darkPrimary"></p>
@@ -195,16 +199,10 @@ export default function CreateModelForm() {
 					<TinySpinner />
 				</div>
 			)}
-			<motion.button
-				disabled={isLoading}
-				whileHover={{ scale: 0.95 }}
-				whileTap={{ scale: 0.9 }}
-				transition={{ duration: 0.15 }}
-				type="submit"
-				className="mx-auto mb-4 mt-2 rounded-md bg-lightPrimary px-4 py-1 font-semibold uppercase text-lightBg dark:bg-darkPrimary dark:text-darkBg"
-			>
+			<Button className="mx-auto mb-4 mt-2">
+				<HiOutlineSparkles />
 				Create
-			</motion.button>
+			</Button>
 		</form>
 	);
 }

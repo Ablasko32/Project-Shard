@@ -1,11 +1,11 @@
 'use client';
 import { IoCloudDownloadOutline } from 'react-icons/io5';
 import { useState } from 'react';
-import ModelPullDescription from './ModelPullDescription';
-import TinySpinner from './TinySpinner';
-import { motion } from 'framer-motion';
-import { FaStopCircle } from 'react-icons/fa';
+import ModelPullDescription from '@/app/_components/ModelPullDescription';
+import TinySpinner from '@/app/_components/TinySpinner';
 import toast from 'react-hot-toast';
+import Button from '@/app/_components/Button';
+import { FiStopCircle } from 'react-icons/fi';
 
 interface Progress {
 	total: number;
@@ -22,21 +22,23 @@ export default function PullModel() {
 	const [abortController, setAbortController] =
 		useState<AbortController | null>(null);
 
+	// Pull models from ollama
 	async function handleModelPull(e) {
-		// console.log('CLICK');
 		e.preventDefault();
 		if (!modelName || !modelName.length) return;
 
+		// initializing abort controller for stoppimg the stream
 		setLoading(true);
 		const abortController = new AbortController();
 		setAbortController(abortController);
 
+		// try to fetch the stream
 		try {
 			const response = await fetch('/api/proxy/api/pull', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/x-ndjson' },
 				body: JSON.stringify({
-					model: modelName,
+					model: modelName.trim(),
 				}),
 				signal: abortController.signal,
 			});
@@ -45,24 +47,31 @@ export default function PullModel() {
 				throw new Error('ReadableStream not supported in this browser.');
 			}
 
+			// initialize body reader and decoder
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 			let buffer = '';
 
+			// start looping over the values if done break
 			while (true) {
 				const { done, value } = await reader.read();
 				if (done) break;
 
+				// for every value ,decode it and add to buffer
 				buffer += decoder.decode(value, { stream: true });
 
+				// clear buffer of new lines
 				const lines = buffer.split('\n');
 				buffer = lines.pop() || '';
 
+				// for every line of data recived
 				for (const line of lines) {
 					if (line.trim() === '') continue;
 					try {
+						// parse that line as json and generate chunk of data
 						const chunk = JSON.parse(line);
 						// console.log(chunk);
+						// set progress to keep track of amount left
 						setProgress(prev => {
 							if (!chunk.total || !chunk.completed) return prev;
 							if (chunk.completed === chunk.total) return prev;
@@ -82,17 +91,20 @@ export default function PullModel() {
 				}
 			}
 
-			if (buffer.trim() !== '') {
-				try {
-					const chunk = JSON.parse(buffer);
-					toast.success('Model pulled successfully');
-					// console.log(chunk);
-					// Process the final chunk as needed
-				} catch (err) {
-					console.error('Error parsing final chunk:', err);
-				}
-			}
+			//last buffer chunk if needed
+			// if (buffer.trim() !== '') {
+			// 	try {
+			// 		const chunk = JSON.parse(buffer);
+			// 		toast.success('Model pulled successfully');
+			// 		// console.log(chunk);
+			// 		// Process the final chunk as needed
+			// 	} catch (err) {
+			// 		console.error('Error parsing final chunk:', err);
+			// 	}
+			// }
 		} catch (error) {
+			//if abort ignore error
+			if (error instanceof Error && error.name === 'AbortError') return;
 			toast.error('Error pulling model');
 			console.error('Error pulling model:', error);
 		} finally {
@@ -101,6 +113,7 @@ export default function PullModel() {
 		}
 	}
 
+	// aborts model pull
 	function abortPull() {
 		abortController?.abort();
 		toast.success('Pull aborted');
@@ -128,40 +141,22 @@ export default function PullModel() {
 							<p>{progressValue.toFixed(2)}%</p>
 						</div>
 					)}
-					<motion.button
-						whileHover={{
-							scale: 0.95,
-						}}
-						whileTap={{
-							scale: 0.85,
-						}}
-						transition={{ duration: 0.2 }}
-						disabled={isLoading}
-						type="submit"
-						className="flex w-1/3 items-center justify-center gap-1 self-center rounded-lg bg-lightPrimary py-1 font-semibold uppercase text-lightBg dark:bg-darkPrimary dark:text-darkBg lg:w-1/5"
-					>
+					<Button type="primary" className="w-1/3 self-center lg:w-1/5">
 						<IoCloudDownloadOutline />
 						{isLoading ? 'Pulling' : 'Pull'}
-					</motion.button>
+					</Button>
+					{/* abort button */}
 					{isLoading && (
-						<motion.button
+						<Button
+							type="danger"
 							onClick={abortPull}
-							whileHover={{
-								scale: 0.95,
-							}}
-							whileTap={{
-								scale: 0.85,
-							}}
-							transition={{ duration: 0.2 }}
-							className="flex w-1/3 items-center justify-center gap-1 self-center rounded-lg bg-lightError py-1 font-semibold uppercase text-lightBg dark:bg-darkError dark:text-darkBg lg:w-1/5"
+							className="w-1/3 self-center lg:w-1/5"
 						>
-							<FaStopCircle />
+							<FiStopCircle />
 							Abort
-						</motion.button>
+						</Button>
 					)}
 				</div>
-
-				{/* abort button */}
 			</form>
 			<ModelPullDescription />
 		</div>

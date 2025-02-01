@@ -1,6 +1,7 @@
 import { RegisterOptions, UseFormRegister } from 'react-hook-form';
 import { GoAlert, GoQuestion } from 'react-icons/go';
-import { CreateModel } from './CreateModelForm';
+import { CreateModel } from '@/app/_components/CreateModelForm';
+import { VscTriangleRight } from 'react-icons/vsc';
 
 interface CreateModelInput {
 	name: string;
@@ -25,9 +26,14 @@ export default function CreateModelInput({
 }: CreateModelInput) {
 	return (
 		<div className="flex flex-col gap-1">
-			<label className="flex gap-1 text-sm capitalize lg:text-lg" htmlFor={id}>
-				<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-				<span> {name}</span>
+			<label
+				className="flex items-center gap-1 text-sm capitalize lg:text-lg"
+				htmlFor={id}
+			>
+				<span className="text-xl text-lightPrimary dark:text-darkPrimary">
+					<VscTriangleRight />
+				</span>
+				<span className="font-semibold"> {name}</span>
 			</label>
 			<div className="flex items-center gap-1 rounded-md p-1 text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary lg:text-sm">
 				<div>
