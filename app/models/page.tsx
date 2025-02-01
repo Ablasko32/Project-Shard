@@ -1,7 +1,7 @@
 import React from 'react';
 import { type Metadata } from 'next';
 import ModelSearchAndDisplay from '../_components/ModelSearchAndDisplay';
-import { Model } from '../types/types';
+import { getAllOllamaModels } from '@/app/services/ollamaApi';
 
 export const metadata: Metadata = {
 	title: 'My Models',
@@ -10,11 +10,7 @@ export const metadata: Metadata = {
 export async function page() {
 	// List of all models
 
-	const result = await fetch('http://localhost:3000/api/proxy/api/tags');
-	if (!result.ok) {
-		throw new Error('Error fetching models');
-	}
-	const models: { models: Model[] } = await result.json();
+	const models = await getAllOllamaModels();
 
 	return (
 		<div className="h-full max-h-full">

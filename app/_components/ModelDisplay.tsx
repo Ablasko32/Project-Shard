@@ -1,17 +1,17 @@
 'use client';
-import { Model } from '../types/types';
+import { Model } from '@/app/types/types';
 import { LuPlay } from 'react-icons/lu';
 import { useState } from 'react';
 import { easeInOut, motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { switchModel } from '../models/modelSlice';
+import { switchModel } from '@/app/models/modelSlice';
 import { useRouter } from 'next/navigation';
-import { revalidatePathAction } from '../actions';
 import Link from 'next/link';
 import { FaArrowRight, FaRegTrashAlt } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import Button from './Button';
+import Button from '@/app/_components/Button';
 import { IoInformationCircleOutline } from 'react-icons/io5';
+import { deleteOllamaModel } from '@/app/services/ollamaApi';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);
@@ -27,17 +27,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 		// asks user for confirmation then deletes model based on model name and throws a toast
 		if (!window.confirm('Do you want to delete model?')) return;
 
-		const result = await fetch('api/proxy/api/delete', {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ model: modelName }),
-		});
-		if (result.ok) {
-			revalidatePathAction('/models');
-			toast.success('Model deleted');
-		} else {
-			toast.error('Failed to delete model');
-		}
+		await deleteOllamaModel(modelName);
 	}
 
 	return (

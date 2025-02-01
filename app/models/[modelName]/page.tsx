@@ -1,3 +1,7 @@
+import Button from '@/app/_components/Button';
+import ModelShowDetailComponent from '@/app/_components/ModelShowDetailComponent';
+import TextExpander from '@/app/_components/TextExpander';
+import { getOllamaModelInfo } from '@/app/services/ollamaApi';
 import Link from 'next/link';
 import { IoMdArrowBack } from 'react-icons/io';
 import { PiBrainLight } from 'react-icons/pi';
@@ -8,105 +12,74 @@ export default async function page({
 }: {
 	params: { modelName: string };
 }) {
-	const modelName: string = params.modelName.replace('%3A', ':');
+	const awaitedParams = await params;
+	const modelName: string = awaitedParams.modelName.replace('%3A', ':');
 
-	let responseData;
-	try {
-		const response = await fetch('http://localhost:3000/api/proxy/api/show', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				model: modelName,
-			}),
-		});
-		if (!response.ok) {
-			throw new Error('Error to fetch model details');
-		}
-		const data = await response.json();
-		console.log(data);
-		responseData = data;
-	} catch (err) {
-		console.log(err);
-		throw new Error('Error fetching model details');
-	}
+	const responseData = await getOllamaModelInfo(modelName);
+	// console.log(responseData);
 
 	return (
-		<div className="flex flex-col gap-6">
-			<Link className="text-2xl lg:text-3xl" href="/models">
-				<IoMdArrowBack />
+		<div className="mx-auto flex max-w-6xl flex-col gap-6">
+			{/* back button */}
+			<Link href="/models">
+				<Button type="secondary" className="text-sm">
+					<IoMdArrowBack />
+					<span>Back</span>
+				</Button>
 			</Link>
 
-			<div className="mb-4 flex flex-col items-center text-xl font-semibold lg:text-3xl">
-				<PiBrainLight className="text-2xl lg:text-4xl" />{' '}
+			{/* title name of model */}
+			<div className="mb-4 flex flex-col items-center text-2xl font-semibold lg:text-4xl">
+				<PiBrainLight className="text-3xl lg:text-4xl" />
 				<span>{modelName}</span>
 			</div>
 
 			{/* details */}
-			<div className="mx-auto flex max-w-full flex-col items-center gap-4">
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Modified:</span>
-					</p>
-					<p className="text-lightTextSecondary dark:text-darkTextSecondary">
-						{new Date(responseData.modified_at).toLocaleDateString()}
-					</p>
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Context length:</span>
-					</p>
-					<p className="text-lightTextSecondary dark:text-darkTextSecondary">
-						{responseData.model_info['llama.context_length']}
-					</p>
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Quantization level:</span>
-					</p>
-					<p className="text-lightTextSecondary dark:text-darkTextSecondary">
-						{responseData.details.quantization_level}
-					</p>
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>System message:</span>
-					</p>
+			<div className="mx-auto flex min-w-full flex-col items-center gap-4">
+				{/* modified */}
+				<ModelShowDetailComponent title="Modified">
+					{new Date(responseData.modified_at).toLocaleDateString()}
+				</ModelShowDetailComponent>
 
-					<p className="text-lightTextSecondary dark:text-darkTextSecondary">
-						{responseData.system}
-					</p>
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Parameteres:</span>
-					</p>
-					<p className="text-lightTextSecondary dark:text-darkTextSecondary">
+				{/* context lenght */}
+				{responseData.model_info['llama.context_length'] && (
+					<ModelShowDetailComponent title="Context lenght">
+						{responseData.model_info['llama.context_length']}
+					</ModelShowDetailComponent>
+				)}
+
+				{/* quantization */}
+				{responseData.details.quantization_level && (
+					<ModelShowDetailComponent title="Quantization Level">
+						{responseData.details.quantization_level}
+					</ModelShowDetailComponent>
+				)}
+
+				{/* system message */}
+				<ModelShowDetailComponent title="System Message">
+					{responseData.system}
+				</ModelShowDetailComponent>
+
+				{/* parameters */}
+				{responseData.parameters && (
+					<ModelShowDetailComponent title="Parameters">
 						{responseData.parameters}
-					</p>{' '}
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Template:</span>
-					</p>
-					<p className="leading-relaxed text-lightTextSecondary dark:text-darkTextSecondary">
-						{responseData.template}
-					</p>
-				</div>
-				<div className="flex w-full flex-col pr-4">
-					<p className="flex gap-1 capitalize lg:text-lg">
-						<span className="w-0.5 rounded-full bg-lightPrimary"></span>
-						<span>Model file:</span>
-					</p>
-					<p className="break-words leading-relaxed text-lightTextSecondary dark:text-darkTextSecondary">
-						{responseData.modelfile}
-					</p>
-				</div>
+					</ModelShowDetailComponent>
+				)}
+
+				{/* template */}
+				{responseData.template && (
+					<ModelShowDetailComponent title="Template">
+						<TextExpander body={responseData.template} />
+					</ModelShowDetailComponent>
+				)}
+
+				{/* Model file */}
+				{responseData.modelfile && (
+					<ModelShowDetailComponent title="Model file">
+						<TextExpander body={responseData.modelfile} />
+					</ModelShowDetailComponent>
+				)}
 			</div>
 		</div>
 	);
