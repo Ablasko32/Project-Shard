@@ -1,4 +1,4 @@
-import { ollama } from '@/app/services/ollamaClient';
+import { ollama } from '@/app/_lib/ollamaClient';
 import { streamText } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { type Metadata } from 'next';
 import ModelSearchAndDisplay from '../_components/ModelSearchAndDisplay';
-import { getAllOllamaModels } from '@/app/services/ollamaApi';
+import { getAllOllamaModels } from '@/app/_lib/ollamaApi';
 
 export const metadata: Metadata = {
 	title: 'My Models',

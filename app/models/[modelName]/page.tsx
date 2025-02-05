@@ -1,7 +1,7 @@
 import Button from '@/app/_components/Button';
 import ModelShowDetailComponent from '@/app/_components/ModelShowDetailComponent';
 import TextExpander from '@/app/_components/TextExpander';
-import { getOllamaModelInfo } from '@/app/services/ollamaApi';
+import { getOllamaModelInfo } from '@/app/_lib/ollamaApi';
 import Link from 'next/link';
 import { IoMdArrowBack } from 'react-icons/io';
 import { PiBrainLight } from 'react-icons/pi';

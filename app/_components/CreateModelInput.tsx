@@ -9,6 +9,7 @@ interface CreateModelInput {
 	id: keyof CreateModel;
 	placeholder: string;
 	textArea?: boolean;
+	type?: string;
 	register: UseFormRegister<CreateModel>;
 	validation?: RegisterOptions<CreateModel>;
 	errors?: string;
@@ -23,6 +24,7 @@ export default function CreateModelInput({
 	register,
 	validation,
 	errors,
+	type = 'text',
 }: CreateModelInput) {
 	return (
 		<div className="flex flex-col gap-1">
@@ -54,6 +56,8 @@ export default function CreateModelInput({
 					{...register(id, validation)}
 					className="rounded-md bg-lightSecondary px-4 py-2 !ring-opacity-50 placeholder:font-light placeholder:capitalize focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent"
 					id={id}
+					type={type}
+					step={type ? '0.01' : undefined}
 					placeholder={placeholder}
 				/>
 			)}

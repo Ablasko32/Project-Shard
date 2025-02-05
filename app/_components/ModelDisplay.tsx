@@ -11,7 +11,7 @@ import { FaArrowRight, FaRegTrashAlt } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import Button from '@/app/_components/Button';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import { deleteOllamaModel } from '@/app/services/ollamaApi';
+import { deleteOllamaModel } from '@/app/_lib/ollamaApi';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);

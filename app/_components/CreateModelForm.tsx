@@ -7,6 +7,7 @@ import TinySpinner from '@/app/_components/TinySpinner';
 import toast from 'react-hot-toast';
 import Button from '@/app/_components/Button';
 import { HiOutlineSparkles } from 'react-icons/hi';
+import { createModel } from '@/app/_lib/ollamaApi';
 
 export interface CreateModel {
 	from: string;
@@ -49,7 +50,7 @@ export default function CreateModelForm() {
 						].includes(key)
 					) {
 						acc[key] = parseFloat(value);
-						console.log('HERE', acc[key]);
+						// console.log('HERE', acc[key]);
 					} else {
 						acc[key] = value;
 					}
@@ -59,32 +60,12 @@ export default function CreateModelForm() {
 			{} as Record<string, string | number>
 		);
 
-		// console.log(processedData);
-
 		try {
-			const { model, from, system = null, ...rest } = processedData;
-			// console.log(rest);
 			setLoading(true);
-			const result = await fetch('/api/proxy/api/create', {
-				headers: { 'Content-Type': 'application/json' },
-				method: 'POST',
-				body: JSON.stringify({
-					model: model,
-					from: from,
-					system: system,
-					parameters: {
-						...rest,
-					},
-				}),
-			});
-			if (!result.ok) {
-				throw new Error('Error creating model');
-			}
-			const responseBody = await result.text();
-			// console.log(responseBody);
-			toast.success('Model created sucesfully');
 
-			// console.log(result);
+			await createModel(processedData);
+
+			toast.success('Model created sucesfully');
 		} catch (err) {
 			console.error(err);
 			toast.error('Error creating model');
@@ -147,6 +128,7 @@ export default function CreateModelForm() {
 				id="temperature"
 				placeholder="Temperature"
 				name="Temperature"
+				type="number"
 			/>
 
 			<CreateModelInput
@@ -156,6 +138,7 @@ export default function CreateModelForm() {
 				id="seed"
 				placeholder="Seed"
 				name="Seed"
+				type="number"
 			/>
 			<CreateModelInput
 				register={register}
@@ -163,6 +146,7 @@ export default function CreateModelForm() {
 				id="mirostat_tau"
 				placeholder="mirostat tau"
 				name="mirostat tau"
+				type="number"
 			/>
 			<CreateModelInput
 				register={register}
@@ -170,6 +154,7 @@ export default function CreateModelForm() {
 				id="mirostat_eta"
 				placeholder="mirostat eta"
 				name="mirostat eta"
+				type="number"
 			/>
 			<CreateModelInput
 				register={register}
@@ -177,6 +162,7 @@ export default function CreateModelForm() {
 				id="num_ctx"
 				placeholder="Num ctx"
 				name="Num Ctx"
+				type="number"
 			/>
 			<CreateModelInput
 				register={register}
@@ -184,6 +170,7 @@ export default function CreateModelForm() {
 				id="top_k"
 				placeholder="top_k"
 				name="top k"
+				type="number"
 			/>
 			<CreateModelInput
 				register={register}
@@ -191,6 +178,7 @@ export default function CreateModelForm() {
 				id="top_p"
 				placeholder="top_p"
 				name="top p"
+				type="number"
 			/>
 
 			{/* loading */}

@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 function page() {
 	return (
-		<div className="flex w-full flex-col items-center justify-center gap-2 px-2">
+		<div className="mb-2 flex w-full flex-col items-center justify-center gap-2 px-2">
 			{/* title */}
-			<div className="mb-6 flex flex-col items-center justify-center gap-1">
+			<div className="flex flex-col items-center justify-center gap-1">
 				<h2 className="flex flex-col items-center gap-1 text-xl font-bold capitalize lg:text-2xl">
 					<span className="text-2xl lg:text-3xl">
 						<PiBrainLight />
@@ -22,8 +22,7 @@ function page() {
 					helper!
 				</p>
 			</div>
-
-			{/* create model form */}
+			{/* create model from file or guided */}
 			<CreateModelForm />
 		</div>
 	);

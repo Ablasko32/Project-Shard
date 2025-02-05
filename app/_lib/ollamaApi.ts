@@ -49,3 +49,29 @@ export async function getOllamaModelInfo(
 		throw new Error('Error fetching model details');
 	}
 }
+
+// Create a model
+export async function createModel(
+	processedData: Record<string, any>
+): Promise<void> {
+	const { model, from, system = null, ...rest } = processedData;
+	try {
+		const result = await fetch('/api/proxy/api/create', {
+			headers: { 'Content-Type': 'application/json' },
+			method: 'POST',
+			body: JSON.stringify({
+				model: model,
+				from: from,
+				system: system,
+				parameters: {
+					...rest,
+				},
+			}),
+		});
+		if (!result.ok) {
+			throw new Error('Error creating model');
+		}
+	} catch (err) {
+		throw new Error('Error creating model');
+	}
+}
