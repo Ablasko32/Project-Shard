@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import modelSlice from '@/app/models/modelSlice';
 import settingSlice from '@/app/settings/settingSlice';
+import promptsSlice from '@/app/prompts/promptsSlice';
 
 // PERSIST STATE IN LOCASTORAGE
 function saveState(state: RootState) {
@@ -12,6 +13,9 @@ function saveState(state: RootState) {
 }
 
 function loadState() {
+	if (typeof window === 'undefined') {
+		return undefined;
+	}
 	try {
 		const state = localStorage.getItem('reduxStore');
 		if (state === null) {
@@ -45,6 +49,7 @@ const stateFromLocal = loadState();
 const rootReducer = combineReducers({
 	model: modelSlice,
 	settings: settingSlice,
+	prompts: promptsSlice,
 });
 
 const store = configureStore({

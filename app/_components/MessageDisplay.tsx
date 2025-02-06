@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import 'highlight.js/styles/stackoverflow-light.css';
-import { Message } from '@/app/types/types';
+import { Message } from '@/app/_types/types';
 import ChatMessage from '@/app/_components/ChatMessage';
 
 function MessageDisplay({ messages }: { messages: Message[] }) {

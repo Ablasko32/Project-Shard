@@ -1,5 +1,5 @@
 import Markdown from 'react-markdown';
-import { Message } from '@/app/types/types';
+import { Message } from '@/app/_types/types';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';

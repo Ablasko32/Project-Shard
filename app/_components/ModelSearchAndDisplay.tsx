@@ -1,5 +1,5 @@
 'use client';
-import { Model } from '@/app/types/types';
+import { Model } from '@/app/_types/types';
 import ModelDisplay from '@/app/_components/ModelDisplay';
 import { ChangeEvent, useState } from 'react';
 

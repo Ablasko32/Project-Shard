@@ -1,6 +1,6 @@
 import { revalidatePathAction } from '@/app/actions';
 import toast from 'react-hot-toast';
-import { Model } from '@/app/types/types';
+import { Model } from '@/app/_types/types';
 
 //Deletes model by name
 export async function deleteOllamaModel(modelName: string): Promise<void> {

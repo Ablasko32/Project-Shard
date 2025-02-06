@@ -1,5 +1,5 @@
 'use client';
-import { Model } from '@/app/types/types';
+import { Model } from '@/app/_types/types';
 import { LuPlay } from 'react-icons/lu';
 import { useState } from 'react';
 import { easeInOut, motion } from 'framer-motion';

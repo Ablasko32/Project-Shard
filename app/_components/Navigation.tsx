@@ -20,6 +20,9 @@ function Navigation() {
 						<Link href="/models">Models</Link>
 					</li>
 					<li className="mainNavItem">
+						<Link href="/prompts">Prompts</Link>
+					</li>
+					<li className="mainNavItem">
 						<Link href="/settings">Settings</Link>
 					</li>
 					<ThemeSwitch />
