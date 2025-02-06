@@ -6,6 +6,7 @@ import { ThemeProvider } from 'next-themes';
 import Footer from '@/app/_components/Footer';
 import ReduxProvider from './_components/ReactRedux';
 import { Toaster } from 'react-hot-toast';
+import 'regenerator-runtime/runtime';
 
 const inter = Inter({
 	subsets: ['latin'],

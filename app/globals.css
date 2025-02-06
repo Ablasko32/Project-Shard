@@ -16,7 +16,7 @@ body {
 	}
 
 	.messageInput {
-		@apply flex-1 rounded-lg bg-lightSecondary px-2 py-2 ring-opacity-0 placeholder:text-lightTextSecondary focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:placeholder:text-darkTextSecondary dark:focus:ring-darkAccent;
+		@apply flex-1 rounded-lg bg-lightSecondary px-2 py-3 ring-opacity-0 placeholder:text-lightTextSecondary focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:placeholder:text-darkTextSecondary dark:focus:ring-darkAccent;
 	}
 
 	.pageContainer {

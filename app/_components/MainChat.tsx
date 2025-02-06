@@ -3,15 +3,16 @@
 import Link from 'next/link';
 import MessageDisplay from '@/app/_components/MessageDisplay';
 import { GoAlert } from 'react-icons/go';
-import ChatLoader from '@/app/_components/ChatLoader';
-import { PiStopCircle } from 'react-icons/pi';
-import { AiOutlineSend } from 'react-icons/ai';
+// import ChatLoader from '@/app/_components/ChatLoader';
+// import { PiStopCircle } from 'react-icons/pi';
+// import { AiOutlineSend } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { useChat } from 'ai/react';
 import { TfiReload } from 'react-icons/tfi';
+import ChatInput from '@/app/_components/ChatInput';
 
 export default function MainChat() {
 	const selectedAIModel: string = useSelector(
@@ -35,6 +36,7 @@ export default function MainChat() {
 		error,
 		stop,
 		reload,
+		setInput,
 	} = useChat({
 		body: {
 			model: selectedAIModel,
@@ -63,7 +65,7 @@ export default function MainChat() {
 			>
 				{selectedAIModel}
 			</Link>
-			<div className="mt-8 flex h-full max-h-full flex-1 items-start justify-center overflow-y-scroll">
+			<div className="mb-12 mt-8 flex h-full max-h-full flex-1 items-start justify-center overflow-y-scroll">
 				{/* Display messages or logo */}
 
 				<MessageDisplay messages={messages} />
@@ -78,7 +80,16 @@ export default function MainChat() {
 					</button>
 				</p>
 			)}
-			<div className="relative flex items-end justify-center py-4">
+			<ChatInput
+				stop={stop}
+				setInput={setInput}
+				isLoading={isLoading}
+				handleInputChange={handleInputChange}
+				handleMessageSubmit={handleMessageSubmit}
+				input={input}
+			/>
+			{/* stara vezija */}
+			{/* <div className="relative flex items-end justify-center py-4">
 				<ChatLoader isVisible={isLoading} />
 				<form
 					className="flex w-full max-w-3xl gap-4 text-lightText dark:text-darkText"
@@ -101,7 +112,7 @@ export default function MainChat() {
 						)}
 					</button>
 				</form>
-			</div>
+			</div> */}
 		</>
 	);
 }

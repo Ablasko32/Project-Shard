@@ -5,7 +5,7 @@ import React from 'react';
 
 interface ButtonInterface {
 	children: React.ReactNode;
-	onClick?: () => void;
+	onClick?: (e: MouseEvent) => void;
 	className?: string;
 	type?: 'primary' | 'danger' | 'secondary';
 }
