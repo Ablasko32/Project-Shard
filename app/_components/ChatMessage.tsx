@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
 import CopyButton from '@/app/_components/CopyButton';
+import DownloadTextButton from './DownloadTextButton';
 
 function ChatMessage({ msg }: { msg: Message }) {
 	const isUserMsg: boolean = msg.role === 'user' ? true : false;
@@ -45,7 +46,8 @@ function ChatMessage({ msg }: { msg: Message }) {
 					>
 						{msg.createdAt?.toLocaleTimeString()}
 					</p>
-					{!isUserMsg && <CopyButton content={msg.content} />}
+					<CopyButton content={msg.content} />
+					<DownloadTextButton content={msg.content} />
 				</div>
 			)}
 		</>
