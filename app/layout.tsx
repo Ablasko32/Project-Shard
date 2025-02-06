@@ -4,7 +4,7 @@ import Navigation from '@/app/_components/Navigation';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import Footer from '@/app/_components/Footer';
-import ReduxProvider from './_components/ReactRedux';
+import ReduxProvider from '@/app/_components/ReactRedux';
 import { Toaster } from 'react-hot-toast';
 import 'regenerator-runtime/runtime';
 
@@ -37,7 +37,7 @@ export default function RootLayout({
 						enableSystem={false}
 					>
 						<div className="">
-							<div className="grid h-svh max-h-svh grid-cols-1 grid-rows-[1fr,3%] md:grid-cols-[10%,1fr]">
+							<div className="grid h-svh max-h-svh grid-cols-1 grid-rows-[1fr,2%] md:grid-cols-[10%,1fr]">
 								<Navigation />
 								<main className="flex max-h-full flex-col pt-6 md:pt-0">
 									{children}

@@ -9,6 +9,7 @@ import Button from '@/app/_components/Button';
 import { RxKeyboard } from 'react-icons/rx';
 import VoiceChat from '@/app/_components/VoiceChat';
 import { Dispatch, SetStateAction } from 'react';
+import { motion } from 'framer-motion';
 
 interface ChatInput {
 	setInput: Dispatch<SetStateAction<string>>;
@@ -36,7 +37,7 @@ export default function ChatInput({
 			<ChatLoader isVisible={isLoading} />
 
 			<form
-				className="flex w-full max-w-3xl gap-4 text-lightText dark:text-darkText"
+				className="flex w-full max-w-3xl gap-2 text-lightText dark:text-darkText"
 				onSubmit={handleMessageSubmit}
 			>
 				<Button
@@ -61,7 +62,12 @@ export default function ChatInput({
 							onChange={handleInputChange}
 							placeholder="Ask me anything!"
 						/>
-						<button className="cursor-pointer text-3xl text-lightAccent hover:scale-110 dark:text-darkAccent lg:text-4xl">
+
+						<motion.button
+							whileHover={{ scale: 0.95 }}
+							whileTap={{ scale: 0.9 }}
+							className="cursor-pointer text-2xl text-lightAccent dark:text-darkAccent lg:text-4xl"
+						>
 							{isLoading ? (
 								<span onClick={stop}>
 									<PiStopCircle />
@@ -69,7 +75,7 @@ export default function ChatInput({
 							) : (
 								<AiOutlineSend />
 							)}
-						</button>
+						</motion.button>
 					</>
 				)}
 				{voiceMode && (

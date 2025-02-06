@@ -1,7 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ConnectionTest from '@/app/_components/ConnectionTest';
-import SettingsForm from '../_components/SettingsForm';
+import SettingsForm from '@/app/_components/SettingsForm';
+import ClearLocalData from '../_components/ClearLocalData';
 
 export const metadata: Metadata = {
 	title: 'Settings',
@@ -17,6 +18,8 @@ export default function page() {
 			<ConnectionTest />
 
 			<SettingsForm />
+
+			<ClearLocalData />
 
 			{/* docs */}
 			<div className="mt-10 max-w-sm self-center rounded-md bg-lightSecondary px-2 py-1 text-center text-sm text-lightTextSecondary dark:bg-darkSecondary dark:text-darkTextSecondary">

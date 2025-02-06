@@ -3,9 +3,6 @@
 import Link from 'next/link';
 import MessageDisplay from '@/app/_components/MessageDisplay';
 import { GoAlert } from 'react-icons/go';
-// import ChatLoader from '@/app/_components/ChatLoader';
-// import { PiStopCircle } from 'react-icons/pi';
-// import { AiOutlineSend } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { FormEvent } from 'react';
@@ -22,8 +19,6 @@ export default function MainChat() {
 	const { username, defaultSystemMessage } = useSelector(
 		(store: RootState) => store.settings
 	);
-
-	// console.log(username, defaultSystemMessage);
 
 	const settingsSystemMessage: string = `My name is ${username ? username : 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${defaultSystemMessage ? defaultSystemMessage : 'You are a helpful assistant'}`;
 
@@ -88,31 +83,6 @@ export default function MainChat() {
 				handleMessageSubmit={handleMessageSubmit}
 				input={input}
 			/>
-			{/* stara vezija */}
-			{/* <div className="relative flex items-end justify-center py-4">
-				<ChatLoader isVisible={isLoading} />
-				<form
-					className="flex w-full max-w-3xl gap-4 text-lightText dark:text-darkText"
-					onSubmit={handleMessageSubmit}
-				>
-					<textarea
-						className="messageInput resize-none"
-						disabled={isLoading}
-						value={input}
-						onChange={handleInputChange}
-						placeholder="Ask me anything!"
-					/>
-					<button className="cursor-pointer text-3xl text-lightAccent hover:scale-110 dark:text-darkAccent lg:text-4xl">
-						{isLoading ? (
-							<span onClick={stop}>
-								<PiStopCircle />
-							</span>
-						) : (
-							<AiOutlineSend />
-						)}
-					</button>
-				</form>
-			</div> */}
 		</>
 	);
 }

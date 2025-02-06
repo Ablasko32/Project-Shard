@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import 'highlight.js/styles/stackoverflow-light.css';
-import { Message } from '../types/types';
-import ChatMessage from './ChatMessage';
+import { Message } from '@/app/types/types';
+import ChatMessage from '@/app/_components/ChatMessage';
 
 function MessageDisplay({ messages }: { messages: Message[] }) {
 	const endOfMessageRef = useRef<HTMLDivElement | null>(null);
