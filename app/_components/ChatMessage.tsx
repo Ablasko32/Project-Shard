@@ -1,8 +1,9 @@
 import Markdown from 'react-markdown';
-import { Message } from '../types/types';
+import { Message } from '@/app/types/types';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
+import CopyButton from '@/app/_components/CopyButton';
 
 function ChatMessage({ msg }: { msg: Message }) {
 	const isUserMsg: boolean = msg.role === 'user' ? true : false;
@@ -30,11 +31,23 @@ function ChatMessage({ msg }: { msg: Message }) {
 				</Markdown>
 			)}
 
-			<p
-				className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
-			>
-				{msg.createdAt?.toLocaleTimeString()}
-			</p>
+			{/* More functionality for ai messages */}
+			{isUserMsg ? (
+				<p
+					className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
+				>
+					{msg.createdAt?.toLocaleTimeString()}
+				</p>
+			) : (
+				<div className="flex items-center gap-4">
+					<p
+						className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
+					>
+						{msg.createdAt?.toLocaleTimeString()}
+					</p>
+					{!isUserMsg && <CopyButton content={msg.content} />}
+				</div>
+			)}
 		</>
 	);
 }
