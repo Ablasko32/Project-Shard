@@ -32,7 +32,7 @@ export default function SettingsForm() {
 			onBlur={handleSubmit(onSubmit)}
 		>
 			<div className="flex flex-col gap-1">
-				<label className="text-sm lg:text-lg" htmlFor="name">
+				<label className="text-sm font-semibold lg:text-lg" htmlFor="name">
 					What will the model call you?
 				</label>
 				<input
@@ -45,7 +45,7 @@ export default function SettingsForm() {
 			</div>
 
 			<div className="flex flex-col gap-1">
-				<label className="text-sm lg:text-lg" htmlFor="system">
+				<label className="text-sm font-semibold lg:text-lg" htmlFor="system">
 					Default system message?
 				</label>
 				<textarea

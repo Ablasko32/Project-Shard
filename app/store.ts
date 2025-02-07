@@ -5,6 +5,7 @@ import promptsSlice from '@/app/prompts/promptsSlice';
 
 // PERSIST STATE IN LOCASTORAGE
 function saveState(state: RootState) {
+	if (typeof window === 'undefined') return;
 	try {
 		localStorage.setItem('reduxStore', JSON.stringify(state));
 	} catch (err) {
@@ -36,8 +37,9 @@ export function deleteLocalState() {
 	}
 }
 
-// MIDDLEWARE TO PERSIST STATE
-const saveStateMiddleware = store => next => action => {
+// saves the store data to localhost on interaction
+const saveStateMiddleware = (store: any) => (next: any) => (action: any) => {
+	if (typeof window === 'undefined') return;
 	const result = next(action);
 	saveState(store.getState());
 	return result;

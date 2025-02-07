@@ -7,33 +7,7 @@ interface PromptsState {
 	date: string;
 }
 
-const initialState: PromptsState[] = [
-	{
-		id: 'vvefwgewgwegw',
-		title: 'My test prompt1',
-		content: 'This is my test prompt lorem lorem lorem lorem20',
-		date: '222222',
-	},
-	{
-		id: 'vvef2wgewgwegw',
-		title: 'My test prompt2',
-		content:
-			'This is my test prompt lorem lorem lorem lorem20 This is my test prompt lorem lorem lorem lorem20 This is my test prompt lorem lorem lorem lorem20 This is my test prompt lorem lorem lorem lorem20 This is my test prompt lorem lorem lorem lorem20 This is my test prompt lorem lorem lorem lorem20',
-		date: '222222',
-	},
-	{
-		id: 'vvefwge21wgwegw',
-		title: 'Oy test prompt2',
-		content: 'This is my test prompt lorem lorem lorem lorem20',
-		date: '222222',
-	},
-	{
-		id: 'vvefwgveewgwegw',
-		title: 'Zy test prompt2',
-		content: 'This is my test prompt lorem lorem lorem lorem20',
-		date: '222222',
-	},
-];
+const initialState: PromptsState[] = [];
 
 const promptsSlice = createSlice({
 	name: 'prompts',

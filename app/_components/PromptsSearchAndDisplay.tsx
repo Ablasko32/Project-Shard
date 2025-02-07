@@ -8,6 +8,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { deletePrompt } from '@/app/prompts/promptsSlice';
+import Link from 'next/link';
 
 export default function PromptsSearchAndDisplay() {
 	const [searchvalue, setSearchValue] = useState<string>('');
@@ -26,6 +27,23 @@ export default function PromptsSearchAndDisplay() {
 		if (!window.confirm('Are you sure?')) return;
 		dispatch(deletePrompt({ id: id }));
 	}
+
+	// If there are no prompts yet, show a fallback
+	if (!filteredPrompts.length)
+		return (
+			<div className="mt-10 flex flex-col items-center gap-4 text-lightTextSecondary dark:text-darkTextSecondary">
+				<p className="">Nothing here yet!</p>
+				<p className="rounded-md bg-lightSecondary px-2 py-1 dark:bg-darkSecondary">
+					Start by creating your first{' '}
+					<Link
+						href="/prompts/addNew"
+						className="text-lightPrimary transition-all duration-150 hover:opacity-70 dark:text-darkPrimary"
+					>
+						Prompt!
+					</Link>
+				</p>
+			</div>
+		);
 
 	return (
 		<div className="flex h-32 w-full min-w-full max-w-full flex-grow flex-col items-center overflow-x-hidden overflow-y-scroll p-3">
