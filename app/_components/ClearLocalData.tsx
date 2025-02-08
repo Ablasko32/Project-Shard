@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/app/_components/Button';
-import { deleteLocalState } from '@/app/store';
+import { deleteLocalState } from '@/app/_lib/store';
 import toast from 'react-hot-toast';
 
 export default function ClearLocalData() {

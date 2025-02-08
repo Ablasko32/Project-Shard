@@ -1,7 +1,7 @@
 'use client';
 
 import { Provider } from 'react-redux';
-import store from '@/app/store';
+import store from '@/app/_lib/store';
 import { useEffect, useState } from 'react';
 import Spinner from './Spinner';
 

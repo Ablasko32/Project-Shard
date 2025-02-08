@@ -14,7 +14,7 @@ function Navigation() {
 				</Link>
 				<ul className="flex flex-1 flex-col items-center justify-center gap-6">
 					<li className="mainNavItem">
-						<Link href="/">Chat</Link>
+						<Link href="/chat">Chat</Link>
 					</li>
 					<li className="mainNavItem">
 						<Link href="/models">Models</Link>

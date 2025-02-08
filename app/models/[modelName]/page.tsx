@@ -10,7 +10,7 @@ import { PiBrainLight } from 'react-icons/pi';
 export default async function page({
 	params,
 }: {
-	params: { modelName: string };
+	params: Promise<{ modelName: string }>;
 }) {
 	const awaitedParams = await params;
 	const modelName: string = awaitedParams.modelName.replace('%3A', ':');

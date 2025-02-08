@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { SettingsData, updateSettings } from '../settings/settingSlice';
-import { RootState } from '../store';
+import { RootState } from '../_lib/store';
 import toast from 'react-hot-toast';
 
 export default function SettingsForm() {

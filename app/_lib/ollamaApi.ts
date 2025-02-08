@@ -1,4 +1,4 @@
-import { revalidatePathAction } from '@/app/actions';
+import { revalidatePathAction } from '@/app/_lib/actions';
 import toast from 'react-hot-toast';
 import { Model } from '@/app/_types/types';
 

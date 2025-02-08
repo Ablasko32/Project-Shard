@@ -19,6 +19,7 @@ export default function Logo({ type = 'large' }: { type?: string }) {
 			{isMounted && (
 				<div className="relative aspect-square h-12 lg:h-14">
 					<Image
+						priority
 						quality={70}
 						fill
 						src={theme === 'light' ? LightLogo : DarkLogo}

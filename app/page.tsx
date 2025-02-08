@@ -1,9 +1,6 @@
-import MainChat from '@/app/_components/MainChat';
+import { redirect } from 'next/navigation';
 
+// redirect to chat
 export default function Home() {
-	return (
-		<div className="pageContainer flex min-w-full flex-col">
-			<MainChat />
-		</div>
-	);
+	return redirect('/chat');
 }

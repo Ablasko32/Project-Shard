@@ -4,7 +4,7 @@ import Link from 'next/link';
 import MessageDisplay from '@/app/_components/MessageDisplay';
 import { GoAlert } from 'react-icons/go';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/app/_lib/store';
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { useChat } from 'ai/react';

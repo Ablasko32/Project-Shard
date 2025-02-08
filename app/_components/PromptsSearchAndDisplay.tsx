@@ -6,7 +6,7 @@ import TextExpander from '@/app/_components/TextExpander';
 import Button from '@/app/_components/Button';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/app/_lib/store';
 import { deletePrompt } from '@/app/prompts/promptsSlice';
 import Link from 'next/link';
 

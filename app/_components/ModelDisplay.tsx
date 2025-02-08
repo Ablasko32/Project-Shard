@@ -48,7 +48,7 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 					dispatch(switchModel(modelName));
 					toast.success('Model switched');
 					// navigate back to chat
-					router.push('/');
+					router.push('/chat');
 				}
 
 				return (

@@ -63,7 +63,7 @@ function MobileNav() {
 						</div>
 						<ul className="mb-auto flex flex-col items-center gap-4">
 							<li className="mainNavItem">
-								<Link href="/">Chat</Link>
+								<Link href="/chat">Chat</Link>
 							</li>
 							<li className="mainNavItem">
 								<Link href="/models">Models</Link>
