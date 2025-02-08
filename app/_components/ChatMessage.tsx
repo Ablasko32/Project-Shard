@@ -37,14 +37,14 @@ function ChatMessage({ msg }: { msg: Message }) {
 				<p
 					className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
 				>
-					{msg.createdAt?.toLocaleTimeString()}
+					{new Date(msg.createdAt).toLocaleTimeString()}
 				</p>
 			) : (
 				<div className="flex items-center gap-4">
 					<p
 						className={`text-xs font-light text-lightTextSecondary opacity-90 dark:text-darkTextSecondary ${isUserMsg ? 'self-end' : ''}`}
 					>
-						{msg.createdAt?.toLocaleTimeString()}
+						{new Date(msg.createdAt).toLocaleTimeString()}
 					</p>
 					<CopyButton content={msg.content} />
 					<DownloadTextButton content={msg.content} />

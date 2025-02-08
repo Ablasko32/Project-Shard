@@ -10,6 +10,9 @@ import { RxKeyboard } from 'react-icons/rx';
 import VoiceChat from '@/app/_components/VoiceChat';
 import { Dispatch, SetStateAction } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+import { IoAdd } from 'react-icons/io5';
 
 interface ChatInput {
 	setInput: Dispatch<SetStateAction<string>>;
@@ -40,22 +43,31 @@ export default function ChatInput({
 				className="flex w-full max-w-3xl gap-2 text-lightText dark:text-darkText"
 				onSubmit={handleMessageSubmit}
 			>
-				<Button
-					onClick={e => {
-						e.preventDefault();
-						setVoiceMode(prev => !prev);
-					}}
-					type="secondary"
-					className="absolute -top-4 left-auto text-xs"
-				>
-					{' '}
-					{!voiceMode ? <HiOutlineMicrophone /> : <RxKeyboard />}
-					{!voiceMode ? 'Voice' : 'Chat'}
-				</Button>
+				{/* ACTIONS CONTAINER */}
+				<div className="absolute -top-4 left-auto flex items-center gap-2 text-xs">
+					<Link href="/chat">
+						<Button type="secondary">
+							{' '}
+							<IoAdd />
+							New
+						</Button>
+					</Link>
+					<Button
+						onClick={e => {
+							e.preventDefault();
+							setVoiceMode(prev => !prev);
+						}}
+						type="secondary"
+					>
+						{' '}
+						{!voiceMode ? <HiOutlineMicrophone /> : <RxKeyboard />}
+						{!voiceMode ? 'Voice' : 'Chat'}
+					</Button>
+				</div>
 				{!voiceMode && (
 					<>
 						<textarea
-							className="messageInput resize-none"
+							className="messageInput resize-none lg:h-20"
 							disabled={isLoading}
 							rows={1}
 							value={input}

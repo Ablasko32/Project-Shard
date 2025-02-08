@@ -1,3 +1,6 @@
+import MainChat from '@/app/_components/MainChat';
+import { loadChat } from '@/tools/chat-store';
+
 export default async function page({
 	params,
 }: {
@@ -5,5 +8,12 @@ export default async function page({
 }) {
 	const { chatId } = await params;
 
-	return <div>page ,chatId:{chatId}</div>;
+	const messages = await loadChat(chatId);
+	console.log('MESSAGES RETRVIED', messages);
+
+	return (
+		<div className="pageContainer flex min-w-full flex-col">
+			<MainChat id={chatId} initialMessages={messages} />
+		</div>
+	);
 }

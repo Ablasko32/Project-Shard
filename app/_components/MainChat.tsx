@@ -7,11 +7,17 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/_lib/store';
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useChat } from 'ai/react';
+import { Message, useChat } from 'ai/react';
 import { TfiReload } from 'react-icons/tfi';
 import ChatInput from '@/app/_components/ChatInput';
 
-export default function MainChat() {
+export default function MainChat({
+	id,
+	initialMessages,
+}: {
+	id?: string | undefined;
+	initialMessages: Message[];
+}) {
 	const selectedAIModel: string = useSelector(
 		(store: RootState) => store.model.model
 	);
@@ -33,6 +39,9 @@ export default function MainChat() {
 		reload,
 		setInput,
 	} = useChat({
+		id,
+		initialMessages,
+		sendExtraMessageFields: true,
 		body: {
 			model: selectedAIModel,
 			settingsSystemMessage,
