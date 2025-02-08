@@ -39,24 +39,24 @@ export default function PromptsSearchAndDisplay() {
 						href="/prompts/addNew"
 						className="text-lightPrimary transition-all duration-150 hover:opacity-70 dark:text-darkPrimary"
 					>
-						Prompt!
+						/Prompt!
 					</Link>
 				</p>
 			</div>
 		);
 
 	return (
-		<div className="flex h-32 w-full min-w-full max-w-full flex-grow flex-col items-center overflow-x-hidden overflow-y-scroll p-3">
+		<div className="mx-auto flex h-32 w-[80%] max-w-[100rem] flex-grow flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pr-10">
 			{/* search prompts by name */}
 			<input
 				onChange={e => setSearchValue(e.target.value)}
 				placeholder="Search prompts"
-				className="mx-4 mb-2 w-full max-w-[92%] rounded-lg bg-lightSecondary px-4 py-3 focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent lg:mb-6 lg:w-full lg:max-w-[50%] lg:self-center"
+				className="mb-2 w-full rounded-lg bg-lightSecondary px-4 py-3 focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent lg:mb-6 lg:w-1/2 lg:self-center"
 				type="text"
 			/>
 
 			{/* prompts display */}
-			<ul className="flex h-full w-full max-w-4xl flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 dark:divide-darkSecondary">
+			<ul className="flex h-full w-full min-w-full max-w-4xl flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 dark:divide-darkSecondary">
 				{filteredPrompts.map(prompt => {
 					return (
 						<li

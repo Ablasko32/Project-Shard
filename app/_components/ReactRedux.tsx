@@ -17,8 +17,8 @@ export default function ReduxProvider({
 		setMounted(true);
 	}, []);
 
-	// If app is not moutned nothing is returned - add better spinner
-	if (!mounted) return <Spinner />;
+	// If app is not moutned nothing is returned
+	if (!mounted) return <Spinner fullscreen={true} />;
 
 	// if mounted on client , return the provider with children
 	return <Provider store={store}>{children}</Provider>;
