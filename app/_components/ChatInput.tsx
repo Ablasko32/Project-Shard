@@ -11,7 +11,6 @@ import VoiceChat from '@/app/_components/VoiceChat';
 import { Dispatch, SetStateAction } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-
 import { IoAdd } from 'react-icons/io5';
 
 interface ChatInput {

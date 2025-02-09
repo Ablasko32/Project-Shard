@@ -2,9 +2,10 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import ThemeSwitch from '@/app/_components/ThemeSwitch';
-import Logo from './Logo';
+import Logo from '@/app/_components/Logo';
 import { motion } from 'framer-motion';
-import SocialIcons from './SocialIcons';
+import SocialIcons from '@/app/_components/SocialIcons';
+import Button from '@/app/_components/Button';
 
 /**
  * Mobile navigation with collapsibile sidebar
@@ -62,8 +63,13 @@ function MobileNav() {
 							<Logo />
 						</div>
 						<ul className="mb-auto flex flex-col items-center gap-4">
+							<li>
+								<Button className="text-sm">
+									<Link href="/chat">New</Link>
+								</Button>
+							</li>
 							<li className="mainNavItem">
-								<Link href="/chat">Chat</Link>
+								<Link href="/chat/all-chats">Chats</Link>
 							</li>
 							<li className="mainNavItem">
 								<Link href="/models">Models</Link>

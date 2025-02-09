@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import MobileNav from './MobileNav';
-import ThemeSwitch from './ThemeSwitch';
-import Logo from './Logo';
-import SocialIcons from './SocialIcons';
+import MobileNav from '@/app/_components/MobileNav';
+import ThemeSwitch from '@/app/_components/ThemeSwitch';
+import Logo from '@/app/_components/Logo';
+import SocialIcons from '@/app/_components/SocialIcons';
+import Button from '@/app/_components/Button';
 
 function Navigation() {
 	return (
@@ -13,8 +14,13 @@ function Navigation() {
 					<Logo />
 				</Link>
 				<ul className="flex flex-1 flex-col items-center justify-center gap-6">
+					<li>
+						<Button className="text-sm">
+							<Link href="/chat">New</Link>
+						</Button>
+					</li>
 					<li className="mainNavItem">
-						<Link href="/chat">Chat</Link>
+						<Link href="/chat/all-chats">Chats</Link>
 					</li>
 					<li className="mainNavItem">
 						<Link href="/models">Models</Link>
@@ -36,5 +42,3 @@ function Navigation() {
 }
 
 export default Navigation;
-
-// divide-lightAccent !divide-opacity-10 dark:divide-darkPrimary
