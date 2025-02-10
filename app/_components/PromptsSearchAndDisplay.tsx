@@ -46,7 +46,7 @@ export default function PromptsSearchAndDisplay() {
 		);
 
 	return (
-		<div className="mx-auto flex h-32 w-[80%] max-w-[100rem] flex-grow flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pr-10">
+		<div className="mx-auto flex w-full max-w-6xl flex-col items-center pr-2">
 			{/* search prompts by name */}
 			<input
 				onChange={e => setSearchValue(e.target.value)}

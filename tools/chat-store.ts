@@ -95,3 +95,16 @@ export async function deleteChat(id: string) {
 		throw new Error('Error deleting file');
 	}
 }
+
+// delete all chats
+export async function deleteAllChats() {
+	const chatDir = path.join(process.cwd(), FOLDER_NAME);
+	const allFiles = await readdir(chatDir);
+
+	for (const file of allFiles) {
+		const deletePath = path.join(chatDir, file);
+		await unlink(deletePath);
+	}
+
+	revalidatePath('/chat/all-chats');
+}

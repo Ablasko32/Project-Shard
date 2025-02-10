@@ -7,8 +7,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 				<h2 className="text-xl font-bold capitalize lg:text-3xl">My Prompts</h2>
 				<PromptsNavigation />
 			</div>
-
-			{children}
+			<div className="h-32 w-full flex-grow overflow-y-scroll">{children}</div>
 		</div>
 	);
 }

@@ -11,8 +11,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 			</div>
 			{/* Suspense boundary */}
 			<Suspense fallback={<Spinner />}>
-				<div className="mx-auto h-96 w-full max-w-[200rem] flex-grow overflow-y-scroll pt-2 lg:w-[80%]">
-					{children}
+				<div className="h-96 w-full flex-grow overflow-y-scroll pt-2">
+					<div className="mx-auto max-w-6xl">{children}</div>
 				</div>
 			</Suspense>
 		</div>

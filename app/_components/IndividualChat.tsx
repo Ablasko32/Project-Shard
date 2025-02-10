@@ -23,7 +23,7 @@ export default function IndividualChat({ chat }: { chat: any[] }) {
 
 	return (
 		<li
-			className="mt-4 grid grid-cols-[1fr,10%] grid-rows-[1fr,10%] items-center"
+			className="mx-auto mt-4 grid w-full max-w-6xl grid-cols-[1fr,10%] grid-rows-[1fr,10%] items-center pr-2"
 			key={chat[0].chatId}
 		>
 			{/* chat contanet first message is title and second is content */}
