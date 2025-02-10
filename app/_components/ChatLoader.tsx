@@ -18,7 +18,7 @@ function ChatLoader({ isVisible }: { isVisible: boolean }) {
 								delay: dot * 0.2,
 								ease: 'easeInOut',
 							}}
-							className="bg-lightPrimary dark:bg-darkPrimary dark:shadow-darkAccent shadow-lightAccent h-2 w-2 rounded-full shadow-sm"
+							className="z-50 h-2 w-2 rounded-full bg-lightPrimary shadow-sm shadow-lightAccent dark:bg-darkPrimary dark:shadow-darkAccent"
 						></motion.span>
 					);
 				})}
