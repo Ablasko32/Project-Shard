@@ -9,7 +9,7 @@ export default async function page({
 	const { chatId } = await params;
 
 	const messages = await loadChat(chatId);
-	console.log('MESSAGES RETRVIED', messages);
+	// console.log('MESSAGES RETRVIED', messages);
 
 	return (
 		<div className="pageContainer flex min-w-full flex-col">
