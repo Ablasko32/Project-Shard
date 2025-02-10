@@ -4,6 +4,7 @@ import ThemeSwitch from '@/app/_components/ThemeSwitch';
 import Logo from '@/app/_components/Logo';
 import SocialIcons from '@/app/_components/SocialIcons';
 import Button from '@/app/_components/Button';
+import NavigationLink from '@/app/_components/NavigationLink';
 
 function Navigation() {
 	return (
@@ -19,18 +20,14 @@ function Navigation() {
 							<Link href="/chat">New</Link>
 						</Button>
 					</li>
-					<li className="mainNavItem">
-						<Link href="/chat/all-chats">Chats</Link>
-					</li>
-					<li className="mainNavItem">
-						<Link href="/models">Models</Link>
-					</li>
-					<li className="mainNavItem">
-						<Link href="/prompts">Prompts</Link>
-					</li>
-					<li className="mainNavItem">
-						<Link href="/settings">Settings</Link>
-					</li>
+
+					<NavigationLink name="chats" path="/chat/all-chats" />
+
+					<NavigationLink name="models" path="/models" />
+
+					<NavigationLink name="prompts" path="/prompts" />
+
+					<NavigationLink name="settings" path="/settings" />
 					<ThemeSwitch />
 				</ul>
 				<SocialIcons />

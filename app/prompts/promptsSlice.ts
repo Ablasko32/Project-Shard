@@ -15,7 +15,7 @@ const promptsSlice = createSlice({
 	reducers: {
 		addNewPrompt: (state, action) => {
 			const newPrompt = {
-				id: crypto.randomUUID(),
+				id: `${new Date().toLocaleString()}-${Math.random()}`,
 				title: action.payload.title,
 				content: action.payload.content,
 				date: new Date().toLocaleString(),

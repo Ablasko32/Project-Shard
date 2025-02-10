@@ -20,7 +20,7 @@ body {
 	}
 
 	.pageContainer {
-		@apply h-full max-h-full p-4 pb-2 pt-10 md:p-10 md:pb-4;
+		@apply mb-2 h-full max-h-full p-4 pb-2 pt-10 md:p-10 md:pb-4;
 	}
 
 	.spinner {
