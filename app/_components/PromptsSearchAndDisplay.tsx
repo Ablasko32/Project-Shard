@@ -51,7 +51,7 @@ export default function PromptsSearchAndDisplay() {
 			<input
 				onChange={e => setSearchValue(e.target.value)}
 				placeholder="Search prompts"
-				className="mb-2 w-full rounded-lg bg-lightSecondary px-4 py-3 focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent lg:mb-6 lg:w-1/2 lg:self-center"
+				className="mb-2 ml-2 mt-2 w-full rounded-lg bg-lightSecondary px-4 py-3 focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent lg:mb-6 lg:w-1/2 lg:self-center"
 				type="text"
 			/>
 

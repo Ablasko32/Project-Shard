@@ -40,7 +40,7 @@ export default function AddNewPromptForm() {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="flex w-full max-w-3xl flex-col gap-4"
+			className="flex w-full max-w-3xl flex-col gap-4 px-1"
 		>
 			<div className="flex flex-col gap-1">
 				<label className="text-sm font-semibold lg:text-lg" htmlFor="title">
