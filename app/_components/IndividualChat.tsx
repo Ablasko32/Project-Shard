@@ -1,24 +1,30 @@
 'use client';
 import { HiOutlineTrash } from 'react-icons/hi';
-import Button from './Button';
+import Button from '@/app/_components/Button';
 import { LuPlay } from 'react-icons/lu';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { deleteChat } from '@/tools/chat-store';
+import { useTransition } from 'react';
+import TinySpinner from '@/app/_components/TinySpinner';
 
 export default function IndividualChat({ chat }: { chat: any[] }) {
+	const [isPending, startTransition] = useTransition();
+
 	async function handleDeleteChat(): Promise<void> {
 		const chatId = chat[0].chatId;
 
 		if (!window.confirm('Are you sure?')) return;
-		try {
-			await deleteChat(chatId);
-			toast.success('Chat deleted');
-		} catch (err) {
-			console.error(err);
-			toast.error('Error deleting chat');
-		}
+		startTransition(async () => {
+			try {
+				await deleteChat(chatId);
+				toast.success('Chat deleted');
+			} catch (err) {
+				console.error(err);
+				toast.error('Error deleting chat');
+			}
+		});
 	}
 
 	return (
@@ -56,7 +62,7 @@ export default function IndividualChat({ chat }: { chat: any[] }) {
 					type="secondary"
 					className="text-sm text-lightError dark:text-darkError"
 				>
-					<HiOutlineTrash />
+					{!isPending ? <HiOutlineTrash /> : <TinySpinner />}
 				</Button>
 				<p className="text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary">
 					{chat[0].chatDate}

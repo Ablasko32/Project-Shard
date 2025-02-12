@@ -1,7 +1,12 @@
 import DeleteAllChatsButton from '@/app/_components/DeleteAllChatsButton';
 import IndividualChat from '@/app/_components/IndividualChat';
 import { getAllChats } from '@/tools/chat-store';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+	title: 'My chats',
+};
 
 export default async function page() {
 	const chats: any[] | [] = (await getAllChats()) || [];

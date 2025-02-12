@@ -5,7 +5,7 @@ import SettingsForm from '@/app/_components/SettingsForm';
 import ClearLocalData from '../_components/ClearLocalData';
 
 export const metadata: Metadata = {
-	title: 'Settings',
+	title: 'My Settings',
 };
 
 export default function page() {

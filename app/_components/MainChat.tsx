@@ -47,6 +47,7 @@ export default function MainChat({
 			settingsSystemMessage,
 		},
 		onError(error) {
+			console.error(error);
 			toast.error(error.message);
 		},
 	});
@@ -76,7 +77,7 @@ export default function MainChat({
 			</div>
 			{/* error */}
 			{error && (
-				<p className="flex items-center justify-center gap-1 text-center text-xs text-lightError dark:text-darkError lg:text-sm">
+				<p className="z-50 flex items-center justify-center gap-1 text-center text-xs text-lightError dark:text-darkError lg:text-sm">
 					<GoAlert />
 					Chat Error!
 					<button className="ml-2 hover:scale-110" onClick={e => reload()}>
