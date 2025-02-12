@@ -1,21 +1,28 @@
 'use client';
 
 import CopyButton from '@/app/_components/CopyButton';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import TextExpander from '@/app/_components/TextExpander';
 import Button from '@/app/_components/Button';
 import { HiOutlineTrash } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/app/_lib/store';
-import { deletePrompt } from '@/app/prompts/promptsSlice';
+import { deletePrompt } from '@/app/_lib/actions';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import TinySpinner from './TinySpinner';
 
-export default function PromptsSearchAndDisplay() {
+export interface Prompts {
+	title: string;
+	content: string;
+	createdAt: Date;
+	updatedAt: Date;
+}
+export default function PromptsSearchAndDisplay({
+	prompts,
+}: {
+	prompts: Prompts[];
+}) {
 	const [searchvalue, setSearchValue] = useState<string>('');
-
-	const dispatch = useDispatch();
-
-	const prompts = useSelector((store: RootState) => store.prompts);
+	const [isPending, startTransition] = useTransition();
 
 	// filtered prompts
 	const filteredPrompts = prompts.filter(prompt =>
@@ -25,7 +32,15 @@ export default function PromptsSearchAndDisplay() {
 	// delete prompt from store by id
 	function handleDeletePrompt(id: string) {
 		if (!window.confirm('Are you sure?')) return;
-		dispatch(deletePrompt({ id: id }));
+		startTransition(async () => {
+			try {
+				await deletePrompt(Number(id));
+				toast.success('Prompt deleted');
+			} catch (err) {
+				console.error(err);
+				toast.error('Error deleting prompt');
+			}
+		});
 	}
 
 	// If there are no prompts yet, show a fallback
@@ -77,10 +92,10 @@ export default function PromptsSearchAndDisplay() {
 									type="secondary"
 									className="text-sm text-lightError dark:text-darkError"
 								>
-									<HiOutlineTrash />
+									{isPending ? <TinySpinner /> : <HiOutlineTrash />}
 								</Button>
 								<p className="text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary">
-									{prompt.date}
+									{prompt.createdAt.toLocaleDateString()}
 								</p>
 							</div>
 						</li>

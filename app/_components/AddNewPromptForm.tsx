@@ -1,45 +1,28 @@
 'use client';
 
 import Button from '@/app/_components/Button';
-import { useForm } from 'react-hook-form';
-import { GoAlert } from 'react-icons/go';
 import { HiOutlineSparkles } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
-import { addNewPrompt } from '@/app/prompts/promptsSlice';
+import { addNewPrompt } from '@/app/_lib/actions';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-
-interface AddPrompt {
-	title: string;
-	prompt: string;
-}
+import { useTransition } from 'react';
+import TinySpinner from '@/app/_components/TinySpinner';
 
 export default function AddNewPromptForm() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<AddPrompt>();
-
-	const dispatch = useDispatch();
-	const router = useRouter();
-
-	function onSubmit(data: AddPrompt) {
-		if (!data.title || !data.prompt) return;
-		console.log(data);
-		try {
-			dispatch(addNewPrompt({ title: data.title, content: data.prompt }));
-			toast.success('Prompt saved');
-			router.push('/prompts');
-		} catch (err) {
-			console.error(err);
-			toast.error('Error saving prompt');
-		}
-	}
+	const [isPending, startTransition] = useTransition();
 
 	return (
 		<form
-			onSubmit={handleSubmit(onSubmit)}
+			action={async formData => {
+				startTransition(async () => {
+					try {
+						await addNewPrompt(formData);
+						toast.success('Prompt saved');
+					} catch (err) {
+						console.error(err);
+						toast.error('Error saving prompt');
+					}
+				});
+			}}
 			className="flex w-full max-w-3xl flex-col gap-4 px-1"
 		>
 			<div className="flex flex-col gap-1">
@@ -47,21 +30,13 @@ export default function AddNewPromptForm() {
 					Title
 				</label>
 				<input
-					{...register('title', {
-						required: 'Title is required!',
-						maxLength: { value: 20, message: 'Title is too long!' },
-					})}
 					placeholder="Coding problem"
 					id="title"
 					className="rounded-md bg-lightSecondary p-2 focus:outline-none focus:ring focus:ring-lightPrimary dark:bg-darkSecondary dark:focus:ring-darkPrimary"
 					type="text"
+					name="title"
+					required
 				/>
-				{errors?.title && (
-					<p className="flex items-center justify-center gap-1 text-xs font-light text-lightError dark:text-darkError">
-						<GoAlert />
-						{errors.title.message}
-					</p>
-				)}
 			</div>
 
 			<div className="flex flex-col gap-1">
@@ -69,24 +44,24 @@ export default function AddNewPromptForm() {
 					Prompt
 				</label>
 				<textarea
-					{...register('prompt', { required: 'Prompt is required!' })}
 					placeholder="What would you like to ask again?"
 					id="prompt"
+					name="prompt"
+					required
 					rows={5}
 					className="resize-none rounded-md bg-lightSecondary p-2 focus:outline-none focus:ring focus:ring-lightPrimary dark:bg-darkSecondary dark:focus:ring-darkPrimary"
 				/>
-				{errors?.prompt && (
-					<p className="flex items-center justify-center gap-1 text-xs font-light text-lightError dark:text-darkError">
-						<GoAlert />
-						{errors.prompt.message}
-					</p>
-				)}
 			</div>
-
-			<Button className="mt-4">
-				<HiOutlineSparkles />
-				save
-			</Button>
+			{isPending ? (
+				<div className="mt-2 flex justify-center">
+					<TinySpinner />
+				</div>
+			) : (
+				<Button className="mt-4">
+					<HiOutlineSparkles />
+					save
+				</Button>
+			)}
 		</form>
 	);
 }

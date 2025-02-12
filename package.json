@@ -17,6 +17,8 @@
 		"next": "15.1.6",
 		"next-themes": "^0.4.4",
 		"ollama-ai-provider": "^1.2.0",
+		"pg": "^8.13.2",
+		"pg-hstore": "^2.3.4",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-hook-form": "^7.54.2",
@@ -28,11 +30,13 @@
 		"react-speech-recognition": "^3.10.0",
 		"regenerator-runtime": "^0.14.1",
 		"rehype-highlight": "^7.0.1",
-		"remark-gfm": "^4.0.0"
+		"remark-gfm": "^4.0.0",
+		"sequelize": "^6.37.5"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
 		"@types/node": "^20",
+		"@types/pg": "^8.11.11",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
 		"eslint": "^9",
