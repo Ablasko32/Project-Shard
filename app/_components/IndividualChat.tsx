@@ -8,12 +8,20 @@ import toast from 'react-hot-toast';
 import { deleteChat } from '@/tools/chat-store';
 import { useTransition } from 'react';
 import TinySpinner from '@/app/_components/TinySpinner';
+import { Message } from 'ai';
 
-export default function IndividualChat({ chat }: { chat: any[] }) {
+export interface Chat {
+	id: string;
+	messages: Message[];
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export default function IndividualChat({ chat }: { chat: Chat }) {
 	const [isPending, startTransition] = useTransition();
 
 	async function handleDeleteChat(): Promise<void> {
-		const chatId = chat[0].chatId;
+		const chatId = chat.id;
 
 		if (!window.confirm('Are you sure?')) return;
 		startTransition(async () => {
@@ -30,19 +38,21 @@ export default function IndividualChat({ chat }: { chat: any[] }) {
 	return (
 		<li
 			className="mx-auto mt-4 grid w-full max-w-6xl grid-cols-[1fr,10%] grid-rows-[1fr,10%] items-center pr-2"
-			key={chat[0].chatId}
+			key={chat.id}
 		>
 			{/* chat contanet first message is title and second is content */}
 			<div className="flex flex-col gap-2">
-				<h2 className="font-semibold">{chat[1].content.slice(0, 50)}...</h2>
+				<h2 className="font-semibold">
+					{chat.messages[0].content.slice(0, 50)}...
+				</h2>
 
 				<p className="w-[70%] text-lightTextSecondary dark:text-darkTextSecondary">
-					{chat[2]?.content.slice(0, 100)} ...
+					{chat.messages[1]?.content.slice(0, 100)} ...
 				</p>
 			</div>
 
 			{/* navigation to chat with chatId */}
-			<Link href={`/chat/${chat[0].chatId}`}>
+			<Link href={`/chat/${chat.id}`}>
 				<motion.button
 					whileHover={{
 						scale: 0.95,
@@ -65,7 +75,7 @@ export default function IndividualChat({ chat }: { chat: any[] }) {
 					{!isPending ? <HiOutlineTrash /> : <TinySpinner />}
 				</Button>
 				<p className="text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary">
-					{chat[0].chatDate}
+					{chat.createdAt.toLocaleDateString()}
 				</p>
 			</div>
 		</li>

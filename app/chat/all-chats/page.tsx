@@ -3,13 +3,14 @@ import IndividualChat from '@/app/_components/IndividualChat';
 import { getAllChats } from '@/tools/chat-store';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { Chat } from '@/app/_components/IndividualChat';
 
 export const metadata: Metadata = {
 	title: 'My chats',
 };
 
 export default async function page() {
-	const chats: any[] | [] = (await getAllChats()) || [];
+	const chats: Chat[] | [] = (await getAllChats()) || [];
 
 	return (
 		<div className="pageContainer flex flex-col">
@@ -26,7 +27,7 @@ export default async function page() {
 			{chats.length ? (
 				<ul className="mx-auto flex h-24 min-w-full max-w-6xl flex-grow flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 overflow-y-scroll dark:divide-darkSecondary">
 					{chats.map(chat => {
-						return <IndividualChat key={chat[0].chatId} chat={chat} />;
+						return <IndividualChat key={chat.id} chat={chat} />;
 					})}
 				</ul>
 			) : (
