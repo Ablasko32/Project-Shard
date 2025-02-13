@@ -68,6 +68,7 @@ export async function getAllSettings(): Promise<ISettings> {
 export async function updateSettings(formData: FormData): Promise<void> {
 	const username = formData.get('username')?.slice(0, 100) as string;
 	const system = formData.get('system')?.slice(0, 1000) as string;
+	console.log('IM HERE', system, username);
 	try {
 		const settings = await Settings.findAll();
 		if (!settings.length) {

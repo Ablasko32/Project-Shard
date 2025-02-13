@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import '@/app/globals.css';
 import Navigation from '@/app/_components/Navigation';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import Footer from '@/app/_components/Footer';
-import ReduxProvider from '@/app/_components/ReactRedux';
 import { Toaster } from 'react-hot-toast';
 import 'regenerator-runtime/runtime';
+import ModelProvider from '@/app/_components/ModelProvider';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -29,7 +29,8 @@ export default function RootLayout({
 			<body
 				className={`${inter.className} h-dvh max-h-dvh overflow-hidden antialiased`}
 			>
-				<ReduxProvider>
+				{/* Model provider provides model and setter function */}
+				<ModelProvider>
 					{/* Theme provider dark/light defaults to dark via class on body */}
 					<ThemeProvider
 						defaultTheme="dark"
@@ -46,7 +47,7 @@ export default function RootLayout({
 							</div>
 						</div>
 					</ThemeProvider>
-				</ReduxProvider>
+				</ModelProvider>
 				{/* React Hot Toast notifications */}
 				<Toaster
 					gutter={8}

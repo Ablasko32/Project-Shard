@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import MessageDisplay from '@/app/_components/MessageDisplay';
 import { GoAlert } from 'react-icons/go';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/_lib/store';
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { Message, useChat } from 'ai/react';
 import { TfiReload } from 'react-icons/tfi';
 import ChatInput from '@/app/_components/ChatInput';
-import { Settings } from './SettingsForm';
+import { Settings } from '@/app/_components/SettingsForm';
+import { useModelProvider } from '@/app/_components/ModelProvider';
 
 export default function MainChat({
 	id,
@@ -21,9 +20,7 @@ export default function MainChat({
 	initialMessages: Message[];
 	settings?: Settings;
 }) {
-	const selectedAIModel: string = useSelector(
-		(store: RootState) => store.model.model
-	);
+	const { model: selectedAIModel } = useModelProvider();
 
 	const settingsSystemMessage: string = `My name is ${settings?.username || 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${settings?.system || 'You are a helpful assistant'}`;
 

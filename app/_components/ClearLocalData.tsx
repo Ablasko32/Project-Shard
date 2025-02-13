@@ -1,13 +1,12 @@
 'use client';
 
 import Button from '@/app/_components/Button';
-import { deleteLocalState } from '@/app/_lib/store';
 import toast from 'react-hot-toast';
 
 export default function ClearLocalData() {
 	function handleLocalStorageCleaning() {
 		if (!window.confirm('Are you sure?')) return;
-		deleteLocalState();
+		// LOGIC TO CLEAR WILL BE ADDED
 		toast.success('Local storage cleared');
 	}
 

@@ -3,8 +3,6 @@ import { Model } from '@/app/_types/types';
 import { LuPlay } from 'react-icons/lu';
 import { useState } from 'react';
 import { easeInOut, motion } from 'framer-motion';
-import { useDispatch } from 'react-redux';
-import { switchModel } from '@/app/models/modelSlice';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaArrowRight, FaRegTrashAlt } from 'react-icons/fa';
@@ -12,13 +10,14 @@ import toast from 'react-hot-toast';
 import Button from '@/app/_components/Button';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { deleteOllamaModel } from '@/app/_lib/ollamaApi';
+import { useModelProvider } from '@/app/_components/ModelProvider';
 
 function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 	// console.log(modelsList);
 
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-	const dispatch = useDispatch();
+	const { setModel } = useModelProvider();
 
 	const router = useRouter();
 
@@ -44,11 +43,16 @@ function ModelDisplay({ modelsList }: { modelsList: Model[] }) {
 
 				// selects model as current model in redux store
 				function handleSelectModel(modelName: string): void {
-					// dispatch new name to store
-					dispatch(switchModel(modelName));
-					toast.success('Model switched');
-					// navigate back to chat
-					router.push('/chat');
+					// switch model via modelProvider
+					try {
+						setModel(modelName);
+						toast.success('Model switched');
+						// navigate back to chat
+						router.push('/chat');
+					} catch (err) {
+						console.error(err);
+						toast.error('Error switching model');
+					}
 				}
 
 				return (
