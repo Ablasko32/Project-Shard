@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
+	serverExternalPackages: ['sequelize'],
 };
 
 export default nextConfig;

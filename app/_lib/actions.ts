@@ -1,7 +1,8 @@
 'use server';
-import { Prompts } from '@/dbModels';
+import { Prompts, Settings } from '@/dbModels';
 import { revalidatePath } from 'next/cache';
 import { Prompts as IPrompts } from '@/app/_components/PromptsSearchAndDisplay';
+import { Settings as ISettings } from '../_components/SettingsForm';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -44,6 +45,42 @@ export async function deletePrompt(id: number): Promise<void> {
 		await Prompts.destroy({ where: { id } });
 		revalidatePath('/prompts');
 	} catch (err) {
+		console.error(err);
 		throw new Error('Error deleting prompt');
+	}
+}
+
+// SETTINGS
+
+// get all settings
+export async function getAllSettings(): Promise<ISettings> {
+	try {
+		const results = await Settings.findOne();
+
+		return results?.toJSON();
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error fetching settings');
+	}
+}
+
+// create or update settings
+export async function updateSettings(formData: FormData): Promise<void> {
+	const username = formData.get('username')?.slice(0, 100) as string;
+	const system = formData.get('system')?.slice(0, 1000) as string;
+	try {
+		const settings = await Settings.findAll();
+		if (!settings.length) {
+			await Settings.create({ username, system });
+		} else {
+			await Settings.update(
+				{ username: username, system: system },
+				{ where: { id: 1 } }
+			);
+		}
+		revalidatePath('/settings');
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error updating settings');
 	}
 }

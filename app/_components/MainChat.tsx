@@ -10,23 +10,22 @@ import toast from 'react-hot-toast';
 import { Message, useChat } from 'ai/react';
 import { TfiReload } from 'react-icons/tfi';
 import ChatInput from '@/app/_components/ChatInput';
+import { Settings } from './SettingsForm';
 
 export default function MainChat({
 	id,
 	initialMessages,
+	settings,
 }: {
 	id?: string | undefined;
 	initialMessages: Message[];
+	settings?: Settings;
 }) {
 	const selectedAIModel: string = useSelector(
 		(store: RootState) => store.model.model
 	);
 
-	const { username, defaultSystemMessage } = useSelector(
-		(store: RootState) => store.settings
-	);
-
-	const settingsSystemMessage: string = `My name is ${username ? username : 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${defaultSystemMessage ? defaultSystemMessage : 'You are a helpful assistant'}`;
+	const settingsSystemMessage: string = `My name is ${settings?.username || 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${settings?.system || 'You are a helpful assistant'}`;
 
 	const {
 		input,

@@ -1,16 +1,23 @@
 import pg from 'pg';
-import { Sequelize } from 'sequelize';
+import { Sequelize, Dialect } from 'sequelize';
 
-const sequelize = new Sequelize({
-	host: 'localhost',
-	port: 5433,
-	username: 'admin',
-	password: 'admin',
-	database: 'shard',
-	dialect: 'postgres',
+const dbConfig = {
+	host: process.env.POSTGRES_HOST || 'localhost',
+	port: Number(process.env.POSTGRES_PORT) || 5433,
+	username: process.env.POSTGRES_USER || 'admin',
+	password: process.env.POSTGRES_PASSWORD || 'admin',
+	database: process.env.POSTGRES_DB || 'shard',
+	dialect: 'postgres' as Dialect,
 	dialectModule: pg,
 	logging: false,
-});
+};
+
+const sequelize = new Sequelize(
+	dbConfig.database,
+	dbConfig.username,
+	dbConfig.password,
+	dbConfig
+);
 
 // Test connection
 async function testSequelizeConnection() {

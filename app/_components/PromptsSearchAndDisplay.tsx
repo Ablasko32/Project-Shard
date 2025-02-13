@@ -44,7 +44,7 @@ export default function PromptsSearchAndDisplay({
 	}
 
 	// If there are no prompts yet, show a fallback
-	if (!filteredPrompts.length)
+	if (!prompts.length)
 		return (
 			<div className="mt-10 flex flex-col items-center gap-4 text-lightTextSecondary dark:text-darkTextSecondary">
 				<p className="">Nothing here yet!</p>

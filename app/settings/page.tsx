@@ -1,14 +1,17 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ConnectionTest from '@/app/_components/ConnectionTest';
-import SettingsForm from '@/app/_components/SettingsForm';
+import SettingsForm, { Settings } from '@/app/_components/SettingsForm';
 import ClearLocalData from '../_components/ClearLocalData';
+import { getAllSettings } from '@/app/_lib/actions';
 
 export const metadata: Metadata = {
 	title: 'My Settings',
 };
 
-export default function page() {
+export default async function page() {
+	const settings: Settings = await getAllSettings();
+
 	return (
 		<div className="pageContainer flex flex-col items-center gap-4">
 			<h2 className="mb-2 self-start text-center text-xl font-bold lg:text-3xl">
@@ -17,7 +20,7 @@ export default function page() {
 
 			<ConnectionTest />
 
-			<SettingsForm />
+			<SettingsForm settings={settings} />
 
 			<ClearLocalData />
 
