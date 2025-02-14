@@ -7,7 +7,11 @@ import pdfParse from 'pdf-parse';
 import path from 'path';
 import fs from 'fs/promises';
 import mammoth from 'mammoth';
-import { chunkUpText, generateEmbedding } from '@/helpers/textProcessing';
+import {
+	bulkInsertEmbeddings,
+	chunkUpText,
+	generateEmbedding,
+} from '@/helpers/textProcessing';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -111,6 +115,16 @@ export async function uploadFile(formData: FormData) {
 		// upload raw file store to disk in DOCUMENT_FOLDER
 		const documentFolder = path.join(process.cwd(), `/${DOCUMENT_FOLDER}`);
 		const filePath = path.join(documentFolder, fileName);
+
+		// check to see if file is already processed and exits in .documents
+		try {
+			await fs.access(filePath);
+			// if no error then exists
+			console.log('FILE EXISTS SKIPPING...');
+			return;
+		} catch (err) {}
+
+		// buffer from file
 		const fileArray = await file.arrayBuffer();
 		const fileBuffer: Buffer = Buffer.from(fileArray);
 		// create directory if not exists
@@ -146,8 +160,8 @@ export async function uploadFile(formData: FormData) {
 
 		// embedd text chunks using ollama model
 		const embeddings = await generateEmbedding(chunkedText);
-		// embeddings prepared for further processing
-		console.log(embeddings);
+		// insert embeddings and chunks to database
+		await bulkInsertEmbeddings(chunkedText, embeddings);
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error uploading file');

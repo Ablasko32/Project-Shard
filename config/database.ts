@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { Sequelize, Dialect } from 'sequelize';
+import pgVector from 'pgvector/sequelize';
 
 const dbConfig = {
 	host: process.env.POSTGRES_HOST || 'localhost',
@@ -19,11 +20,16 @@ const sequelize = new Sequelize(
 	dbConfig
 );
 
+// register Pgvector
+pgVector.registerType(Sequelize);
+
 // Test connection
 async function testSequelizeConnection() {
 	try {
 		await sequelize.authenticate();
-		console.log('Connected to database');
+		// enable PG VECTOR extension
+		await sequelize.query('CREATE EXTENSION IF NOT EXISTS vector');
+		console.log('Connected to database and enabled PG VECTOR');
 	} catch (error) {
 		console.error('Unable to connect to the database:', error);
 	}

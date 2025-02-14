@@ -2,6 +2,7 @@ import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { cosineSimilarity, embedMany } from 'ai';
 import { ollama } from '@/app/_lib/ollamaClient';
 import { EmbeddingModelV1Embedding } from '@ai-sdk/provider';
+import { Embeddings } from '@/dbModels';
 
 const CHUNK_SIZE: number = 500;
 const CHUNK_OVERLAP: number = 50;
@@ -41,4 +42,27 @@ export async function generateEmbedding(
 	// 	`cosine similarity: ${cosineSimilarity(embeddings[0], embeddings[1])}`
 	// );
 	return embeddings;
+}
+
+// bulk text insert
+export async function bulkInsertEmbeddings(
+	chunks: string[],
+	embeddings: EmbeddingModelV1Embedding[]
+) {
+	if (chunks.length !== embeddings.length)
+		throw new Error('Embedding length mismatch');
+
+	try {
+		const insertData = chunks.map((chunk, index) => {
+			return {
+				chunk: chunk,
+				embedding: embeddings[index],
+			};
+		});
+
+		await Embeddings.bulkCreate(insertData);
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error inserting to database');
+	}
 }

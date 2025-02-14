@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: ramsrib/pgvector
     ports:
       - 5433:5432
     volumes:
