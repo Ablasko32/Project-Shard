@@ -85,3 +85,10 @@ export async function updateSettings(formData: FormData): Promise<void> {
 		throw new Error('Error updating settings');
 	}
 }
+
+// DOCUMENTS
+
+export async function uploadFile(formData: FormData) {
+	const file = formData.get('file') as File;
+	console.log('ACTION FILE', file);
+}

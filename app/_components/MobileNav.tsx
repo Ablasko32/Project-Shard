@@ -88,6 +88,8 @@ function MobileNav() {
 
 								<NavigationLink name="prompts" path="/prompts" />
 
+								<NavigationLink name="documents" path="/documents" />
+
 								<NavigationLink name="settings" path="/settings" />
 								<ThemeSwitch />
 							</ul>
