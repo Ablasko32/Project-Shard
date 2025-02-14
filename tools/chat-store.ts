@@ -1,14 +1,11 @@
 'use server';
 import { generateId, Message } from 'ai';
-// import { existsSync, mkdirSync } from 'fs';
-// import { writeFile, readFile, readdir, unlink } from 'fs/promises';
-// import path from 'path';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Chats } from '@/dbModels';
 import { Chat } from '@/app/_components/IndividualChat';
-import { Chat } from 'openai/resources/index.mjs';
 
+// create chat
 export async function createChat(): Promise<string> {
 	const id = generateId();
 
@@ -24,9 +21,9 @@ export async function createChat(): Promise<string> {
 // load chat by ID
 export async function loadChat(id: string): Promise<Message[]> {
 	try {
-		const chat: Chat = await Chats.findByPk(id);
+		const chat = (await Chats.findByPk(id)) as unknown as Chat | null;
 		if (!chat) throw new Error();
-		return chat.messages;
+		return chat.messages ?? [];
 	} catch (err) {
 		console.error(err);
 		notFound();
@@ -52,7 +49,7 @@ export async function saveChat({
 // Get all chats from DB and delete empty ones on fetch
 export async function getAllChats() {
 	try {
-		const chats: Chat[] = await Chats.findAll();
+		const chats = (await Chats.findAll()) as unknown as Chat[];
 		const messages = chats.map(chat =>
 			chat.messages ? chat.toJSON() : undefined
 		);
