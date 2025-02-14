@@ -17,7 +17,6 @@ export default function DocumentUpload() {
 			setFile(e.target.files[0]);
 		}
 	}
-	console.log(file);
 
 	return (
 		<form
@@ -61,6 +60,7 @@ export default function DocumentUpload() {
 			</div>
 			<input
 				name="file"
+				accept=".pdf,.txt,.docx"
 				onChange={handleFileChange}
 				id="file"
 				type="file"

@@ -3,6 +3,10 @@ import { Prompts, Settings } from '@/dbModels';
 import { revalidatePath } from 'next/cache';
 import { Prompts as IPrompts } from '@/app/_components/PromptsSearchAndDisplay';
 import { Settings as ISettings } from '../_components/SettingsForm';
+import pdfParse from 'pdf-parse';
+import path from 'path';
+import fs from 'fs/promises';
+import mammoth from 'mammoth';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -88,7 +92,57 @@ export async function updateSettings(formData: FormData): Promise<void> {
 
 // DOCUMENTS
 
+const DOCUMENT_FOLDER = '.documents';
+
 export async function uploadFile(formData: FormData) {
-	const file = formData.get('file') as File;
-	console.log('ACTION FILE', file);
+	try {
+		const file = formData.get('file') as File;
+		if (!file) {
+			throw new Error('No file provided');
+		}
+
+		// file name contructions
+		const fileName = file.name;
+		const fileExtension = ('.' + fileName.split('.').pop()) as string;
+		if (!['.txt', '.pdf', '.docx'].includes(fileExtension))
+			throw new Error('Invalid file type');
+
+		// upload raw file store to disk in DOCUMENT_FOLDER
+		const documentFolder = path.join(process.cwd(), `/${DOCUMENT_FOLDER}`);
+		const filePath = path.join(documentFolder, fileName);
+		const fileArray = await file.arrayBuffer();
+		const fileBuffer: Buffer = Buffer.from(fileArray);
+		// create directory if not exists
+		await fs.mkdir(documentFolder, { recursive: true });
+		// write file buffer
+		await fs.writeFile(filePath, fileBuffer);
+
+		// parse text
+		let extractedRawText: string = '';
+		switch (fileExtension) {
+			// raw text simply extract
+			case '.txt': {
+				extractedRawText = await file.text();
+				break;
+			}
+			// parse with pdf parse extrat text
+			case '.pdf': {
+				const pdfData = await pdfParse(fileBuffer);
+				extractedRawText = pdfData.text;
+				break;
+			}
+			// extract from word via mammoth
+			case '.docx': {
+				const wordData = await mammoth.extractRawText({ buffer: fileBuffer });
+				extractedRawText = wordData.value;
+				break;
+			}
+		}
+
+		// RESULTING RAW TEXT FOR FURTHER PROCESSING
+		console.log(extractedRawText);
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error uploading file');
+	}
 }

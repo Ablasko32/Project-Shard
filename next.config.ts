@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
-	serverExternalPackages: ['sequelize'],
+	serverExternalPackages: ['sequelize', 'pdf-parse'],
 };
 
 export default nextConfig;
