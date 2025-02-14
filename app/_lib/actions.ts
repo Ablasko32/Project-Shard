@@ -7,6 +7,7 @@ import pdfParse from 'pdf-parse';
 import path from 'path';
 import fs from 'fs/promises';
 import mammoth from 'mammoth';
+import { chunkUpText, generateEmbedding } from '@/helpers/textProcessing';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -139,8 +140,14 @@ export async function uploadFile(formData: FormData) {
 			}
 		}
 
-		// RESULTING RAW TEXT FOR FURTHER PROCESSING
-		console.log(extractedRawText);
+		// Chunk up text in smaller chunks using langcahin text splitters
+		const chunkedText = await chunkUpText(extractedRawText);
+		// console.log(chunkedText);
+
+		// embedd text chunks using ollama model
+		const embeddings = await generateEmbedding(chunkedText);
+		// embeddings prepared for further processing
+		console.log(embeddings);
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error uploading file');

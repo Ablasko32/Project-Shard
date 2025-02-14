@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import DocumentUpload from '@/app/_components/DocumentUpload';
+import CopyButton from '../_components/CopyButton';
+import { GoAlert } from 'react-icons/go';
 
 export const metadata: Metadata = {
 	title: 'My documents',
@@ -31,6 +33,20 @@ export default function page() {
 						.docx
 					</span>
 				</p>
+			</div>
+			<div className="flex max-w-sm items-center justify-center gap-1 self-center rounded-md bg-lightSecondary px-2 py-1 text-sm text-lightTextSecondary dark:bg-darkSecondary dark:text-darkTextSecondary">
+				<p className="flex items-center gap-1">
+					<GoAlert />
+					Requires:
+				</p>
+				<a
+					href="https://ollama.com/library/nomic-embed-text/blobs/970aa74c0a90"
+					target="_blank"
+					className="mr-2 font-semibold text-lightPrimary opacity-80 transition-all duration-150 hover:opacity-70 dark:text-darkPrimary"
+				>
+					/nomic-embed-text
+				</a>
+				<CopyButton content="nomic-embed-text" />
 			</div>
 		</div>
 	);
