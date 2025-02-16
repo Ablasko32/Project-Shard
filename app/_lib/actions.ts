@@ -1,5 +1,11 @@
 'use server';
-import { Documents, Prompts, Settings } from '@/dbModels';
+import {
+	Documents,
+	Embeddings,
+	Prompts,
+	sequelize,
+	Settings,
+} from '@/dbModels';
 import { revalidatePath } from 'next/cache';
 import { Prompts as IPrompts } from '@/app/_components/PromptsSearchAndDisplay';
 import { Settings as ISettings } from '@/app/_components/SettingsForm';
@@ -11,7 +17,10 @@ import {
 	bulkInsertEmbeddings,
 	chunkUpText,
 	generateEmbedding,
+	generateQueryEmbedding,
 } from '@/helpers/textProcessing';
+import { generateText } from 'ai';
+import { ollama } from './ollamaClient';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -190,4 +199,46 @@ export async function uploadFile(formData: FormData) {
 			throw new Error('Error uploading file');
 		}
 	}
+}
+
+// RAG TEST!
+export async function ragTest() {
+	const userQuery = 'How to use tools in vercel ai sdk';
+	const queryEmbedding = await generateQueryEmbedding(userQuery);
+	// console.log(queryEmbedding);
+	console.log('STARTING RAG TEST...');
+
+	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
+	const [results] = await sequelize.query(
+		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id  ORDER BY distance LIMIT 20',
+		{ replacements: [formattedEmbedding] }
+	);
+
+	console.log('RESULTS AQUIRED');
+	console.log(results);
+
+	console.log('RESULT LENGHT', results.length);
+
+	const parsedData =
+		results.map(el => el.chunk as string).join('\n') +
+		`The data was taken from ${results[0].name}`;
+	// console.log(results);
+	// console.log('PARSED DATA', parsedData);
+
+	const contructedPrompt = `
+	Answer the question based on provided context.Augment your knowledge.
+	Context : ${parsedData}
+
+	Question : ${userQuery}
+	
+	Finish the answer with the source of data in format: [Source: <source_name>]
+	`;
+
+	const response = await generateText({
+		model: ollama('qwen2.5:3b'),
+		prompt: contructedPrompt,
+	});
+
+	console.log('MODEL RESPONSE', response);
+	console.log('RAG TEST ENDED...');
 }

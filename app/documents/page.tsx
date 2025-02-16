@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import DocumentUpload from '@/app/_components/DocumentUpload';
 import CopyButton from '../_components/CopyButton';
 import { GoAlert } from 'react-icons/go';
+import RagTest from '../_components/RagTest';
 
 export const metadata: Metadata = {
 	title: 'My documents',
@@ -48,6 +49,7 @@ export default function page() {
 				</a>
 				<CopyButton content="nomic-embed-text" />
 			</div>
+			<RagTest />
 		</div>
 	);
 }

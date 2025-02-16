@@ -1,5 +1,5 @@
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
-import { cosineSimilarity, embedMany } from 'ai';
+import { cosineSimilarity, embed, embedMany, EmbedResult } from 'ai';
 import { ollama } from '@/app/_lib/ollamaClient';
 import { EmbeddingModelV1Embedding } from '@ai-sdk/provider';
 import { Embeddings } from '@/dbModels';
@@ -42,6 +42,20 @@ export async function generateEmbedding(
 	// 	`cosine similarity: ${cosineSimilarity(embeddings[0], embeddings[1])}`
 	// );
 	return embeddings;
+}
+
+// embedd user querry
+export async function generateQueryEmbedding(
+	userQuery: string
+): Promise<EmbeddingModelV1Embedding> {
+	const { embedding } = await embed({
+		model: ollama.embedding(DEFAULT_EMBEDDING_MODEL as string),
+		value: userQuery,
+	});
+	// console.log(
+	// 	`cosine similarity: ${cosineSimilarity(embeddings[0], embeddings[1])}`
+	// );
+	return embedding;
 }
 
 // bulk text insert
