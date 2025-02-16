@@ -10,6 +10,14 @@ const Embeddings = sequelize.define('embeddings', {
 		type: DataTypes.VECTOR(768),
 		allowNull: false,
 	},
+	documentId: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: 'documents',
+			key: 'id',
+		},
+	},
 });
 
 export default Embeddings;

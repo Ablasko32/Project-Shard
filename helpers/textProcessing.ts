@@ -47,7 +47,8 @@ export async function generateEmbedding(
 // bulk text insert
 export async function bulkInsertEmbeddings(
 	chunks: string[],
-	embeddings: EmbeddingModelV1Embedding[]
+	embeddings: EmbeddingModelV1Embedding[],
+	documentId: number
 ) {
 	if (chunks.length !== embeddings.length)
 		throw new Error('Embedding length mismatch');
@@ -57,6 +58,7 @@ export async function bulkInsertEmbeddings(
 			return {
 				chunk: chunk,
 				embedding: embeddings[index],
+				documentId,
 			};
 		});
 

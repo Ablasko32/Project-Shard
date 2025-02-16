@@ -33,11 +33,12 @@ export default function DocumentUpload() {
 				startTransition(async () => {
 					try {
 						await uploadFile(formData);
-						setFile(null);
 						toast.success('File uploaded');
 					} catch (err) {
 						console.error(err);
-						toast.error('Error uploading file');
+						toast.error(err.message);
+					} finally {
+						setFile(null);
 					}
 				});
 			}}
