@@ -1,6 +1,6 @@
 import DeleteAllChatsButton from '@/app/_components/DeleteAllChatsButton';
 import IndividualChat from '@/app/_components/IndividualChat';
-import { getAllChats } from '@/tools/chat-store';
+import { getAllChats } from '@/app/_lib/chat-store';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Chat } from '@/app/_components/IndividualChat';
@@ -20,9 +20,9 @@ export default async function page() {
 				<DeleteAllChatsButton />
 			</div>
 
-			<p className="my-6 text-center text-sm text-lightTextSecondary dark:text-darkTextSecondary lg:my-10">
+			{/* <p className="my-6 text-center text-sm text-lightTextSecondary dark:text-darkTextSecondary lg:my-10">
 				Here you can browse all your previous chats.
-			</p>
+			</p> */}
 
 			{chats.length ? (
 				<ul className="mx-auto flex h-24 min-w-full max-w-6xl flex-grow flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 overflow-y-scroll dark:divide-darkSecondary">

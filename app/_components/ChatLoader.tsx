@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 function ChatLoader({ isVisible }: { isVisible: boolean }) {
 	if (isVisible) {
 		return (
-			<div className="absolute top-0 flex gap-2">
+			<div className="absolute top-12 flex gap-2">
 				{[0, 1, 2].map(dot => {
 					return (
 						<motion.span

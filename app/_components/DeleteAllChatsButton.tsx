@@ -2,7 +2,7 @@
 import { HiOutlineTrash } from 'react-icons/hi';
 import Button from '@/app/_components/Button';
 import toast from 'react-hot-toast';
-import { deleteAllChats } from '@/tools/chat-store';
+import { deleteAllChats } from '@/app/_lib/chat-store';
 import { useTransition } from 'react';
 import TinySpinner from '@/app/_components/TinySpinner';
 

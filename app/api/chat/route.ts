@@ -1,8 +1,8 @@
 import { ollama } from '@/app/_lib/ollamaClient';
 import { streamText, appendResponseMessages } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
-import { saveChat } from '@/tools/chat-store';
-import { encodeUserQueryAndDoRag } from '@/app/_lib/actions';
+import { saveChat } from '@/app/_lib/chat-store';
+import { encodeUserQueryAndDoRag } from '@/helpers/textProcessing';
 
 interface Body {
 	model: string;
@@ -39,12 +39,11 @@ export async function POST(request: NextRequest) {
 		// prompt or message array?
 		const prompt = body.ragMode
 			? { prompt: ragPrompt }
-			: { messages: bodyMessages };
+			: { messages: bodyMessages, system: body.settingsSystemMessage };
 
 		const aiResponse = streamText({
 			model: ollama(body.model),
 			...prompt,
-			system: body.settingsSystemMessage,
 			async onFinish({ response }) {
 				await saveChat({
 					id: body.id,

@@ -201,7 +201,7 @@ export async function uploadFile(formData: FormData) {
 	}
 }
 
-// RAG TEST!
+// RAG TEST- used for testing rag only
 export async function ragTest() {
 	const userQuery = 'How to use tools in vercel ai sdk';
 	const queryEmbedding = await generateQueryEmbedding(userQuery);
@@ -243,38 +243,15 @@ export async function ragTest() {
 	console.log('RAG TEST ENDED...');
 }
 
-// encode user query and construct prompt with rag context
-export async function encodeUserQueryAndDoRag(
-	userQuery: string
-): Promise<string> {
-	// embedd user query
-	const queryEmbedding = await generateQueryEmbedding(userQuery);
-	//format as needed
-	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
-	// preform similary search, join doucments to know where did data come from
-	const [results] = await sequelize.query(
-		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id WHERE embedding <#> CAST(? AS vector) < -0.5  ORDER BY distance ASC  LIMIT 12',
-		{ replacements: [formattedEmbedding, formattedEmbedding] }
-	);
-
-	console.log('RESULTS', results);
-
-	// construct context data
-	const contextData =
-		results.map((el: any) => el.chunk as string).join('\n') +
-		`\nThe data was taken from ${results[0]?.name}`;
-
-	// construct RAG prompt
-	const contructedPrompt = `
-	Answer the question based on provided context.Augment your knowledge.
-	Context : ${contextData}
-
-	Question : ${userQuery}
-	
-	
-	`;
-
-	console.log('CONSTRUCTED PROMPT:', contructedPrompt);
-
-	return contructedPrompt;
+//get all documents
+export async function getAllDocuments() {
+	try {
+		const documents = await Documents.findAll({
+			order: [['createdAt', 'DESC']],
+		});
+		return documents.map(document => document.toJSON());
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error fetching documents');
+	}
 }

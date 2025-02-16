@@ -1,8 +1,8 @@
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
-import { cosineSimilarity, embed, embedMany, EmbedResult } from 'ai';
+import { cosineSimilarity, embed, embedMany } from 'ai';
 import { ollama } from '@/app/_lib/ollamaClient';
 import { EmbeddingModelV1Embedding } from '@ai-sdk/provider';
-import { Embeddings } from '@/dbModels';
+import { Embeddings, sequelize } from '@/dbModels';
 
 const CHUNK_SIZE: number = 500;
 const CHUNK_OVERLAP: number = 50;
@@ -12,6 +12,7 @@ if (!DEFAULT_EMBEDDING_MODEL) {
 	throw new Error('No default model in enviroment!');
 }
 
+// clean text for embedding
 function cleanText(text: string): string {
 	return text
 		.replace(/\s+/g, ' ') //replace multiline with single line
@@ -30,7 +31,7 @@ export async function chunkUpText(text: string): Promise<string[]> {
 	return await splitter.splitText(cleanText(text));
 }
 
-// ollama embedding generate embeddings
+// ollama embedding generate many embeddings
 export async function generateEmbedding(
 	chunkedText: string[]
 ): Promise<EmbeddingModelV1Embedding[]> {
@@ -81,4 +82,42 @@ export async function bulkInsertEmbeddings(
 		console.error(err);
 		throw new Error('Error inserting to database');
 	}
+}
+
+// encode user query and construct prompt with rag context
+export async function encodeUserQueryAndDoRag(
+	userQuery: string
+): Promise<string> {
+	// embedd user query
+	const queryEmbedding = await generateQueryEmbedding(userQuery);
+	//format as needed
+	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
+	// preform similary search, join doucments to know where did data come from
+	const [results] = await sequelize.query(
+		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id WHERE embedding <#> CAST(? AS vector) < -0.5  ORDER BY distance ASC  LIMIT 12',
+		{ replacements: [formattedEmbedding, formattedEmbedding] }
+	);
+
+	// data sources documents
+	const dataSources = [...new Set(results.map((el: any) => el.name))].join(',');
+	// console.log(dataSources);
+
+	console.log('RESULTS', results);
+
+	// construct context data
+	const contextData =
+		results.map((el: any) => el.chunk as string).join('\n') +
+		`\nThe data was taken from data sources:${dataSources}`;
+
+	// construct RAG prompt
+	const contructedPrompt = `
+	Answer the question based on provided context.Augment your knowledge.Finish the answer by providing data sources.
+	Context : ${contextData}
+
+	Question : ${userQuery}
+	`;
+
+	console.log('CONSTRUCTED PROMPT:', contructedPrompt);
+
+	return contructedPrompt;
 }

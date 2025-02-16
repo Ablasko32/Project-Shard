@@ -1,55 +1,67 @@
-import { Metadata } from 'next';
-import DocumentUpload from '@/app/_components/DocumentUpload';
-import CopyButton from '../_components/CopyButton';
-import { GoAlert } from 'react-icons/go';
-import RagTest from '../_components/RagTest';
+import React from 'react';
+import { getAllDocuments } from '@/app/_lib/actions';
+import Button from '@/app/_components/Button';
+import { HiOutlineTrash } from 'react-icons/hi';
+import Link from 'next/link';
 
-export const metadata: Metadata = {
-	title: 'My documents',
-};
+interface Documents {
+	id: number;
+	name: string;
+	extension: string;
+	size: number;
+	createdAt: Date;
+}
 
-export default function page() {
+export default async function page() {
+	const documents: Documents[] = await getAllDocuments();
+	// console.log(documents);
+
+	// If there are no documents yet, show a fallback
+	if (!documents.length)
+		return (
+			<div className="mt-10 flex flex-col items-center gap-4 text-lightTextSecondary dark:text-darkTextSecondary">
+				<p className="">Nothing here yet!</p>
+				<p className="rounded-md bg-lightSecondary px-2 py-1 dark:bg-darkSecondary">
+					Start by uploading your first{' '}
+					<Link
+						href="/documents/upload"
+						className="text-lightPrimary transition-all duration-150 hover:opacity-70 dark:text-darkPrimary"
+					>
+						/Document!
+					</Link>
+				</p>
+			</div>
+		);
+
 	return (
-		<div className="pageContainer flex flex-col gap-10">
-			<h2 className="text-xl font-bold capitalize lg:text-3xl">My documents</h2>
-			{/* file upload */}
-			<DocumentUpload />
+		<div className="flex h-full flex-col gap-4 overflow-y-scroll">
+			<ul className="mx-auto flex h-32 w-full max-w-6xl flex-grow flex-col items-center gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 dark:divide-darkSecondary">
+				{documents.map(document => {
+					return (
+						<li
+							key={document.id}
+							className="flex w-full flex-col gap-2 py-2 pr-4"
+						>
+							<h2 className="font-semibold">{document.name}</h2>
 
-			{/* explanatory  */}
-			<div className="flex flex-col gap-2">
-				<div className="max-w-sm self-center rounded-md bg-lightSecondary px-2 py-1 text-center text-sm text-lightTextSecondary dark:bg-darkSecondary dark:text-darkTextSecondary">
-					<p>
-						Here you can upload files to serve as knowledge base for the model.
-					</p>
-				</div>
-				<p className="text-center text-xs text-lightTextSecondary dark:text-darkTextSecondary">
-					Supports:{' '}
-					<span className="font-semibold text-lightPrimary opacity-80 dark:text-darkPrimary">
-						.txt
-					</span>{' '}
-					<span className="font-semibold text-lightPrimary opacity-80 dark:text-darkPrimary">
-						.pdf
-					</span>{' '}
-					<span className="font-semibold text-lightPrimary opacity-80 dark:text-darkPrimary">
-						.docx
-					</span>
-				</p>
-			</div>
-			<div className="flex max-w-sm items-center justify-center gap-1 self-center rounded-md bg-lightSecondary px-2 py-1 text-sm text-lightTextSecondary dark:bg-darkSecondary dark:text-darkTextSecondary">
-				<p className="flex items-center gap-1">
-					<GoAlert />
-					Requires:
-				</p>
-				<a
-					href="https://ollama.com/library/nomic-embed-text/blobs/970aa74c0a90"
-					target="_blank"
-					className="mr-2 font-semibold text-lightPrimary opacity-80 transition-all duration-150 hover:opacity-70 dark:text-darkPrimary"
-				>
-					/nomic-embed-text
-				</a>
-				<CopyButton content="nomic-embed-text" />
-			</div>
-			<RagTest />
+							<p className="text-sm text-lightTextSecondary dark:text-darkTextSecondary">
+								Size: {document.size} Bytes
+							</p>
+							<div className="flex items-center gap-2 self-end">
+								<Button
+									type="secondary"
+									className="text-sm text-lightError dark:text-darkError"
+								>
+									<HiOutlineTrash />
+								</Button>
+								<p className="text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary">
+									{document.createdAt.toLocaleDateString()}
+								</p>
+							</div>
+						</li>
+					);
+				})}
+			</ul>
 		</div>
 	);
 }

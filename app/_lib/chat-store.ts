@@ -49,7 +49,9 @@ export async function saveChat({
 // Get all chats from DB and delete empty ones on fetch
 export async function getAllChats() {
 	try {
-		const chats = (await Chats.findAll()) as unknown as Chat[];
+		const chats = (await Chats.findAll({
+			order: [['createdAt', 'DESC']],
+		})) as unknown as Chat[];
 		const messages = chats.map(chat =>
 			chat.messages ? chat.toJSON() : undefined
 		);

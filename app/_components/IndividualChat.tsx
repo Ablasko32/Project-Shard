@@ -5,7 +5,7 @@ import { LuPlay } from 'react-icons/lu';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { deleteChat } from '@/tools/chat-store';
+import { deleteChat } from '@/app/_lib/chat-store';
 import { useTransition } from 'react';
 import TinySpinner from '@/app/_components/TinySpinner';
 import { Message } from 'ai';
