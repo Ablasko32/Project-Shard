@@ -13,6 +13,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { IoAdd } from 'react-icons/io5';
 
+import RagButton from './RagButton';
+
 interface ChatInput {
 	setInput: Dispatch<SetStateAction<string>>;
 	isLoading: boolean;
@@ -62,6 +64,7 @@ export default function ChatInput({
 						{!voiceMode ? <HiOutlineMicrophone /> : <RxKeyboard />}
 						{!voiceMode ? 'Voice' : 'Chat'}
 					</Button>
+					<RagButton />
 				</div>
 				{!voiceMode && (
 					<>

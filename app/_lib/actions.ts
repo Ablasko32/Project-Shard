@@ -210,7 +210,7 @@ export async function ragTest() {
 
 	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
 	const [results] = await sequelize.query(
-		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id  ORDER BY distance LIMIT 20',
+		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id  ORDER BY distance ASC LIMIT 20',
 		{ replacements: [formattedEmbedding] }
 	);
 
@@ -241,4 +241,40 @@ export async function ragTest() {
 
 	console.log('MODEL RESPONSE', response);
 	console.log('RAG TEST ENDED...');
+}
+
+// encode user query and construct prompt with rag context
+export async function encodeUserQueryAndDoRag(
+	userQuery: string
+): Promise<string> {
+	// embedd user query
+	const queryEmbedding = await generateQueryEmbedding(userQuery);
+	//format as needed
+	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
+	// preform similary search, join doucments to know where did data come from
+	const [results] = await sequelize.query(
+		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id WHERE embedding <#> CAST(? AS vector) < -0.5  ORDER BY distance ASC  LIMIT 12',
+		{ replacements: [formattedEmbedding, formattedEmbedding] }
+	);
+
+	console.log('RESULTS', results);
+
+	// construct context data
+	const contextData =
+		results.map((el: any) => el.chunk as string).join('\n') +
+		`\nThe data was taken from ${results[0]?.name}`;
+
+	// construct RAG prompt
+	const contructedPrompt = `
+	Answer the question based on provided context.Augment your knowledge.
+	Context : ${contextData}
+
+	Question : ${userQuery}
+	
+	
+	`;
+
+	console.log('CONSTRUCTED PROMPT:', contructedPrompt);
+
+	return contructedPrompt;
 }

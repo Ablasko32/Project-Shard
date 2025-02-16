@@ -10,6 +10,7 @@ import { TfiReload } from 'react-icons/tfi';
 import ChatInput from '@/app/_components/ChatInput';
 import { Settings } from '@/app/_components/SettingsForm';
 import { useModelProvider } from '@/app/_components/ModelProvider';
+import { useRagProvider } from './RagProvider';
 
 export default function MainChat({
 	id,
@@ -21,6 +22,8 @@ export default function MainChat({
 	settings?: Settings;
 }) {
 	const { model: selectedAIModel } = useModelProvider();
+	const { rag } = useRagProvider();
+	console.log('RAG', rag);
 
 	const settingsSystemMessage: string = `My name is ${settings?.username || 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${settings?.system || 'You are a helpful assistant'}`;
 
@@ -41,6 +44,7 @@ export default function MainChat({
 		body: {
 			model: selectedAIModel,
 			settingsSystemMessage,
+			ragMode: rag,
 		},
 		onError(error) {
 			console.error(error);

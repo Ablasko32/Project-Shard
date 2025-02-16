@@ -1,4 +1,5 @@
 import MainChat from '@/app/_components/MainChat';
+import RagProvider from '@/app/_components/RagProvider';
 import { Settings } from '@/app/_components/SettingsForm';
 import { getAllSettings } from '@/app/_lib/actions';
 import { loadChat } from '@/tools/chat-store';
@@ -16,7 +17,9 @@ export default async function page({
 
 	return (
 		<div className="pageContainer flex min-w-full flex-col">
-			<MainChat id={chatId} initialMessages={messages} settings={settings} />
+			<RagProvider>
+				<MainChat id={chatId} initialMessages={messages} settings={settings} />
+			</RagProvider>
 		</div>
 	);
 }
