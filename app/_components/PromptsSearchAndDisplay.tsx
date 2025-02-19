@@ -14,7 +14,7 @@ export interface Prompts {
 	title: string;
 	content: string;
 	createdAt: Date;
-	updatedAt: Date;
+	updatedAt?: Date;
 }
 export default function PromptsSearchAndDisplay({
 	prompts,

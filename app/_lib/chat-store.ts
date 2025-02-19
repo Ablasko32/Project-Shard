@@ -2,15 +2,17 @@
 import { generateId, Message } from 'ai';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { Chats } from '@/dbModels';
-import { Chat } from '@/app/_components/IndividualChat';
+import db from '@/db';
+import { Chats } from '@/db/schema';
+import { desc, eq, inArray } from 'drizzle-orm';
 
 // create chat
 export async function createChat(): Promise<string> {
 	const id = generateId();
 
 	try {
-		await Chats.create({ id });
+		await db.insert(Chats).values({ id });
+
 		return id;
 	} catch (err) {
 		console.error(err);
@@ -21,7 +23,13 @@ export async function createChat(): Promise<string> {
 // load chat by ID
 export async function loadChat(id: string): Promise<Message[]> {
 	try {
-		const chat = (await Chats.findByPk(id)) as unknown as Chat | null;
+		const [chat] = await db
+			.select()
+			.from(Chats)
+			.where(eq(Chats.id, id))
+			.limit(1);
+
+		// const chat = (await Chats.findByPk(id)) as unknown as Chat | null;
 		if (!chat) throw new Error();
 		return chat.messages ?? [];
 	} catch (err) {
@@ -39,7 +47,7 @@ export async function saveChat({
 	messages: Message[];
 }): Promise<void> {
 	try {
-		await Chats.update({ messages }, { where: { id: id } });
+		await db.update(Chats).set({ messages }).where(eq(Chats.id, id));
 	} catch (err) {
 		console.log(err);
 		throw new Error('Error saving chat');
@@ -49,25 +57,23 @@ export async function saveChat({
 // Get all chats from DB and delete empty ones on fetch
 export async function getAllChats() {
 	try {
-		const chats = (await Chats.findAll({
-			order: [['createdAt', 'DESC']],
-		})) as unknown as Chat[];
-		const messages = chats.map(chat =>
-			chat.messages ? chat.toJSON() : undefined
-		);
+		const chats = await db.select().from(Chats).orderBy(desc(Chats.createdAt));
+		console.log(chats);
 
 		// Delete empty chats
 		const idsToDelete = chats
 			.map(chat => {
-				if (!chat.messages || !chat.messages.length) return chat.id;
+				if (!chat.messages || !String(chat.messages).length)
+					return chat.id as string;
 			})
 			.filter(Boolean);
 
-		// console.log('IDSTODESTROY', idsToDelete);
-		await Chats.destroy({ where: { id: idsToDelete } });
+		await db.delete(Chats).where(inArray(Chats.id, idsToDelete));
 
 		// returns only valid messages
-		return messages.filter(Boolean);
+		return chats
+			.filter(chat => (chat.messages ? chat : undefined))
+			.filter(Boolean);
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error fetching chats');
@@ -77,7 +83,7 @@ export async function getAllChats() {
 // delete chat by chatId
 export async function deleteChat(id: string) {
 	try {
-		await Chats.destroy({ where: { id } });
+		await db.delete(Chats).where(eq(Chats.id, id));
 		revalidatePath('/chat/all-chats');
 	} catch (err) {
 		console.error(err);
@@ -88,7 +94,7 @@ export async function deleteChat(id: string) {
 // delete all chats
 export async function deleteAllChats() {
 	try {
-		await Chats.destroy({ where: {} });
+		await db.delete(Chats);
 		revalidatePath('/chats/all-chats');
 	} catch (err) {
 		console.error(err);

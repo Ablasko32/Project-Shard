@@ -2,7 +2,9 @@ import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { cosineSimilarity, embed, embedMany } from 'ai';
 import { ollama } from '@/app/_lib/ollamaClient';
 import { EmbeddingModelV1Embedding } from '@ai-sdk/provider';
-import { Embeddings, sequelize } from '@/dbModels';
+import { Embeddings } from '@/db/schema';
+import db from '@/db';
+import { sql } from 'drizzle-orm';
 
 const CHUNK_SIZE: number = 500;
 const CHUNK_OVERLAP: number = 50;
@@ -77,7 +79,7 @@ export async function bulkInsertEmbeddings(
 			};
 		});
 
-		await Embeddings.bulkCreate(insertData);
+		await db.insert(Embeddings).values(insertData);
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error inserting to database');
@@ -93,20 +95,21 @@ export async function encodeUserQueryAndDoRag(
 	//format as needed
 	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
 	// preform similary search, join doucments to know where did data come from
-	const [results] = await sequelize.query(
-		'SELECT embeddings.chunk,documents.name , embedding <#> CAST(? AS vector) AS distance FROM embeddings JOIN documents ON embeddings."documentId"=documents.id WHERE embedding <#> CAST(? AS vector) < -0.5  ORDER BY distance ASC  LIMIT 12',
-		{ replacements: [formattedEmbedding, formattedEmbedding] }
+	const { rows } = await db.execute(
+		sql`SELECT embeddings.chunk,documents.name ,embedding <#> CAST(${formattedEmbedding} AS vector) AS distance 
+		FROM embeddings JOIN documents ON embeddings.document_id=documents.id 
+		WHERE embedding <#> CAST(${formattedEmbedding} AS vector) < -0.5  
+		ORDER BY distance ASC  
+		LIMIT 12`
 	);
 
 	// data sources documents
-	const dataSources = [...new Set(results.map((el: any) => el.name))].join(',');
+	const dataSources = [...new Set(rows.map((el: any) => el.name))].join(',');
 	// console.log(dataSources);
-
-	console.log('RESULTS', results);
 
 	// construct context data
 	const contextData =
-		results.map((el: any) => el.chunk as string).join('\n') +
+		rows.map((el: any) => el.chunk as string).join('\n') +
 		`\nThe data was taken from data sources:${dataSources}`;
 
 	// construct RAG prompt
