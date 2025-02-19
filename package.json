@@ -20,7 +20,6 @@
 		"ollama-ai-provider": "^1.2.0",
 		"pdf-parse": "^1.1.1",
 		"pg": "^8.13.2",
-		"pg-hstore": "^2.3.4",
 		"pgvector": "^0.2.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
@@ -32,8 +31,7 @@
 		"react-speech-recognition": "^3.10.0",
 		"regenerator-runtime": "^0.14.1",
 		"rehype-highlight": "^7.0.1",
-		"remark-gfm": "^4.0.0",
-		"sequelize": "^6.37.5"
+		"remark-gfm": "^4.0.0"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",

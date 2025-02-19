@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
-	serverExternalPackages: ['sequelize', 'pdf-parse'],
+	serverExternalPackages: ['pdf-parse'],
 	experimental: {
 		serverActions: {
 			bodySizeLimit: '50mb',

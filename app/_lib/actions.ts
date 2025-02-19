@@ -255,3 +255,15 @@ export async function getAllDocuments() {
 		throw new Error('Error fetching documents');
 	}
 }
+
+// delete document
+export async function deleteDocument(id: number) {
+	try {
+		await db.delete(Documents).where(eq(Documents.id, id));
+		revalidatePath('/documents');
+		return;
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error deleting document');
+	}
+}
