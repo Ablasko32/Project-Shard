@@ -15,6 +15,13 @@
       "when": 1739979072130,
       "tag": "0001_clean_sugar_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740066388525,
+      "tag": "0002_nervous_puma",
+      "breakpoints": true
     }
   ]
 }

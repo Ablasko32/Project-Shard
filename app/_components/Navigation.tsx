@@ -5,8 +5,15 @@ import Logo from '@/app/_components/Logo';
 import SocialIcons from '@/app/_components/SocialIcons';
 import Button from '@/app/_components/Button';
 import NavigationLink from '@/app/_components/NavigationLink';
+import { auth } from '@/auth';
+import SignOutButton from '@/app/_components/SignOutButton';
+import { headers } from 'next/headers';
 
-function Navigation() {
+async function Navigation() {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	return (
 		<>
 			{/* big nav */}
@@ -15,22 +22,25 @@ function Navigation() {
 					<Logo />
 				</Link>
 				<ul className="flex flex-1 flex-col items-center justify-center gap-6">
-					<li>
-						<Button className="text-sm">
-							<Link href="/chat">New</Link>
-						</Button>
-					</li>
+					{session && (
+						<>
+							{' '}
+							<li>
+								<Button className="text-sm">
+									<Link href="/chat">New</Link>
+								</Button>
+							</li>
+							<NavigationLink name="chats" path="/chat/all-chats" />
+							<NavigationLink name="models" path="/models" />
+							<NavigationLink name="prompts" path="/prompts" />
+							<NavigationLink name="documents" path="/documents" />
+							<NavigationLink name="settings" path="/settings" />
+						</>
+					)}
 
-					<NavigationLink name="chats" path="/chat/all-chats" />
-
-					<NavigationLink name="models" path="/models" />
-
-					<NavigationLink name="prompts" path="/prompts" />
-
-					<NavigationLink name="documents" path="/documents" />
-
-					<NavigationLink name="settings" path="/settings" />
 					<ThemeSwitch />
+
+					<SignOutButton />
 				</ul>
 				<SocialIcons />
 			</div>

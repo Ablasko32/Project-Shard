@@ -11,6 +11,7 @@
 	"dependencies": {
 		"@langchain/textsplitters": "^0.1.0",
 		"ai": "^4.1.1",
+		"better-auth": "^1.1.18",
 		"copy-to-clipboard": "^3.3.3",
 		"drizzle-orm": "^0.39.3",
 		"framer-motion": "^12.0.3",
@@ -34,6 +35,7 @@
 		"remark-gfm": "^4.0.0"
 	},
 	"devDependencies": {
+		"@better-auth/cli": "^1.1.18",
 		"@eslint/eslintrc": "^3",
 		"@types/node": "^20",
 		"@types/pdf-parse": "^1.1.4",

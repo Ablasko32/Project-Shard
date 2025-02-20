@@ -8,6 +8,8 @@ import SocialIcons from '@/app/_components/SocialIcons';
 import Button from '@/app/_components/Button';
 import { usePathname } from 'next/navigation';
 import NavigationLink from '@/app/_components/NavigationLink';
+import SignOutButton from './SignOutButton';
+import { authClient } from '@/app/_lib/auth-client';
 
 /**
  * Mobile navigation with collapsibile sidebar
@@ -20,6 +22,8 @@ function MobileNav() {
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const pathname = usePathname();
+
+	const { data: session } = authClient.useSession();
 
 	// close the menu when navigation occurs/ when pathname changes
 	useEffect(() => {
@@ -77,21 +81,24 @@ function MobileNav() {
 								<Logo />
 							</div>
 							<ul className="mb-auto flex flex-col items-center gap-4">
-								<li>
-									<Button className="text-sm">
-										<Link href="/chat">New</Link>
-									</Button>
-								</li>
-								<NavigationLink name="chats" path="/chat/all-chats" />
+								{session && (
+									<>
+										{' '}
+										<li>
+											<Button className="text-sm">
+												<Link href="/chat">New</Link>
+											</Button>
+										</li>
+										<NavigationLink name="chats" path="/chat/all-chats" />
+										<NavigationLink name="models" path="/models" />
+										<NavigationLink name="prompts" path="/prompts" />
+										<NavigationLink name="documents" path="/documents" />
+										<NavigationLink name="settings" path="/settings" />
+									</>
+								)}
 
-								<NavigationLink name="models" path="/models" />
-
-								<NavigationLink name="prompts" path="/prompts" />
-
-								<NavigationLink name="documents" path="/documents" />
-
-								<NavigationLink name="settings" path="/settings" />
 								<ThemeSwitch />
+								<SignOutButton />
 							</ul>
 							<SocialIcons />
 						</motion.div>
