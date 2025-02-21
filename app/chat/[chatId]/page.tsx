@@ -1,8 +1,8 @@
-import MainChat from '@/app/_components/MainChat';
-import RagProvider from '@/app/_components/RagProvider';
-import { Settings } from '@/app/_components/SettingsForm';
-import { getAllSettings } from '@/app/_lib/actions';
-import { loadChat } from '@/app/_lib/chat-store';
+import MainChat from '@/components/chat/MainChat';
+import RagProvider from '@/contexts/RagProvider';
+import { Settings } from '@/components/settings/SettingsForm';
+import { getAllSettings } from '@/lib/actions';
+import { loadChat } from '@/lib/chat-store';
 
 export default async function page({
 	params,

@@ -1,8 +1,8 @@
 import React from 'react';
-import { getAllDocuments } from '@/app/_lib/actions';
+import { getAllDocuments } from '@/lib/actions';
 import Link from 'next/link';
 
-import DocumentsDisplay from '../_components/DocumentsDisplay';
+import DocumentsDisplay from '@/components/documents/DocumentsDisplay';
 
 export interface Documents {
 	id: number;

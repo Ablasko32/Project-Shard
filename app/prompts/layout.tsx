@@ -1,6 +1,6 @@
-import PromptsNavigation from '@/app/_components/PromptsNavigation';
+import PromptsNavigation from '@/components/prompts/PromptsNavigation';
 import { Suspense } from 'react';
-import Spinner from '../_components/Spinner';
+import Spinner from '@/components/ui/Spinner';
 
 function Layout({ children }: { children: React.ReactNode }) {
 	return (

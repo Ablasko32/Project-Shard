@@ -1,9 +1,9 @@
-import DeleteAllChatsButton from '@/app/_components/DeleteAllChatsButton';
-import IndividualChat from '@/app/_components/IndividualChat';
-import { getAllChats } from '@/app/_lib/chat-store';
+import DeleteAllChatsButton from '@/components/chat/DeleteAllChatsButton';
+import IndividualChat from '@/components/chat/IndividualChat';
+import { getAllChats } from '@/lib/chat-store';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Chat } from '@/app/_components/IndividualChat';
+import { Chat } from '@/components/chat/IndividualChat';
 
 export const metadata: Metadata = {
 	title: 'My chats',

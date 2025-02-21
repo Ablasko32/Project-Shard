@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import DocumentUpload from '@/app/_components/DocumentUpload';
-import CopyButton from '@/app/_components/CopyButton';
+import DocumentUpload from '@/components/documents/DocumentUpload';
+import CopyButton from '@/components/ui/CopyButton';
 import { GoAlert } from 'react-icons/go';
 // import RagTest from "@/app/_components/RagTest';
 

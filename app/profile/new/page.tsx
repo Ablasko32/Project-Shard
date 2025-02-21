@@ -1,5 +1,5 @@
-import Button from '@/app/_components/Button';
-import RegisterForm from '@/app/_components/RegisterForm';
+import Button from '@/components/ui/Button';
+import RegisterForm from '@/components/auth/RegisterForm';
 import db from '@/db';
 import { user } from '@/db/schema';
 import { Metadata } from 'next';

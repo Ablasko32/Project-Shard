@@ -1,9 +1,9 @@
 import React from 'react';
 import { Metadata } from 'next';
-import ConnectionTest from '@/app/_components/ConnectionTest';
-import SettingsForm from '@/app/_components/SettingsForm';
-import DeleteProfile from '@/app/_components/DeleteProfile';
-import { getAllSettings } from '@/app/_lib/actions';
+import ConnectionTest from '@/components/settings/ConnectionTest';
+import SettingsForm from '@/components/settings/SettingsForm';
+import DeleteProfile from '@/components/auth/DeleteProfile';
+import { getAllSettings } from '@/lib/actions';
 
 export const metadata: Metadata = {
 	title: 'My Settings',

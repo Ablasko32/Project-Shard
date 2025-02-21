@@ -1,4 +1,4 @@
-import AddNewPromptForm from '@/app/_components/AddNewPromptForm';
+import AddNewPromptForm from '@/components/prompts/AddNewPromptForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

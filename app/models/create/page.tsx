@@ -1,4 +1,4 @@
-import CreateModelForm from '@/app/_components/CreateModelForm';
+import CreateModelForm from '@/components/models/CreateModelForm';
 import { Metadata } from 'next';
 import { PiBrainLight } from 'react-icons/pi';
 

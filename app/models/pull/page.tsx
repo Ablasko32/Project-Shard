@@ -1,4 +1,4 @@
-import PullModel from '@/app/_components/PullModel';
+import PullModel from '@/components/models/PullModel';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

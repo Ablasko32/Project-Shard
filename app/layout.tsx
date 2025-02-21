@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import '@/app/globals.css';
-import Navigation from '@/app/_components/Navigation';
+import Navigation from '@/components/ui/Navigation';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
-import Footer from '@/app/_components/Footer';
+import Footer from '@/components/ui/Footer';
 import { Toaster } from 'react-hot-toast';
 import 'regenerator-runtime/runtime';
-import ModelProvider from '@/app/_components/ModelProvider';
+import ModelProvider from '@/contexts/ModelProvider';
 
 const inter = Inter({
 	subsets: ['latin'],

@@ -1,5 +1,5 @@
 import React from 'react';
-import DocumentsNavigation from '../_components/DocumentsNavigation';
+import DocumentsNavigation from '@/components/documents/DocumentsNavigation';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

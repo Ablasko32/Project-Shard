@@ -1,6 +1,6 @@
-import ModelsNavigation from '@/app/_components/ModelsNavigation';
+import ModelsNavigation from '@/components/models/ModelsNavigation';
 import { Suspense } from 'react';
-import Spinner from '@/app/_components/Spinner';
+import Spinner from '@/components/ui/Spinner';
 
 function Layout({ children }: { children: React.ReactNode }) {
 	return (

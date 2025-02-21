@@ -1,6 +1,6 @@
-import PromptsSearchAndDisplay from '@/app/_components/PromptsSearchAndDisplay';
+import PromptsSearchAndDisplay from '@/components/prompts/PromptsSearchAndDisplay';
 import { Metadata } from 'next';
-import { getAllPrompts } from '@/app/_lib/actions';
+import { getAllPrompts } from '@/lib/actions';
 
 export const metadata: Metadata = {
 	title: 'My Prompts',

@@ -1,4 +1,4 @@
-import ProfileLoginItem from '@/app/_components/ProfileLoginItem';
+import ProfileLoginItem from '@/components/auth/ProfileLoginItem';
 import db from '@/db';
 import { user } from '@/db/schema';
 import { User } from 'better-auth';

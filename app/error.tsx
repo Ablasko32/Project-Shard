@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { GoAlert } from 'react-icons/go';
-import Button from '@/app/_components/Button';
+import Button from '@/components/ui/Button';
 
 export default function error({
 	error,

@@ -1,16 +1,9 @@
-import { ollama } from '@/app/_lib/ollamaClient';
+import { ollama } from '@/lib/ollamaClient';
 import { streamText, appendResponseMessages } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
-import { saveChat } from '@/app/_lib/chat-store';
-import { encodeUserQueryAndDoRag } from '@/helpers/textProcessing';
-
-interface Body {
-	model: string;
-	messages: [];
-	settingsSystemMessage: string;
-	id: string;
-	ragMode: boolean;
-}
+import { saveChat } from '@/lib/chat-store';
+import { encodeUserQueryAndDoRag } from '@/lib/textProcessing';
+import { Body } from '@/types/types';
 
 // post messages from the front end
 export async function POST(request: NextRequest) {
