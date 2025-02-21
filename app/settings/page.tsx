@@ -1,8 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ConnectionTest from '@/app/_components/ConnectionTest';
-import SettingsForm, { Settings } from '@/app/_components/SettingsForm';
-import ClearLocalData from '../_components/ClearLocalData';
+import SettingsForm from '@/app/_components/SettingsForm';
+import DeleteProfile from '@/app/_components/DeleteProfile';
 import { getAllSettings } from '@/app/_lib/actions';
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-	const settings: Settings = await getAllSettings();
+	const settings = await getAllSettings();
 
 	return (
 		<div className="pageContainer flex flex-col items-center gap-4">
@@ -22,7 +22,7 @@ export default async function page() {
 
 			<SettingsForm settings={settings} />
 
-			<ClearLocalData />
+			<DeleteProfile />
 
 			{/* docs */}
 			<div className="mt-10 max-w-sm self-center rounded-md bg-lightSecondary px-2 py-1 text-center text-sm text-lightTextSecondary dark:bg-darkSecondary dark:text-darkTextSecondary">

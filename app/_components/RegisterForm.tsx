@@ -6,8 +6,11 @@ import toast from 'react-hot-toast';
 import Button from './Button';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import TinySpinner from '@/app/_components/TinySpinner';
+import { User } from 'better-auth';
 
-export default function RegisterForm() {
+const MAX_PROFILE_NUMBER: number = 4;
+
+export default function RegisterForm({ users }: { users: User[] }) {
 	const [username, setUsername] = useState<string>('');
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
@@ -19,6 +22,11 @@ export default function RegisterForm() {
 			toast.error('Max username length is 8');
 			return;
 		}
+		if (users.length >= MAX_PROFILE_NUMBER) {
+			toast.error(`Max number of profiles is ${MAX_PROFILE_NUMBER}`);
+			return;
+		}
+
 		startTransition(async () => {
 			await authClient.signUp.email(
 				{
@@ -30,6 +38,7 @@ export default function RegisterForm() {
 					onSuccess() {
 						toast.success('Profile created');
 						router.push('/chat');
+						router.refresh();
 					},
 					onError(context) {
 						toast.error(context?.error?.message);

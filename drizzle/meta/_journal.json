@@ -22,6 +22,13 @@
       "when": 1740066388525,
       "tag": "0002_nervous_puma",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1740131439885,
+      "tag": "0003_omniscient_scourge",
+      "breakpoints": true
     }
   ]
 }

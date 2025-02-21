@@ -7,12 +7,7 @@ import { HiOutlineSparkles } from 'react-icons/hi';
 import { useTransition } from 'react';
 import TinySpinner from '@/app/_components/TinySpinner';
 
-export interface Settings {
-	username: string | undefined;
-	system: string | undefined;
-}
-
-export default function SettingsForm({ settings }: { settings: Settings }) {
+export default function SettingsForm({ settings }) {
 	const [isPending, startTransition] = useTransition();
 
 	async function handleSubmit(e) {

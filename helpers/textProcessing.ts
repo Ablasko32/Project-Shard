@@ -5,6 +5,7 @@ import { EmbeddingModelV1Embedding } from '@ai-sdk/provider';
 import { Embeddings } from '@/db/schema';
 import db from '@/db';
 import { sql } from 'drizzle-orm';
+import { verifySessionOrError } from './verifySessionServer';
 
 const CHUNK_SIZE: number = 500;
 const CHUNK_OVERLAP: number = 50;
@@ -92,13 +93,14 @@ export async function encodeUserQueryAndDoRag(
 ): Promise<string> {
 	// embedd user query
 	const queryEmbedding = await generateQueryEmbedding(userQuery);
+	const userId = await verifySessionOrError();
 	//format as needed
 	const formattedEmbedding = `[${queryEmbedding.join(',')}]`;
 	// preform similary search, join doucments to know where did data come from
 	const { rows } = await db.execute(
 		sql`SELECT embeddings.chunk,documents.name ,embedding <#> CAST(${formattedEmbedding} AS vector) AS distance 
 		FROM embeddings JOIN documents ON embeddings.document_id=documents.id 
-		WHERE embedding <#> CAST(${formattedEmbedding} AS vector) < -0.5  
+		WHERE embedding <#> CAST(${formattedEmbedding} AS vector) < -0.5  AND documents.user_id=${userId}
 		ORDER BY distance ASC  
 		LIMIT 12`
 	);

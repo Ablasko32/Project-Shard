@@ -4,14 +4,19 @@ import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import db from '@/db';
 import { Chats } from '@/db/schema';
-import { desc, eq, inArray } from 'drizzle-orm';
+import { and, desc, eq, isNull } from 'drizzle-orm';
+import { auth } from '@/auth';
+import { headers } from 'next/headers';
+import { verifySessionOrError } from '@/helpers/verifySessionServer';
 
 // create chat
 export async function createChat(): Promise<string> {
 	const id = generateId();
 
+	const userId = await verifySessionOrError();
+
 	try {
-		await db.insert(Chats).values({ id });
+		await db.insert(Chats).values({ id, userId });
 
 		return id;
 	} catch (err) {
@@ -21,7 +26,7 @@ export async function createChat(): Promise<string> {
 }
 
 // load chat by ID
-export async function loadChat(id: string): Promise<Message[]> {
+export async function loadChat(id: string) {
 	try {
 		const [chat] = await db
 			.select()
@@ -29,7 +34,6 @@ export async function loadChat(id: string): Promise<Message[]> {
 			.where(eq(Chats.id, id))
 			.limit(1);
 
-		// const chat = (await Chats.findByPk(id)) as unknown as Chat | null;
 		if (!chat) throw new Error();
 		return chat.messages ?? [];
 	} catch (err) {
@@ -56,24 +60,19 @@ export async function saveChat({
 
 // Get all chats from DB and delete empty ones on fetch
 export async function getAllChats() {
+	const userId = await verifySessionOrError();
+
 	try {
-		const chats = await db.select().from(Chats).orderBy(desc(Chats.createdAt));
-		console.log(chats);
-
-		// Delete empty chats
-		const idsToDelete = chats
-			.map(chat => {
-				if (!chat.messages || !String(chat.messages).length)
-					return chat.id as string;
-			})
-			.filter(Boolean);
-
-		await db.delete(Chats).where(inArray(Chats.id, idsToDelete));
-
-		// returns only valid messages
-		return chats
-			.filter(chat => (chat.messages ? chat : undefined))
-			.filter(Boolean);
+		// delete empty chats and fetch chats
+		await db
+			.delete(Chats)
+			.where(and(isNull(Chats.messages), eq(Chats.userId, userId)));
+		const chats = await db
+			.select()
+			.from(Chats)
+			.where(eq(Chats.userId, userId))
+			.orderBy(desc(Chats.createdAt));
+		return chats;
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error fetching chats');
@@ -93,8 +92,16 @@ export async function deleteChat(id: string) {
 
 // delete all chats
 export async function deleteAllChats() {
+	// getting the session
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+	// if not auth throw error
+	if (!session) throw new Error('You need to login first');
+	const userId = session.user.id; // getting the user id from the session
+
 	try {
-		await db.delete(Chats);
+		await db.delete(Chats).where(eq(Chats.userId, userId));
 		revalidatePath('/chats/all-chats');
 	} catch (err) {
 		console.error(err);

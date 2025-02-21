@@ -17,6 +17,7 @@ export const Prompts = pgTable('prompts', {
 	title: varchar().notNull(),
 	content: text().notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	userId: varchar('user_id').references(() => user.id, { onDelete: 'cascade' }),
 });
 
 // all chats for refernce ,messages are stored in JSON format for easy access
@@ -24,6 +25,7 @@ export const Chats = pgTable('chats', {
 	id: varchar().primaryKey().unique().notNull(),
 	messages: json(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	userId: varchar('user_id').references(() => user.id, { onDelete: 'cascade' }),
 });
 
 // app settings
@@ -32,6 +34,7 @@ export const Settings = pgTable('settings', {
 	username: varchar(),
 	system: text(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	userId: varchar('user_id').references(() => user.id, { onDelete: 'cascade' }),
 });
 
 // documents used for rag stores document name for <sources> response from llm
@@ -41,6 +44,7 @@ export const Documents = pgTable('documents', {
 	name: varchar().notNull(),
 	size: doublePrecision(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	userId: varchar('user_id').references(() => user.id, { onDelete: 'cascade' }),
 });
 
 // storing vectorized embeddings and text chunks - 768 is nomic embedding lenght

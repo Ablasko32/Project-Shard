@@ -1,7 +1,6 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { Prompts as IPrompts } from '@/app/_components/PromptsSearchAndDisplay';
-import { Settings as ISettings } from '@/app/_components/SettingsForm';
 import pdfParse from 'pdf-parse';
 import path from 'path';
 import fs from 'fs/promises';
@@ -10,13 +9,14 @@ import {
 	bulkInsertEmbeddings,
 	chunkUpText,
 	generateEmbedding,
-	generateQueryEmbedding,
+	// generateQueryEmbedding,
 } from '@/helpers/textProcessing';
-import { generateText } from 'ai';
-import { ollama } from '@/app/_lib/ollamaClient';
+// import { generateText } from 'ai';
+// import { ollama } from '@/app/_lib/ollamaClient';
 import db from '@/db';
 import { Documents, Prompts, Settings } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
+import { verifySessionOrError } from '@/helpers/verifySessionServer';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -27,8 +27,12 @@ export async function revalidatePathAction(path: string) {
 
 // get all prompts
 export async function getAllPrompts(): Promise<IPrompts[]> {
+	const userId = await verifySessionOrError();
 	try {
-		const result = await db.select().from(Prompts);
+		const result = await db
+			.select()
+			.from(Prompts)
+			.where(eq(Prompts.userId, userId));
 		return result;
 	} catch (err) {
 		console.error(err);
@@ -38,13 +42,16 @@ export async function getAllPrompts(): Promise<IPrompts[]> {
 
 // Aadd new prompt
 export async function addNewPrompt(formData: FormData): Promise<void> {
-	const prompt = formData.get('prompt');
-	const title = formData.get('title');
+	const prompt = formData.get('prompt') as string;
+	const title = formData.get('title') as string;
+	const userId = await verifySessionOrError();
+
 	if (!prompt || !title) throw new Error('Invalid form data');
 	try {
 		await db.insert(Prompts).values({
 			title: title.slice(0, 150),
 			content: prompt.slice(0, 1000),
+			userId,
 		});
 		revalidatePath('/prompts');
 	} catch (err) {
@@ -66,10 +73,13 @@ export async function deletePrompt(id: number): Promise<void> {
 
 // SETTINGS
 
-// get all settings
-export async function getAllSettings(): Promise<ISettings> {
+export async function getAllSettings() {
+	const userId = await verifySessionOrError();
 	try {
-		const [result] = await db.select().from(Settings).limit(1);
+		const [result] = await db
+			.select()
+			.from(Settings)
+			.where(eq(Settings.userId, userId));
 		return result;
 	} catch (err) {
 		console.error(err);
@@ -82,13 +92,15 @@ export async function updateSettings(formData: FormData): Promise<void> {
 	const username = formData.get('username')?.slice(0, 100) as string;
 	const system = formData.get('system')?.slice(0, 1000) as string;
 
+	const userId = await verifySessionOrError();
+
 	try {
 		const settings = await db.select().from(Settings);
 		if (!settings.length) {
-			await db.insert(Settings).values({ username, system });
+			await db.insert(Settings).values({ username, system, userId });
 		} else {
 			await db.delete(Settings);
-			await db.insert(Settings).values({ username, system });
+			await db.insert(Settings).values({ username, system, userId });
 		}
 		revalidatePath('/settings');
 	} catch (err) {
@@ -129,12 +141,15 @@ export async function uploadFile(formData: FormData) {
 		}
 
 		// create it if it doesnt exist
+		const userId = await verifySessionOrError();
+
 		const [createdDocument] = await db
 			.insert(Documents)
 			.values({
 				name,
 				size,
 				extension: fileExtension,
+				userId,
 			})
 			.returning();
 
@@ -245,9 +260,11 @@ export async function uploadFile(formData: FormData) {
 //get all documents
 export async function getAllDocuments() {
 	try {
+		const userId = await verifySessionOrError();
 		const documents = await db
 			.select()
 			.from(Documents)
+			.where(eq(Documents.userId, userId))
 			.orderBy(desc(Documents.createdAt));
 		return documents;
 	} catch (err) {

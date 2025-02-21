@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import TinySpinner from '@/app/_components/TinySpinner';
+// import { HiOutlineTrash } from 'react-icons/hi';
 
 // login box for choosing currently active profile
 export default function ProfileLoginItem({
@@ -45,6 +46,15 @@ export default function ProfileLoginItem({
 		}
 	}
 
+	// async function handleDeleteProfile(e: MouseEvent) {
+	// 	e.stopPropagation();
+	// 	if (!window.confirm('Are you sure?')) return;
+	// 	await authClient.deleteUser({
+	// 		password: 'password',
+	// 	});
+	// 	toast.success('Profile deleted');
+	// }
+
 	if (addNew)
 		return (
 			// add new profile button
@@ -68,7 +78,7 @@ export default function ProfileLoginItem({
 		<motion.div
 			onClick={handleSignIn}
 			whileHover={{ scale: 1.08 }}
-			className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-lightPrimary bg-lightSecondary dark:border-darkPrimary dark:bg-darkSecondary"
+			className="group relative flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-lightPrimary bg-lightSecondary dark:border-darkPrimary dark:bg-darkSecondary"
 		>
 			<div className="flex h-12 w-12 items-center justify-center rounded-full text-3xl font-bold">
 				{isLoading ? (
@@ -82,6 +92,15 @@ export default function ProfileLoginItem({
 			<h3 className="max-w-full break-words font-semibold capitalize">
 				{username}
 			</h3>
+			{/* Delete profile button */}
+			{/* <motion.button
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				onClick={handleDeleteProfile}
+				className="absolute -top-6 right-0 hidden min-h-[24px] min-w-[24px] text-lightError group-hover:flex dark:text-darkError"
+			>
+				<HiOutlineTrash />
+			</motion.button> */}
 		</motion.div>
 	);
 }
