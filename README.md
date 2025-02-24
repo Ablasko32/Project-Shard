@@ -74,6 +74,7 @@ To get started with development, follow these steps:
 
    - Ensure the **Ollama API** is installed.
    - Install **Docker** to set up the PostgreSQL database.
+   - Dont forget to run **Drizzle** migrations via `npx drizzle-kit migrate` command too setup your DB tables
 
 2. **Configuration**:
 
