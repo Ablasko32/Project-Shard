@@ -2,6 +2,9 @@ import { revalidatePathAction } from '@/lib/actions';
 import toast from 'react-hot-toast';
 import { Model } from '@/types/types';
 
+const BASE_URL =
+	(process.env.BASE_APP_URL as string) ?? 'http://localhost:3000';
+
 //Deletes model by name
 export async function deleteOllamaModel(modelName: string): Promise<void> {
 	const result = await fetch('api/proxy/api/delete', {
@@ -19,7 +22,7 @@ export async function deleteOllamaModel(modelName: string): Promise<void> {
 
 //Gets all models
 export async function getAllOllamaModels(): Promise<{ models: Model[] }> {
-	const result = await fetch('http://localhost:3000/api/proxy/api/tags');
+	const result = await fetch(`${BASE_URL}/api/proxy/api/tags`);
 	if (!result.ok) {
 		throw new Error('Error fetching models');
 	}
@@ -32,7 +35,7 @@ export async function getOllamaModelInfo(
 	modelName: string
 ): Promise<Record<string, any>> {
 	try {
-		const response = await fetch('http://localhost:3000/api/proxy/api/show', {
+		const response = await fetch(`${BASE_URL}/api/proxy/api/show`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({

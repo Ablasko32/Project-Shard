@@ -1,11 +1,14 @@
 import type { NextConfig } from 'next';
 
+const OLLAMA_API =
+	(process.env.OLLAMA_API as string) ?? 'http://localhost:11434';
+
 const nextConfig: NextConfig = {
 	async rewrites() {
 		return [
 			{
 				source: '/api/proxy/:path*',
-				destination: 'http://localhost:11434/:path*',
+				destination: `${OLLAMA_API}/:path*`,
 			},
 		];
 	},

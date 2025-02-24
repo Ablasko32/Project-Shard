@@ -33,7 +33,7 @@ export default function ConnectionTest() {
 	return (
 		<div className="flex flex-col items-center gap-1">
 			<div className="mb-2 flex items-center gap-1 text-lightTextSecondary dark:text-darkTextSecondary lg:text-xl">
-				<p>http://localhost:11434</p>
+				<p>{process.env.OLLAMA_API ?? 'http://localhost:11434'}</p>
 				{isConnected && (
 					<span className="h-2 w-2 rounded-full bg-lightPrimary dark:bg-darkPrimary"></span>
 				)}

@@ -9,7 +9,10 @@ export const auth = betterAuth({
 		schema: { user, session, account, verification },
 	}),
 	emailAndPassword: { enabled: true },
-	trustedOrigins: ['http://localhost:3000', 'http://192.168.0.17:3000'],
+	trustedOrigins: [
+		process.env.BASE_APP_URL as string,
+		process.env.LAN_IP as string,
+	],
 	user: {
 		deleteUser: {
 			enabled: true,
