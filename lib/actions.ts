@@ -1,6 +1,5 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { Prompts as IPrompts } from '@/components/prompts/PromptsSearchAndDisplay';
 import pdfParse from 'pdf-parse';
 import path from 'path';
 import fs from 'fs/promises';
@@ -15,8 +14,9 @@ import {
 // import { ollama } from '@/app/_lib/ollamaClient';
 import db from '@/db';
 import { Documents, Prompts, Settings } from '@/db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { verifySessionOrError } from '@/lib/verifySessionServer';
+import { createModel } from '@/lib/ollamaApi';
 
 // revalidate a path
 export async function revalidatePathAction(path: string) {
@@ -24,21 +24,6 @@ export async function revalidatePathAction(path: string) {
 }
 
 //PROMPTS
-
-// get all prompts
-export async function getAllPrompts(): Promise<IPrompts[]> {
-	const userId = await verifySessionOrError();
-	try {
-		const result = await db
-			.select()
-			.from(Prompts)
-			.where(eq(Prompts.userId, userId));
-		return result;
-	} catch (err) {
-		console.error(err);
-		throw new Error('Error fetching prompts');
-	}
-}
 
 // Aadd new prompt
 export async function addNewPrompt(formData: FormData): Promise<void> {
@@ -72,20 +57,6 @@ export async function deletePrompt(id: number): Promise<void> {
 }
 
 // SETTINGS
-
-export async function getAllSettings() {
-	const userId = await verifySessionOrError();
-	try {
-		const [result] = await db
-			.select()
-			.from(Settings)
-			.where(eq(Settings.userId, userId));
-		return result;
-	} catch (err) {
-		console.error(err);
-		throw new Error('Error fetching settings');
-	}
-}
 
 // create or update settings
 export async function updateSettings(formData: FormData): Promise<void> {
@@ -257,22 +228,7 @@ export async function uploadFile(formData: FormData) {
 // 	console.log('RAG TEST ENDED...');
 // }
 
-//get all documents
-export async function getAllDocuments() {
-	try {
-		const userId = await verifySessionOrError();
-		const documents = await db
-			.select()
-			.from(Documents)
-			.where(eq(Documents.userId, userId))
-			.orderBy(desc(Documents.createdAt));
-		return documents;
-	} catch (err) {
-		console.error(err);
-		throw new Error('Error fetching documents');
-	}
-}
-
+// DOCUMENTS
 // delete document
 export async function deleteDocument(id: number) {
 	try {
@@ -283,4 +239,41 @@ export async function deleteDocument(id: number) {
 		console.error(err);
 		throw new Error('Error deleting document');
 	}
+}
+
+const NUMERIC_KEYS: string[] = [
+	'temperature',
+	'seed',
+	'mirostat_tau',
+	'num_ctx',
+	'top_k',
+	'top_p',
+	'mirostat_eta',
+];
+
+// CREATE MODEL
+export async function createModelAction(formData: FormData) {
+	const data = Object.fromEntries(formData);
+
+	if (!data) throw new Error('Form data is required');
+	const processedData: Record<string, string | number> = Object.entries(
+		data
+	).reduce(
+		(acc, [key, value]) => {
+			if (value && String(value).trim().length) {
+				if (NUMERIC_KEYS.includes(key)) {
+					acc[key] = parseFloat(String(value));
+					// console.log('HERE', acc[key]);
+				} else {
+					acc[key] = value;
+				}
+			}
+			return acc;
+		},
+		{} as Record<string, string | number>
+	);
+
+	await createModel(processedData);
+	revalidatePath('/models');
+	return;
 }

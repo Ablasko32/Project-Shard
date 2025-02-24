@@ -16,6 +16,10 @@ export default async function page({
 	const modelName: string = awaitedParams.modelName.replace('%3A', ':');
 
 	const responseData = await getOllamaModelInfo(modelName);
+
+	const architecture: string =
+		responseData.model_info['general.architecture'] || 'llama';
+
 	// console.log(responseData);
 
 	return (
@@ -42,9 +46,16 @@ export default async function page({
 				</ModelShowDetailComponent>
 
 				{/* context lenght */}
-				{responseData.model_info['llama.context_length'] && (
+				{responseData.model_info[`${architecture}.context_length`] && (
 					<ModelShowDetailComponent title="Context lenght">
-						{responseData.model_info['llama.context_length']}
+						{responseData.model_info[`${architecture}.context_length`]}
+					</ModelShowDetailComponent>
+				)}
+
+				{/* embedding lenght */}
+				{responseData.model_info[`${architecture}.embedding_length`] && (
+					<ModelShowDetailComponent title="Embedding lenght">
+						{responseData.model_info[`${architecture}.embedding_length`]}
 					</ModelShowDetailComponent>
 				)}
 

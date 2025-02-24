@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllDocuments } from '@/lib/actions';
+import { getAllDocuments } from '@/lib/dbOperations';
 import Link from 'next/link';
 
 import DocumentsDisplay from '@/components/documents/DocumentsDisplay';

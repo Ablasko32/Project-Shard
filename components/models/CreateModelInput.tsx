@@ -1,5 +1,5 @@
-import { RegisterOptions, UseFormRegister } from 'react-hook-form';
-import { GoAlert, GoQuestion } from 'react-icons/go';
+import { RegisterOptions } from 'react-hook-form';
+import { GoQuestion } from 'react-icons/go';
 import { CreateModel } from '@/components/models/CreateModelForm';
 import { VscTriangleRight } from 'react-icons/vsc';
 
@@ -10,9 +10,8 @@ interface CreateModelInput {
 	placeholder: string;
 	textArea?: boolean;
 	type?: string;
-	register: UseFormRegister<CreateModel>;
 	validation?: RegisterOptions<CreateModel>;
-	errors?: string;
+	title: string;
 }
 
 export default function CreateModelInput({
@@ -21,9 +20,8 @@ export default function CreateModelInput({
 	id,
 	placeholder,
 	textArea = false,
-	register,
-	validation,
-	errors,
+	title,
+
 	type = 'text',
 }: CreateModelInput) {
 	return (
@@ -35,7 +33,7 @@ export default function CreateModelInput({
 				<span className="text-xl text-lightPrimary dark:text-darkPrimary">
 					<VscTriangleRight />
 				</span>
-				<span className="font-semibold"> {name}</span>
+				<span className="font-semibold"> {title}</span>
 			</label>
 			<div className="flex items-center gap-1 rounded-md p-1 text-xs font-light text-lightTextSecondary dark:text-darkTextSecondary lg:text-sm">
 				<div>
@@ -46,26 +44,20 @@ export default function CreateModelInput({
 
 			{textArea ? (
 				<textarea
-					{...register(id, validation)}
+					name={name}
 					className="w-full resize-none rounded-md bg-lightSecondary px-4 py-2 !ring-opacity-50 placeholder:font-light placeholder:capitalize focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent"
 					id={id}
 					placeholder={placeholder}
 				/>
 			) : (
 				<input
-					{...register(id, validation)}
+					name={name}
 					className="rounded-md bg-lightSecondary px-4 py-2 !ring-opacity-50 placeholder:font-light placeholder:capitalize focus:outline-none focus:ring focus:ring-lightAccent dark:bg-darkSecondary dark:focus:ring-darkAccent"
 					id={id}
 					type={type}
 					step={type ? '0.01' : undefined}
 					placeholder={placeholder}
 				/>
-			)}
-			{errors && (
-				<div className="mt-0.5 flex items-center justify-center gap-1 text-center text-xs font-light text-lightError dark:text-darkError lg:font-normal">
-					<GoAlert />
-					<p>{errors}</p>
-				</div>
 			)}
 		</div>
 	);

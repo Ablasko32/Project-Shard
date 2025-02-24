@@ -1,7 +1,7 @@
 import MainChat from '@/components/chat/MainChat';
 import RagProvider from '@/contexts/RagProvider';
 import { Settings } from '@/components/settings/SettingsForm';
-import { getAllSettings } from '@/lib/actions';
+import { getAllSettings } from '@/lib/dbOperations';
 import { loadChat } from '@/lib/chat-store';
 
 export default async function page({

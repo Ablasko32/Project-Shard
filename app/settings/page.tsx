@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ConnectionTest from '@/components/settings/ConnectionTest';
 import SettingsForm from '@/components/settings/SettingsForm';
 import DeleteProfile from '@/components/auth/DeleteProfile';
-import { getAllSettings } from '@/lib/actions';
+import { getAllSettings } from '@/lib/dbOperations';
 
 export const metadata: Metadata = {
 	title: 'My Settings',

@@ -59,7 +59,7 @@ export async function createModel(
 ): Promise<void> {
 	const { model, from, system = null, ...rest } = processedData;
 	try {
-		const result = await fetch('/api/proxy/api/create', {
+		const result = await fetch(`${process.env.OLLAMA_API}/api/create`, {
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
 			body: JSON.stringify({
@@ -72,9 +72,18 @@ export async function createModel(
 			}),
 		});
 		if (!result.ok) {
+			// const errorText = await result.text(); // Get the raw response body
+			// console.log('API Response:', result.status, errorText);
+			// console.log('Request Payload:', {
+			// 	model,
+			// 	from,
+			// 	system,
+			// 	parameters: rest,
+			// });
 			throw new Error('Error creating model');
 		}
 	} catch (err) {
+		console.log('ERR', err);
 		throw new Error('Error creating model');
 	}
 }
