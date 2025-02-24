@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
 		// prompt or message array?
 		const prompt = body.ragMode
-			? { prompt: ragPrompt }
+			? { prompt: ragPrompt! }
 			: { messages: bodyMessages, system: body.settingsSystemMessage };
 
 		const aiResponse = streamText({

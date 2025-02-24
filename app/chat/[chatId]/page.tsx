@@ -1,8 +1,9 @@
 import MainChat from '@/components/chat/MainChat';
 import RagProvider from '@/contexts/RagProvider';
-import { Settings } from '@/components/settings/SettingsForm';
+
 import { getAllSettings } from '@/lib/dbOperations';
 import { loadChat } from '@/lib/chat-store';
+import { Message } from 'ai';
 
 export default async function page({
 	params,
@@ -11,8 +12,8 @@ export default async function page({
 }) {
 	const { chatId } = await params;
 
-	const messages = await loadChat(chatId);
-	const settings: Settings = await getAllSettings();
+	const messages: Message[] = await loadChat(chatId);
+	const settings = await getAllSettings();
 	// console.log('MESSAGES RETRVIED', messages);
 
 	return (

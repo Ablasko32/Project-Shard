@@ -1,3 +1,5 @@
+<div align="center" ><img src="./public/logo.svg" width="50px" /></div>
+
 # **Welcome to Project Shard**
 
 <p align="center">
@@ -13,6 +15,10 @@ Currently , it supports [**Ollama models only**](https://ollama.com/search).
 The core idea is to provide an **all-in-one** solution that runs **privately** on your **localhost**.
 
 The main focus is on being **FREE**, **OPEN SOURCE**, and **PRIVATE**.
+
+## **Video Demo**
+
+[![project shard demo](https://img.youtube.com/vi/9BE6c-0AB0E/0.jpg)](https://www.youtube.com/watch?v=9BE6c-0AB0E)
 
 ---
 
@@ -36,6 +42,8 @@ The main focus is on being **FREE**, **OPEN SOURCE**, and **PRIVATE**.
 
 ✅ **Light/Dark themes** – Supports both light and dark theme to suit your style!
 
+✅ **Responsive Design** – Use the app on all devices no matter the screen size!
+
 ---
 
 ## **Architecture**
@@ -58,6 +66,35 @@ The main focus is on being **FREE**, **OPEN SOURCE**, and **PRIVATE**.
 
 ---
 
+## How to Use
+
+To get started with development, follow these steps:
+
+1. **Prerequisites**:
+
+   - Ensure the **Ollama API** is installed.
+   - Install **Docker** to set up the PostgreSQL database.
+
+2. **Configuration**:
+
+   - Create a `.env` file based on the provided `env.example` template and configure it with your settings.
+
+3. **Setup and Run**:
+   - Run `npm install` to install the required dependencies.
+   - Start the application by running `npm run dev`.
+
+## **Licence**
+
+This project is licensed under the [MIT License](./LICENSE).
+
+---
+
+## **Contributing**
+
+If you’d like to contribute to the development of Project Shard, feel free to fork the repository and submit pull requests. We welcome suggestions and improvements!
+
+---
+
 ## **Development Status**
 
-🚧 **Work in Progress** – This project is actively evolving with new features and improvements. Stay tuned!
+🚧 **Work in Progress**

@@ -1,9 +1,11 @@
-export interface Message {
-	id: string;
-	createdAt?: Date | undefined;
-	role: string;
-	content: string;
-}
+import { CoreMessage, Message } from 'ai';
+
+// export interface Message {
+// 	id?: string;
+// 	createdAt?: Date | undefined;
+// 	role: string;
+// 	content: string;
+// }
 
 export interface Model {
 	name: string;
@@ -25,8 +27,8 @@ export interface ModelDetails {
 
 export interface Body {
 	model: string;
-	messages: [];
-	settingsSystemMessage: string;
+	messages: Message[];
+	settingsSystemMessage?: string;
 	id: string;
 	ragMode: boolean;
 }

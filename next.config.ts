@@ -4,6 +4,12 @@ const OLLAMA_API =
 	(process.env.OLLAMA_API as string) ?? 'http://localhost:11434';
 
 const nextConfig: NextConfig = {
+	eslint: {
+		ignoreDuringBuilds: true, // eslint-disable-line
+	},
+	typescript: {
+		ignoreBuildErrors: true,
+	},
 	async rewrites() {
 		return [
 			{

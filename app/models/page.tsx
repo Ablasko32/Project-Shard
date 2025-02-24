@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 	title: 'My Models',
 };
 
-export async function page() {
+export default async function page() {
 	// List of all models
 
 	const models = await getAllOllamaModels();
@@ -18,5 +18,3 @@ export async function page() {
 		</div>
 	);
 }
-
-export default page;
