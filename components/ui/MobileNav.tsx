@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import NavigationLink from '@/components/ui/NavigationLink';
 import SignOutButton from '../auth/SignOutButton';
 import { authClient } from '@/lib/auth-client';
+import { useAIProvider } from '@/contexts/AiProviderProvider';
 
 /**
  * Mobile navigation with collapsibile sidebar
@@ -17,6 +18,7 @@ import { authClient } from '@/lib/auth-client';
  */
 function MobileNav() {
 	const [isNavOpen, setNavOpen] = useState<boolean>();
+	const { provider } = useAIProvider();
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -90,7 +92,9 @@ function MobileNav() {
 											</Button>
 										</li>
 										<NavigationLink name="chats" path="/chat/all-chats" />
-										<NavigationLink name="models" path="/models" />
+										{provider === 'ollama' && (
+											<NavigationLink name="models" path="/models" />
+										)}
 										<NavigationLink name="prompts" path="/prompts" />
 										<NavigationLink name="documents" path="/documents" />
 										<NavigationLink name="settings" path="/settings" />

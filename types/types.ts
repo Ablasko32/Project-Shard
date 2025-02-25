@@ -1,4 +1,4 @@
-import { CoreMessage, Message } from 'ai';
+import { Message } from 'ai';
 
 // export interface Message {
 // 	id?: string;
@@ -31,4 +31,5 @@ export interface Body {
 	settingsSystemMessage?: string;
 	id: string;
 	ragMode: boolean;
+	provider: string;
 }

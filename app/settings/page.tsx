@@ -4,6 +4,7 @@ import ConnectionTest from '@/components/settings/ConnectionTest';
 import SettingsForm from '@/components/settings/SettingsForm';
 import DeleteProfile from '@/components/auth/DeleteProfile';
 import { getAllSettings } from '@/lib/dbOperations';
+import ChooseProviderSelect from '@/components/ui/ChooseProviderSelect';
 
 export const metadata: Metadata = {
 	title: 'My Settings',
@@ -17,6 +18,8 @@ export default async function page() {
 			<h2 className="mb-2 self-start text-center text-xl font-bold lg:text-3xl">
 				My Settings
 			</h2>
+
+			<ChooseProviderSelect />
 
 			<ConnectionTest />
 
