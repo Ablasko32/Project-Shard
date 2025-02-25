@@ -14,7 +14,7 @@ export default function ChooseProviderSelect() {
 			onChange={(e: ChangeEvent<HTMLSelectElement>) =>
 				setProvider(e.target.value)
 			}
-			className="w-sm cursor-pointer rounded-md border border-lightPrimary px-2 py-1 capitalize focus:outline-none dark:border-darkPrimary"
+			className="w-sm cursor-pointer rounded-md border border-lightPrimary bg-lightBg px-2 py-1 font-semibold capitalize focus:outline-none dark:border-darkPrimary dark:bg-darkBg"
 		>
 			<option value="ollama">Ollama</option>
 			<option value="openRouter">OpenRouter</option>

@@ -98,7 +98,7 @@ function MobileNav() {
 										{provider === 'openRouter' && (
 											<NavigationLink
 												name="models"
-												path="/open-router-models"
+												path="/models-open-router"
 											/>
 										)}
 										<NavigationLink name="prompts" path="/prompts" />

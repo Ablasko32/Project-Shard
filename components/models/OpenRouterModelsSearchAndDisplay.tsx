@@ -10,11 +10,20 @@ export default function OpenRouterModelsSearchAndDisplay({
 	models: OpenRouterModel[];
 }) {
 	const [searchValue, setSearchValue] = useState<string>('');
+	const [openIndex, setOpenIndex] = useState<number | null>(null);
 
 	const filteredModels = models.filter(model =>
 		model.name.toLowerCase().startsWith(searchValue.toLowerCase().trim())
 	);
 	console.log(filteredModels);
+
+	function handleOpen(idx: number): void {
+		if (idx === openIndex) {
+			setOpenIndex(null);
+			return;
+		}
+		setOpenIndex(idx);
+	}
 
 	return (
 		<div className="flex h-full w-full flex-col gap-4">
@@ -27,8 +36,16 @@ export default function OpenRouterModelsSearchAndDisplay({
 				type="text"
 			/>
 			<ul className="flex h-32 w-full flex-grow flex-col gap-4 divide-y-2 divide-lightSecondary divide-opacity-50 overflow-y-scroll dark:divide-darkSecondary">
-				{filteredModels.map(model => {
-					return <IndividualOpenRouterModel model={model} key={model.id} />;
+				{filteredModels.map((model, idx) => {
+					return (
+						<IndividualOpenRouterModel
+							openIndex={openIndex}
+							handleOpen={handleOpen}
+							model={model}
+							key={idx}
+							index={idx}
+						/>
+					);
 				})}
 			</ul>
 		</div>

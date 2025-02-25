@@ -1,6 +1,11 @@
 import FetchOpenRouterModels from '@/components/models/FetchOpenRouterModels';
 import Spinner from '@/components/ui/Spinner';
+import { Metadata } from 'next';
 import { Suspense } from 'react';
+
+export const metadata: Metadata = {
+	title: 'Open Router Models',
+};
 
 export default async function page() {
 	return (

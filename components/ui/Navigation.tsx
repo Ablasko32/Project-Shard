@@ -38,7 +38,7 @@ function Navigation() {
 								<NavigationLink name="models" path="/models" />
 							)}
 							{provider === 'openRouter' && (
-								<NavigationLink name="models" path="/open-router-models" />
+								<NavigationLink name="models" path="/models-open-router" />
 							)}
 
 							<NavigationLink name="prompts" path="/prompts" />
