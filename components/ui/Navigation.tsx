@@ -37,6 +37,10 @@ function Navigation() {
 							{provider === 'ollama' && (
 								<NavigationLink name="models" path="/models" />
 							)}
+							{provider === 'openRouter' && (
+								<NavigationLink name="models" path="/open-router-models" />
+							)}
+
 							<NavigationLink name="prompts" path="/prompts" />
 							<NavigationLink name="documents" path="/documents" />
 							<NavigationLink name="settings" path="/settings" />

@@ -27,9 +27,7 @@ export async function POST(request: NextRequest) {
 					return ollama(body.model);
 				}
 				case 'openRouter': {
-					return openRouter.languageModel(
-						'cognitivecomputations/dolphin3.0-r1-mistral-24b:free' //hardcoded for now! TODO
-					);
+					return openRouter.languageModel(body.model);
 				}
 				default: {
 					return ollama(body.model);

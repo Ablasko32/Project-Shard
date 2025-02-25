@@ -33,3 +33,12 @@ export interface Body {
 	ragMode: boolean;
 	provider: string;
 }
+
+export interface OpenRouterModel {
+	name: string;
+	created: number;
+	pricing: Record<string, number>;
+	id: string;
+	description: string;
+	context_length: number;
+}

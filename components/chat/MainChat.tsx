@@ -71,7 +71,7 @@ export default function MainChat({
 				href="/models"
 				className="fixed left-1/2 top-4 z-10 -translate-x-1/2 transform rounded-xl border border-lightAccent bg-inherit px-4 py-1 text-center text-sm font-light dark:border-darkAccent lg:left-1/4 lg:top-6"
 			>
-				{selectedAIModel}
+				{selectedAIModel.slice(0, 20) + '...'}
 			</Link>
 			<div className="mb-12 mt-8 flex h-full max-h-full flex-1 items-start justify-center overflow-y-scroll">
 				{/* Display messages or logo */}
