@@ -1,9 +1,13 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 
-const POSTGRES_URL = process.env.POSTGRES_URL as string;
+const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB } = process.env;
 
-if (!POSTGRES_URL) throw new Error('DB_error: Postgres url is required!');
+if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_HOST || !POSTGRES_PORT || !POSTGRES_DB) {
+  throw new Error('DB_error: Missing required Postgres environment variables!');
+}
 
-const db = drizzle(POSTGRES_URL);
+const connectionString = `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
+
+const db = drizzle(connectionString);
 
 export default db;
