@@ -86,6 +86,17 @@ To get started with development, follow these steps:
    - Run `npm install` to install the required dependencies.
    - Start the application by running `npm run dev`.
 
+## Run in Docker
+
+*If you're running Ollama on the Docker host, restart it with ``OLLAMA_HOST=0.0.0.0`` to allow connections from Docker's network as well.*
+
+1. Clone the repository: ``git clone https://github.com/Ablasko32/Project-Shard.git``
+
+2. Navigate into the project directory: ``cd Project-Shard``
+
+3. Set up the ``.env`` file. Use ``.env-docker-example`` as a reference. Then, start the containers: ``docker-compose up -d``
+
+
 ## **Licence**
 
 This project is licensed under the [MIT License](./LICENSE).
