@@ -1,7 +1,7 @@
 'use client';
 
 import ChatLoader from '@/components/chat/ChatLoader';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, KeyboardEvent } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { HiOutlineMicrophone } from 'react-icons/hi';
 import { PiStopCircle } from 'react-icons/pi';
@@ -35,6 +35,13 @@ export default function ChatInput({
 	stop,
 }: ChatInput) {
 	const [voiceMode, setVoiceMode] = useState<boolean>(false);
+
+	const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleMessageSubmit(e as unknown as FormEvent);
+		}
+	};
 
 	return (
 		<div className="relative flex items-end justify-center py-4">
@@ -74,6 +81,7 @@ export default function ChatInput({
 							rows={1}
 							value={input}
 							onChange={handleInputChange}
+							onKeyDown={handleKeyPress}
 							placeholder="Ask me anything!"
 						/>
 
