@@ -10,7 +10,9 @@
 </p>
 
 Project Shard is a pet project of mine. It is designed to be a simple and user-friendly **GUI interface** for users to interact with their favorite **LLMs localy**.
-Currently , it supports [**Ollama models only**](https://ollama.com/search).
+Currently , it supports both [**Ollama models**](https://ollama.com/search) and [**Open Router**](https://openrouter.ai/) .
+
+> **NEW** - added support for Open Router! Some models are free! Requires API key!
 
 The core idea is to provide an **all-in-one** solution that runs **privately** on your **localhost**.
 
@@ -93,6 +95,8 @@ This project is licensed under the [MIT License](./LICENSE).
 ## **Contributing**
 
 If you’d like to contribute to the development of Project Shard, feel free to fork the repository and submit pull requests. We welcome suggestions and improvements!
+
+To ensure a smooth collaboration process, please create a **separate branch** for your changes rather than merging directly into `master`. This helps us review and integrate contributions without disrupting the main branch.
 
 ---
 

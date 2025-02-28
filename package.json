@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@langchain/textsplitters": "^0.1.0",
+		"@openrouter/ai-sdk-provider": "^0.2.2",
 		"ai": "^4.1.1",
 		"better-auth": "^1.1.18",
 		"copy-to-clipboard": "^3.3.3",
