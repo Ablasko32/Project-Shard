@@ -62,16 +62,17 @@ export async function deletePrompt(id: number): Promise<void> {
 export async function updateSettings(formData: FormData): Promise<void> {
 	const username = formData.get('username')?.slice(0, 100) as string;
 	const system = formData.get('system')?.slice(0, 1000) as string;
+	const key = formData.get('key')?.slice(0, 1000) as string;
 
 	const userId = await verifySessionOrError();
 
 	try {
 		const settings = await db.select().from(Settings);
 		if (!settings.length) {
-			await db.insert(Settings).values({ username, system, userId });
+			await db.insert(Settings).values({ username, system, userId, key });
 		} else {
 			await db.delete(Settings);
-			await db.insert(Settings).values({ username, system, userId });
+			await db.insert(Settings).values({ username, system, userId, key });
 		}
 		revalidatePath('/settings');
 	} catch (err) {

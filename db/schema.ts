@@ -33,6 +33,7 @@ export const Settings = pgTable('settings', {
 	id: integer().primaryKey().generatedByDefaultAsIdentity(),
 	username: varchar(),
 	system: text(),
+	key: text(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	userId: varchar('user_id').references(() => user.id, { onDelete: 'cascade' }),
 });

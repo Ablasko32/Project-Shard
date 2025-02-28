@@ -69,6 +69,12 @@ export default function ChatInput({
 				{!voiceMode && (
 					<>
 						<textarea
+							onKeyDown={e => {
+								if (e.key === 'Enter' && !e.shiftKey) {
+									e.preventDefault(); // Prevent new line
+									handleMessageSubmit(e); // Call your send function
+								}
+							}}
 							className="messageInput resize-none lg:h-20"
 							disabled={isLoading}
 							rows={1}

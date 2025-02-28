@@ -11,6 +11,7 @@ import ChatInput from '@/components/chat/ChatInput';
 import { Settings } from '@/components/settings/SettingsForm';
 import { useModelProvider } from '@/contexts/ModelProvider';
 import { useRagProvider } from '../../contexts/RagProvider';
+import { useAIProvider } from '@/contexts/AiProviderProvider';
 
 export default function MainChat({
 	id,
@@ -23,6 +24,7 @@ export default function MainChat({
 }) {
 	const { model: selectedAIModel } = useModelProvider();
 	const { rag } = useRagProvider();
+	const { provider } = useAIProvider();
 	console.log('RAG', rag);
 
 	const settingsSystemMessage: string = `My name is ${settings?.username || 'user'} and I am here to chat with you, you will speak to me using my name.If my name is user ask me if i want to change my settings and say welcome to Project Shard. ${settings?.system || 'You are a helpful assistant'}`;
@@ -45,6 +47,7 @@ export default function MainChat({
 			model: selectedAIModel,
 			settingsSystemMessage,
 			ragMode: rag,
+			provider: provider,
 		},
 		onError(error) {
 			console.error(error);
@@ -68,7 +71,7 @@ export default function MainChat({
 				href="/models"
 				className="fixed left-1/2 top-4 z-10 -translate-x-1/2 transform rounded-xl border border-lightAccent bg-inherit px-4 py-1 text-center text-sm font-light dark:border-darkAccent lg:left-1/4 lg:top-6"
 			>
-				{selectedAIModel}
+				{selectedAIModel.slice(0, 20) + '...'}
 			</Link>
 			<div className="mb-12 mt-8 flex h-full max-h-full flex-1 items-start justify-center overflow-y-scroll">
 				{/* Display messages or logo */}
