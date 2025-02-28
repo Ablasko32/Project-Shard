@@ -96,6 +96,8 @@ This project is licensed under the [MIT License](./LICENSE).
 
 If you’d like to contribute to the development of Project Shard, feel free to fork the repository and submit pull requests. We welcome suggestions and improvements!
 
+To ensure a smooth collaboration process, please create a **separate branch** for your changes rather than merging directly into `master`. This helps us review and integrate contributions without disrupting the main branch.
+
 ---
 
 ## **Development Status**
